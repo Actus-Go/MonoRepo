@@ -1,0 +1,118 @@
+.info_profile {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #ededed;
+}
+.info_profile img {
+  filter: invert(40%);
+}
+.info_text {
+  word-break: break-word;
+}
+.info_col {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info_col button {
+  width: 100%;
+  cursor: pointer;
+}
+.w100 {
+  width: 100%;
+  margin: 10px 0;
+}
+.add_bio_wrap {
+  display: flex;
+  flex-direction: column;
+}
+.details_input {
+  margin-top: 10px;
+  background: var(--bg-secondary) !important;
+}
+.details_input:focus {
+  outline-color: var(--blue-color) !important;
+  outline-offset: 1px !important;
+}
+.remaining {
+  font-size: 12px;
+  color: var(--color-secondary);
+  align-self: flex-end;
+  margin-top: 2px;
+}
+.add_bio_wrap .flex {
+  margin-top: 5px;
+  justify-content: space-between;
+}
+.flex_left {
+  font-size: 14px;
+  color: var(--color-secondary);
+}
+.flex_left i {
+  filter: invert(40%);
+}
+.infosBox {
+  height: 650px;
+  width: 800px !important;
+}
+.details_wrapper {
+  padding: 1rem;
+  overflow-y: auto;
+  height: 570px;
+}
+.details_col {
+  display: flex;
+  flex-direction: column;
+}
+.details_col span:first-of-type {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.details_col span:last-of-type {
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+.details_header {
+  margin-top: 15px;
+  font-weight: 800;
+  font-size: 20px;
+  
+}
+.add_details_flex {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 15px;
+  color: var(--blue-color);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add_details_flex .edit_icon {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.underline:hover {
+  text-decoration: underline;
+}
+.select_rel {
+  height: 30px;
+  outline: none;
+  border: none;
+  background: var(--bg-secondary);
+  margin: 10px 0;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+@media (max-width: 810px) {
+  .infosBox {
+    width: 96% !important;
+  }
+}

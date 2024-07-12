@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* // add the code bellow */
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+  }
+}
+
+/* // add fonts locally  */
+@font-face {
+  font-family: "Poppins";
+  src: url("../public/FONTS/en/Poppins-Black.ttf");
+  font-weight: bold;
+  font-display: swap;
+}
+
+
+
+
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  background: #101010;
+  color: gray;
+}
+html {
+  overflow-y: scroll;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+:root {
+  --bg-primary: #101010;
+  --bg-secondary: #101010;
+  --bg-third: #141313 ;
+  --bg-forth: #121111;
+  --color-primary: #0c0c0c;
+  --color-secondary: #65676b;
+  --divider: #ced0d4;
+  --dark-bg-primary: #101010;
+  --dark-bg-secondary: #101010;
+  --dark-bg-third: #101010;
+  --dark-bg-forth: #3a3b3c;
+  --dark-color-primary: #101010;
+  --dark-color-secondary: #101010;
+  --blue-color: #efff55;
+  --green-color: #efff55;
+  --light-blue-color: #49b659;
+  --border-color: #ccced2;
+  --shadow-1: rgba(0, 0, 0, 0.2);
+  --shadow-2: rgba(0, 0, 0, 0.1);
+  --shadow-3: rgba(0, 0, 0, 0.3);
+  --shadow-inset: rgba(255, 255, 255, 0.5);
+}
+
+/*----Buttons----*/
+.blue_btn {
+  border: none;
+  outline: none;
+  background: var(--blue-color);
+  padding: 8.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.light_blue_btn {
+  border: none;
+  outline: none;
+  background: var(--light-blue-color);
+  padding: 8.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: #121212 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.gray_btn {
+  border: none;
+  outline: none;
+  background: var(--bg-secondary);
+  padding: 8.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.blue_btn,
+.gray_btn span {
+  transform: translateY(-1px);
+}
+/*----Buttons----*/
+.blurx {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--shadow-3);
+  bottom: 0;
+  z-index: 9999999999;
+}
+
+/*----Buttons----*/
+
+/*-----Hovers-----*/
+.hover1:hover {
+  background: var(--bg-secondary);
+}
+.hover2:hover {
+  background: var(--bg-third);
+}
+.hover3:hover {
+  background: #d4d6da3a;
+}
+
+/*-----Hovers-----*/
+.card {
+  height: 500px;
+  width: 500px;
+  background: red;
+}
+
+/*----Scrollbar----*/
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #aeaeafa1;
+  border-radius: 5px;
+}
+/*----Scrollbar----*/
+
+/*---Circles------*/
+.small_circle {
+  position: relative;
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 11px;
+  background: var(--bg-third);
+  cursor: pointer;
+}
+/*---Circles------*/
+
+/*----filters---*/
+.filter_blue {
+  filter: invert(39%) sepia(57%) saturate(200%) saturate(200%) saturate(200%)
+    saturate(200%) saturate(200%) saturate(147.75%) hue-rotate(202deg)
+    brightness(97%) contrast(96%);
+}
+/*----filters---*/

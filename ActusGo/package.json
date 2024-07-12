@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "emoji-picker-react": "^4.5.16",
+    "framer-motion": "^10.16.15",
+    "lottie-react": "^2.4.0",
+    "moment": "^2.29.4"
+  }
+}

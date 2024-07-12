@@ -1,0 +1,306 @@
+// header styles
+.header-info {
+  padding: 10px 0px;
+  background-color: #0c0c0c;
+  color: #ccc;
+
+  .fa,
+  span {
+    color: white;
+    font-size: $font-size-medium !important;
+    font-weight: $font-weight-normal;
+    margin: 0px 5px;
+  }
+}
+
+.header {
+  background-color: #0c0c0c;
+  border-bottom: rgb(62, 62, 62) 1px solid;
+  color: #ccc;
+  .logo {
+    font-size: $font-size-heading-large !important;
+    font-weight: $font-weight-normal;
+    color: #ccc;
+  }
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                              supported by Chrome, Edge, Opera and Firefox */
+}
+
+.fixed-mobile-header {
+  @include media-breakpoint-down(sm) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 998;
+  }
+}
+
+.top-header {
+  margin-bottom: 10px;
+  padding: 0px 0px;
+  min-height: 70px;
+
+  @include media-breakpoint-up(lg) {
+    height: 70px;
+    padding: 16px 0px;
+  }
+
+  .bars-icon {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .cart-icon {
+    position: relative;
+    line-height: 100%;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .fa {
+    cursor: pointer;
+    color: #ccc;
+    font-size: $font-size-x-huge !important;
+  }
+
+  .col-no-padding {
+    @include media-breakpoint-down(sm) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+
+  .navbar {
+    background-color: #000 !important;
+    color: white !important;
+    justify-content: flex-end;
+    padding: 0;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 0;
+      padding-bottom: 0.5rem;
+      justify-content: center;
+    }
+
+    .cart-icon {
+      .bag-icon {
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: space-between; // Added this line
+      width: 90%; // Added this line
+    }
+    @include media-breakpoint-up(md) {
+      margin-left: 20px;
+    }
+
+    .nav-link {
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &.active {
+        color: #efff55 !important;
+      }
+    }
+
+    a,
+    span {
+      &:hover {
+        color: gray !important;
+      }
+    }
+
+    .dropdown-toggle.nav-link {
+      text-transform: capitalize;
+      color: #ccc !important;
+    }
+
+    .dropdown-menu {
+      &.nav-brand-dropdown {
+        padding: 0;
+        @include media-breakpoint-down(sm) {
+          left: -30px;
+          min-width: 270px;
+        }
+      }
+      background-color: #0c0c0c;
+      color: #ccc !important;
+    }
+
+    .nav-item {
+      position: relative;
+      @include media-breakpoint-down(sm) {
+        margin-right: 15px;
+      }
+      color: #ccc !important;
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    @include media-breakpoint-down(sm) {
+      margin-top: 10px;
+      justify-content: left;
+      width: 100%;
+      justify-content: space-between;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+
+    .card_bigscreen {
+      @include media-breakpoint-down(lg) {
+        display: none;
+      }
+    }
+    .card_mobile {
+      @include media-breakpoint-down(lg) {
+        justify-content: space-between;
+        display: flex;
+      }
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+      position: relative;
+    }
+    .logo_flex {
+      margin: 0px;
+      color: #ccc !important;
+      display: flex;
+
+      font-size: $font-size-heading-large !important;
+    }
+
+    .logo {
+      margin: 0px;
+      color: #ccc !important;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .logo_style {
+      margin: 0px;
+      margin-top: 8px;
+      height: 50px;
+      width: 50px;
+      @include media-breakpoint-up(md) {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  .cart-badge {
+    border-radius: 100%;
+    font-size: 0.6rem;
+    font-weight: 600;
+    position: absolute;
+    top: -12px;
+    right: -14px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    background-color: #0c0c0c;
+    color: #ccc;
+    @include flex();
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-links {
+    @include flex();
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+// mini brand
+.mini-brand {
+  min-width: 270px;
+  @include media-breakpoint-up(md) {
+    min-width: 500px;
+    justify-content: space-between;
+    display: flex;
+  }
+
+  .min-brand-title {
+    border-bottom: 1px solid rgb(62, 62, 62);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+.mini-brand-list {
+  padding: 16px 20px;
+  @include media-breakpoint-up(md) {
+    padding: 20px 40px;
+  }
+
+  .mini-brand-block {
+    @include flex();
+    flex-wrap: wrap;
+    margin-top: 12px;
+
+    .brand-item {
+      flex: 100%;
+      margin-bottom: 10px;
+
+      @include media-breakpoint-up(md) {
+        flex: 50%;
+      }
+
+      .brand-link {
+        position: relative;
+        color: #ccc !important;
+        font-size: $font-size-large;
+        font-weight: $font-weight-normal;
+
+        &:hover {
+          &:after {
+            opacity: 1;
+            -webkit-transform: translateY(2px);
+            -moz-transform: translateY(2px);
+            transform: translateY(2px);
+          }
+        }
+
+        &:after {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: #0c0c0c;
+          content: '';
+          opacity: 0;
+          -webkit-transition: opacity $layout-transition-speed,
+            -webkit-transform $layout-transition-speed;
+          -moz-transition: opacity $layout-transition-speed,
+            -moz-transform $layout-transition-speed;
+          transition: opacity $layout-transition-speed,
+            transform $layout-transition-speed;
+          -webkit-transform: translateY(10px);
+          -moz-transform: translateY(10px);
+          transform: translateY(10px);
+        }
+      }
+    }
+  }
+}

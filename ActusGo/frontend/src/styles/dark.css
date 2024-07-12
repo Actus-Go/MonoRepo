@@ -1,0 +1,108 @@
+.dark {
+  --bg-primary: #242526;
+  --bg-secondary: #18191a;
+  --bg-third: #3a3b3c;
+  --bg-forth: #3a3b3c;
+  --bg-fifth: #888888;
+  --color-primary: #e4e6eb;
+  --color-secondary: #b0b3b8;
+}
+.dark .blur {
+  background: rgba(1, 1, 1, 0.53);
+}
+.dark .hover1:hover,
+.dark .hover2:hover {
+  background: var(--bg-third);
+}
+/* ----Header -----*/
+.dark .header_right svg {
+  fill: #fff;
+}
+.dark .all_right_circle i {
+  filter: invert(100%);
+}
+.dark .active_header {
+  background: var(--light-blue-color) !important;
+}
+.dark .active_header svg {
+  fill: var(--blue-color) !important;
+}
+.dark .header_right .circle_icon:hover {
+  background: var(--bg-fifth);
+}
+.dark input[type="text"] {
+  color: var(--color-primary);
+}
+.dark .small_circle i,
+.dark .small_circle svg,
+.dark .white_circle svg,
+.dark .circle i {
+  filter: invert(100%) !important;
+}
+/* ----Header -----*/
+.dark .left_home .small_circle {
+  background: var(--bg-fifth);
+}
+.dark .open_post:hover {
+  background: #333;
+}
+.dark .post_action i {
+  filter: invert(90%);
+}
+.dark .post_menu i,
+.dark .post_menu img {
+  filter: invert(100%);
+}
+.dark .comment_circle_icon i {
+  filter: invert(95%);
+}
+.dark .comment_circle_icon:hover {
+  background: #555;
+}
+.dark .box_privacy i,
+.dark .box_privacy img {
+  filter: invert(95%);
+}
+.dark .emoji_icon_large:hover {
+  filter: invert(0);
+}
+.dark .add_pics_wrap i {
+  filter: invert(100%);
+}
+/*----profile---*/
+.dark .active_link:hover {
+  background: var(--light-blue-color);
+}
+.dark .open_cover_menu i,
+.dark .open_cover_menu img {
+  filter: invert(100%);
+}
+.dark .profile_circle i {
+  filter: invert(100%);
+}
+.dark .gray_btn {
+  background: var(--bg-third);
+}
+.dark .gray_btn:hover {
+  background: #777;
+}
+.dark .gray_btn i,
+.dark .gray_btn img {
+  filter: invert(100%);
+}
+.dark .profile_container svg {
+  filter: invert(88%);
+}
+.dark .grid_icon {
+  filter: invert(80%);
+}
+.dark .pictureBox i {
+  filter: invert(100%) !important;
+}
+.dark .slider i {
+  filter: invert(100%);
+}
+.dark .flex_p_t i {
+  filter: invert(100%);
+}
+/*----profile---*/

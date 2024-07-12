@@ -1,0 +1,19 @@
+.send_verification {
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--primary);
+  padding: 20px;
+  font-size: 14px;
+  color: gray;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+
+}
+.send_verification a {
+  color: #6e56fc !important;
+  cursor: pointer;
+}
+.send_verification a:hover {
+  text-decoration: underline;
+  opacity: 0.8 !important;;
+}

@@ -1,0 +1,67 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^4.0.0",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
+    "@tomtom-international/web-sdk-services": "^6.25.0",
+    "axios": "^1.7.2",
+    "emoji-picker-react": "^4.5.16",
+    "file-saver": "^2.0.5",
+    "formik": "^2.2.9",
+    "js-cookie": "^3.0.1",
+    "lottie-react": "^2.4.0",
+    "moment": "^2.29.4",
+    "pure-react-carousel": "^1.30.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-easy-crop": "^4.1.4",
+    "react-icons": "^5.2.1",
+    "react-loading-skeleton": "^3.0.3",
+    "react-moment": "^1.1.1",
+    "react-redux": "^7.2.6",
+    "react-responsive": "^9.0.0-beta.6",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "^5.0.1",
+    "react-spinners": "^0.11.0",
+    "reactstrap": "^9.2.0",
+    "redux": "^4.1.2",
+    "redux-devtools-extension": "^2.13.9",
+    "socket.io-client": "^4.7.5",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "node-sass": "^9.0.0",
+    "tailwindcss": "^3.3.3"
+  }
+}

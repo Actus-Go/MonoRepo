@@ -1,0 +1,18 @@
+
+@media screen and (max-width: 639px){
+    .zoomButtons{
+        left: 15%
+    }  
+}
+
+@media screen and (max-width:450px){
+    .zoomButtons{
+        left: 1rem;
+    }  
+}
+@media screen and (max-width:350px){
+    .zoomButtons{
+        left: 0;
+        gap: 0;
+    }  
+}

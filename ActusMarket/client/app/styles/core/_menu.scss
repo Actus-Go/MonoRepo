@@ -1,0 +1,122 @@
+// mini menu
+.mini-menu {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  background: #0c0c0c !important;
+  height: 100%;
+  width: 370px;
+  z-index: 1000;
+  // -webkit-box-shadow: $box-shadow;
+  // box-shadow: $box-shadow;
+  @include transition($layout-transition-higher-speed);
+
+  @include media-breakpoint-down(xs) {
+    width: 88%;
+    top: 0;
+  }
+}
+
+// show hidden menu popup
+.mini-menu-open {
+  .mini-menu {
+    visibility: visible;
+    left: 0;
+    @include transition($layout-transition-higher-speed);
+  }
+
+  .dark-overflow {
+    @include dark-overflow();
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+      top: 0;
+    }
+  }
+}
+
+.navigation-menu {
+  .logo_style_full {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .logo_Area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .close_menubtn {
+    background-color: gray;
+    padding: 5px;
+    margin: 5px;
+  }
+  height: 100%;
+  background-color: #0c0c0c;
+  color: #ccc;
+
+  .menu-header {
+    border-bottom: $border-default;
+    text-align: right;
+    padding-right: 5px;
+    align-items: center;
+    justify-content: flex-end;
+    height: 50px;
+    @include flex();
+  }
+
+  .menu-title {
+    padding: 5px 0px 10px 30px;
+    color: gray !important;
+  }
+
+  .menu-body {
+    margin-top: 20px;
+
+    .menu-list {
+      .menu-item {
+        a {
+          color: white !important;
+          font-weight: $font-weight-normal;
+          text-transform: capitalize;
+          display: block;
+          padding: 10px 30px 10px 30px;
+          border-left: 3px solid transparent;
+          @include transition();
+
+          &:hover {
+            background-color: $white;
+            border-left: 3px solid $primary-color;
+            color: $primary-color !important;
+            @include transition();
+          }
+
+          &:focus {
+            outline: none;
+            box-shadow: none;
+            background-color: $white;
+            border-left: 3px solid $primary-color;
+          }
+
+          &.active-line {
+            font-weight: $font-weight-medium;
+            background-color: $white;
+            color: $primary-color !important;
+            border-color: $primary-color;
+            @include transition();
+          }
+        }
+      }
+    }
+  }
+}

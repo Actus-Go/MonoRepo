@@ -1,0 +1,57 @@
+// (Login, SignUp, forgetPassword,resetPassword) => Styles
+.signup-form {
+  color: white !important;
+  .checkbox {
+    margin-bottom: 20px;
+    color: white !important;
+  }
+}
+
+.signup-provider {
+  @include flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.google-btn,
+.facebook-btn {
+  @include flex();
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  width: 300px;
+  max-width: 350px;
+  border: $border-primary;
+  color: white !important;
+  border-radius: 40px !important;
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .btn-text {
+    margin-left: 5px;
+    color: white !important;
+    font-weight: 800;
+  }
+
+  .google-icon,
+  .facebook-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+  }
+}
+
+.Create_an_account {
+  color: white !important;
+  font-size: 20px;
+  font-weight: 800;
+}
