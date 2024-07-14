@@ -17,7 +17,8 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
-
+    depends_on:
+      - mongodb
     
   market_frontend:
     build:
@@ -42,6 +43,8 @@ services:
       NODE_ENV: production
     ports:
       - 8000:8000
+    depends_on:
+      - mongodb
 
   
   go_frontend:
@@ -56,6 +59,16 @@ services:
       - go_backend
 
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data: {}
 
 networks:
   default:
