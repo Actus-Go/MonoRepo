@@ -1,3 +1,220 @@
 {
-    "paths": {}
-}
+    "paths": {
+    "/search/{searchTerm}": {
+        "get": {
+        "tags": ["Search And History"],
+        "summary": "Search for users",
+        "description": "Search for users by a search term.",
+        "parameters": [
+            {
+            "name": "searchTerm",
+            "in": "path",
+            "required": true,
+            "description": "The term to search for",
+            "schema": {
+                "type": "string"
+            }
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "List of users matching the search term",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "array",
+                    "items": {
+                    "type": "object",
+                    "properties": {
+                        "first_name": {
+                        "type": "string"
+                        },
+                        "last_name": {
+                        "type": "string"
+                        },
+                        "username": {
+                        "type": "string"
+                        },
+                        "picture": {
+                        "type": "string"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            },
+            "500": {
+            "description": "Internal server error"
+            }
+        }
+        }
+    },
+    "/addToSearchHistory": {
+        "put": {
+        "tags": ["Search And History"],
+        "summary": "Add a user to search history",
+        "description": "Add a user to the search history of the authenticated user.",
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "searchUser": {
+                    "type": "string",
+                    "description": "The ID of the user to add to search history"
+                    }
+                },
+                "required": ["searchUser"]
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+            "description": "User added to search history"
+            },
+            "500": {
+            "description": "Internal server error"
+            }
+        }
+        }
+    },
+    "/getSearchHistory": {
+        "get": {
+        "tags": ["Search And History"],
+        "summary": "Get search history",
+        "description": "Retrieve the search history of the authenticated user.",
+        "responses": {
+            "200": {
+            "description": "List of users in search history",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "array",
+                    "items": {
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                        "type": "object",
+                        "properties": {
+                            "first_name": {
+                            "type": "string"
+                            },
+                            "last_name": {
+                            "type": "string"
+                            },
+                            "username": {
+                            "type": "string"
+                            },
+                            "picture": {
+                            "type": "string"
+                            }
+                        }
+                        },
+                        "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            },
+            "500": {
+            "description": "Internal server error"
+            }
+        }
+        }
+    },
+    "/removeFromSearch": {
+        "put": {
+        "tags": ["Search And History"],
+        "summary": "Remove a user from search history",
+        "description": "Remove a user from the search history of the authenticated user.",
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "searchUser": {
+                    "type": "string",
+                    "description": "The ID of the user to remove from search history"
+                    }
+                },
+                "required": ["searchUser"]
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+            "description": "User removed from search history"
+            },
+            "500": {
+            "description": "Internal server error"
+            }
+        }
+        }
+    },
+    "/findUser": {
+        "post": {
+        "tags": ["Search And History"],
+        "summary": "Find a user by email",
+        "description": "Find a user by their email address.",
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                    }
+                },
+                "required": ["email"]
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+            "description": "User found successfully",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "picture": {
+                        "type": "string",
+                        "format": "url"
+                    }
+                    }
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Account does not exist"
+        },
+        "500": {
+        "description": "Internal server error"
+        }
+            }
+            }
+        }
+        }
+    }
+    
