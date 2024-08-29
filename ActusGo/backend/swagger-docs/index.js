@@ -3,6 +3,15 @@ module.exports = {
     info: {
         title: "Actus-Go API documentation",
     },
+    components: {
+        securitySchemes: {
+            BearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "JWT",
+            }
+        }
+    },
     tags: [
         {
             name: "Authentication",
