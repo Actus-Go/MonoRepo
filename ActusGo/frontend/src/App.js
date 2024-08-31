@@ -1,4 +1,11 @@
-import React, { lazy, Suspense, useCallback, useEffect, useReducer, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -19,8 +26,7 @@ import LocationPopup from "./components/Location/LocationPopup";
 
 // Lazy load MapComponent
 const Tasks = lazy(() => import("./pages/tasks"));
-
-
+const Explore = lazy(() => import("./components/ExplorePage/ExplorePage"));
 function App() {
   const [visible, setVisible] = useState(false);
   const { user, darkTheme } = useSelector((state) => ({ ...state }));
@@ -38,7 +44,6 @@ function App() {
       getAllPosts();
     }
   }, [user]);
-
 
   useCallback(() => {
     if (navigator.geolocation && userLocation) {
@@ -91,19 +96,65 @@ function App() {
     <div className="">
       <OnlineIndicator />
       {popupVisible && (
-        <LocationPopup onAllow={handleAllowLocation} setPopupVisible={setPopupVisible} />
+        <LocationPopup
+          onAllow={handleAllowLocation}
+          setPopupVisible={setPopupVisible}
+        />
       )}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Explore />
+      </Suspense>
       <div className={`${darkTheme && "dark"}`}>
         {visible && (
-          <CreatePostPopup user={user} setVisible={setVisible} posts={posts} dispatch={dispatch} />
+          <CreatePostPopup
+            user={user}
+            setVisible={setVisible}
+            posts={posts}
+            dispatch={dispatch}
+          />
         )}
         <Routes>
           <Route element={<LoggedInRoutes />}>
-            <Route path="/profile" element={<Profile setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
-            <Route path="/profile/:username" element={<Profile setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
-            <Route path="/friends" element={<Friends setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
-            <Route path="/friends/:type" element={<Friends setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
-            <Route path="/" element={<Home setVisible={setVisible} posts={posts} loading={loading} getAllPosts={getAllPosts} />} exact />
+            <Route
+              path="/profile"
+              element={
+                <Profile setVisible={setVisible} getAllPosts={getAllPosts} />
+              }
+              exact
+            />
+            <Route
+              path="/profile/:username"
+              element={
+                <Profile setVisible={setVisible} getAllPosts={getAllPosts} />
+              }
+              exact
+            />
+            <Route
+              path="/friends"
+              element={
+                <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
+              }
+              exact
+            />
+            <Route
+              path="/friends/:type"
+              element={
+                <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
+              }
+              exact
+            />
+            <Route
+              path="/"
+              element={
+                <Home
+                  setVisible={setVisible}
+                  posts={posts}
+                  loading={loading}
+                  getAllPosts={getAllPosts}
+                />
+              }
+              exact
+            />
             <Route
               path="/tasks"
               element={
