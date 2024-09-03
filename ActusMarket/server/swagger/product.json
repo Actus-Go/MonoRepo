@@ -1,3 +1,1132 @@
 {
-    "paths": {}
+  "paths": {
+    "/api/product/item/{slug}": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch product by slug",
+        "description": "Fetches a product by its slug if it is active and has an active brand associated with it.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug of the product to fetch",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sku": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "imageUrl": {
+                      "type": "string"
+                    },
+                    "imageKey": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "productCoupon": {
+                      "type": "string",
+                      "description": "ObjectId reference to the Coupon"
+                    },
+                    "taxable": {
+                      "type": "boolean"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "brand": {
+                      "type": "string",
+                      "description": "ObjectId reference to the Brand"
+                    },
+                    "updated": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "created": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No product found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No product found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/list/search/{name}": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Search products by name",
+        "description": "Searches for products by their name using a case-insensitive regex match. Returns a list of matching products that are active.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Name or partial name of the product to search for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No product found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No product found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/list": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch products with advanced filters",
+        "description": "Fetches a list of products with optional filters for category, price range, rating, sorting, pagination, and wishlist integration.",
+        "parameters": [
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "The sorting order for products (e.g., { \"price\": 1 } for ascending price)",
+            "schema": {
+              "type": "string",
+              "example": "{\"price\":1}"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "query",
+            "required": false,
+            "description": "Minimum average rating of products to filter by",
+            "schema": {
+              "type": "number",
+              "example": 4
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "description": "Maximum price of products to filter by",
+            "schema": {
+              "type": "number",
+              "example": 1000
+            }
+          },
+          {
+            "name": "min",
+            "in": "query",
+            "required": false,
+            "description": "Minimum price of products to filter by",
+            "schema": {
+              "type": "number",
+              "example": 100
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "description": "Category slug to filter products by",
+            "schema": {
+              "type": "string",
+              "example": "electronics"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of products per page",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "number"
+                          },
+                          "averageRating": {
+                            "type": "number"
+                          },
+                          "isLiked": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer"
+                    },
+                    "currentPage": {
+                      "type": "integer"
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/list/brand/{slug}": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch products by brand",
+        "description": "Fetches a list of products associated with a specific brand. Includes wishlist status if the user is authenticated.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "The slug of the brand to filter products by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "number"
+                          },
+                          "isLiked": {
+                            "type": "boolean"
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "_id": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "pages": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "totalProducts": {
+                      "type": "integer",
+                      "example": 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot find brand with the slug: {slug}."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/list/select": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch a list of product names",
+        "description": "Retrieves a list of all product names. Requires authentication.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/add": {
+      "post": {
+        "tags": ["Product"],
+        "summary": "Add a new product",
+        "description": "Adds a new product to the store. Requires authentication and specific roles (Admin, Merchant).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sku": {
+                    "type": "string",
+                    "description": "Stock Keeping Unit",
+                    "example": "PROD-001"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the product",
+                    "example": "Product Name"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the product",
+                    "example": "This is a product description."
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Available quantity of the product",
+                    "example": 100
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Price of the product",
+                    "example": 99.99
+                  },
+                  "taxable": {
+                    "type": "boolean",
+                    "description": "Indicates if the product is taxable",
+                    "example": true
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Indicates if the product is active",
+                    "example": true
+                  },
+                  "brand": {
+                    "type": "string",
+                    "description": "ID of the brand associated with the product",
+                    "example": "60c72b2f9b1e8a001c8e4c4b"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file for the product"
+                  },
+                  "coupon": {
+                    "type": "string",
+                    "description": "ID of the coupon associated with the product",
+                    "example": "60c72b2f9b1e8a001c8e4c4c"
+                  }
+                },
+                "required": [
+                  "sku",
+                  "name",
+                  "description",
+                  "quantity",
+                  "price",
+                  "image",
+                  "coupon"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product has been added successfully!"
+                    },
+                    "product": {
+                      "type": "object",
+                      "description": "The added product details",
+                      "properties": {
+                        "sku": {
+                          "type": "string",
+                          "example": "PROD-001"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Product Name"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "This is a product description."
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 99.99
+                        },
+                        "taxable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "brand": {
+                          "type": "string",
+                          "example": "60c72b2f9b1e8a001c8e4c4b"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://example.com/image.jpg"
+                        },
+                        "imageKey": {
+                          "type": "string",
+                          "example": "image.jpg"
+                        },
+                        "productCoupon": {
+                          "type": "string",
+                          "example": "60c72b2f9b1e8a001c8e4c4c"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch all products",
+        "description": "Fetches all products, accessible by Admin and Merchant roles. Merchants will only see products associated with their brands.",
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sku": {
+                            "type": "string",
+                            "example": "PROD-001"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Product Name"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "This is a product description."
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 100
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 99.99
+                          },
+                          "priceAfterCoupon": {
+                            "type": "number",
+                            "description": "Price after applying the product's coupon discount",
+                            "example": 89.99
+                          },
+                          "taxable": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "Brand Name"
+                              },
+                              "merchant": {
+                                "type": "object",
+                                "properties": {
+                                  "_id": {
+                                    "type": "string",
+                                    "example": "60c72b2f9b1e8a001c8e4c4b"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "productCoupon": {
+                            "type": "object",
+                            "properties": {
+                              "discount": {
+                                "type": "number",
+                                "example": 10
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/{id}": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Fetch a product by ID",
+        "description": "Fetches a specific product by its ID. Accessible by Admin and Merchant roles. Merchants can only access products associated with their brands.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product to fetch",
+            "schema": {
+              "type": "string",
+              "example": "60c72b2f9b1e8a001c8e4c4b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "60c72b2f9b1e8a001c8e4c4b"
+                        },
+                        "sku": {
+                          "type": "string",
+                          "example": "PROD-001"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Product Name"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "This is a product description."
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 99.99
+                        },
+                        "taxable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "brand": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "Brand Name"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No product found."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Product"],
+        "summary": "Update a product by ID",
+        "description": "Updates a specific product by its ID. Accessible by Admin and Merchant roles. Validates uniqueness of SKU and slug.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product to update",
+            "schema": {
+              "type": "string",
+              "example": "60c72b2f9b1e8a001c8e4c4b"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "type": "object",
+                    "properties": {
+                      "sku": {
+                        "type": "string",
+                        "example": "PROD-001"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Updated Product Name"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "This is an updated product description."
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 150
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 109.99
+                      },
+                      "taxable": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "slug": {
+                        "type": "string",
+                        "example": "updated-product-name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Sku or slug is already in use."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/{id}/active": {
+      "put": {
+        "tags": ["Product"],
+        "summary": "Update product active status by ID",
+        "description": "Updates the active status of a specific product by its ID. Accessible by Admin and Merchant roles.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product to update",
+            "schema": {
+              "type": "string",
+              "example": "60c72b2f9b1e8a001c8e4c4b"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "type": "object",
+                    "properties": {
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true,
+                        "description": "Indicates if the product is active"
+                      }
+                    },
+                    "required": ["isActive"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product active status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/delete/{id}": {
+      "delete": {
+        "tags": ["Product"],
+        "summary": "Delete a product by ID",
+        "description": "Deletes a specific product by its ID. Accessible by Admin and Merchant roles.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product to delete",
+            "schema": {
+              "type": "string",
+              "example": "60c72b2f9b1e8a001c8e4c4b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product has been deleted successfully!"
+                    },
+                    "product": {
+                      "type": "object",
+                      "description": "Details of the deleted product",
+                      "example": {
+                        "deletedCount": 1,
+                        "n": 1,
+                        "ok": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
