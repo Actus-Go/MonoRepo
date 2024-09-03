@@ -453,6 +453,11 @@
         "tags": ["Product"],
         "summary": "Fetch a list of product names",
         "description": "Retrieves a list of all product names. Requires authentication.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -501,6 +506,11 @@
         "tags": ["Product"],
         "summary": "Add a new product",
         "description": "Adds a new product to the store. Requires authentication and specific roles (Admin, Merchant).",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -667,6 +677,11 @@
         "tags": ["Product"],
         "summary": "Fetch all products",
         "description": "Fetches all products, accessible by Admin and Merchant roles. Merchants will only see products associated with their brands.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of products",
@@ -772,6 +787,11 @@
         "tags": ["Product"],
         "summary": "Fetch a product by ID",
         "description": "Fetches a specific product by its ID. Accessible by Admin and Merchant roles. Merchants can only access products associated with their brands.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -987,6 +1007,11 @@
         "tags": ["Product"],
         "summary": "Update product active status by ID",
         "description": "Updates the active status of a specific product by its ID. Accessible by Admin and Merchant roles.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1067,6 +1092,11 @@
         "tags": ["Product"],
         "summary": "Delete a product by ID",
         "description": "Deletes a specific product by its ID. Accessible by Admin and Merchant roles.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",

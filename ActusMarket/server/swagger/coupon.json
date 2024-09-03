@@ -5,6 +5,11 @@
         "tags": ["Coupon"],
         "summary": "Add a new coupon",
         "description": "Creates a new coupon with the provided details. Accessible by Admin and Merchant roles.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
