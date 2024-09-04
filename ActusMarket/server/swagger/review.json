@@ -1,3 +1,622 @@
 {
-    "paths": {}
+"paths": {
+    "/api/review/add": {
+    "post": {
+        "tags": ["Review"],
+        "summary": "Add or update a review",
+        
+        "security": [
+        {
+            "BearerAuth": []
+        }
+        ],
+        "requestBody": {
+        "required": true,
+        "content": {
+            "application/json": {
+            "schema": {
+                "type": "object",
+                "properties": {
+                "product": {
+                    "type": "string",
+                    "example": "productId"
+                },
+                "rating": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "comment": {
+                    "type": "string",
+                    "example": "This product is great!"
+                }
+                },
+                "required": ["product", "rating"]
+            }
+            }
+        }
+        },
+        "responses": {
+        "200": {
+            "description": "Review added or updated successfully",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                    "type": "boolean",
+                    "example": true
+                    },
+                    "message": {
+                    "type": "string",
+                    "example": "Your review has been added successfully and will appear when approved!"
+                    },
+                    "review": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                                "type": "string",
+                                "example": "reviewId"
+                            },
+                            "isRecommended":{
+                                "type": "boolean"
+                            },
+                        "status":{
+                        "type": "string"
+                        },
+                        "product": {
+                        "type": "string",
+                        "example": "productId"
+                        },
+                        "rating": {
+                        "type": "integer",
+                        "example": 5
+                        },
+                        "comment": {
+                        "type": "string",
+                        "example": "This product is great!"
+                        },
+                        "user": {
+                        "type": "string",
+                        "example": "userId"
+                        },
+                        "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-09-01T12:34:56Z"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request data",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    },
+    "/api/review/": {
+    "get": {
+        "tags": ["Review"],
+        "summary": "Fetch all review",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "parameters": [
+        {
+            "name": "page",
+            "in": "query",
+            "schema": {
+            "type": "integer",
+            "example": 1
+            }
+        },
+        {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+            "type": "integer",
+            "example": 10
+            }
+        }
+        ],
+        "responses": {
+            "200": {
+            "description": "List of reviews",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "reviews": {
+                        "type": "array",
+                        "items": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                            "type": "string",
+                            "example": "66d70ba8bad12e04d025d22a"
+                            },
+                            "product": {
+                            "type": "object",
+                            "properties": {
+                                "_id": {
+                                "type": "string",
+                                "example": "66d7083f88a5fb8efc82caf6"
+                                },
+                                "name": {
+                                "type": "string",
+                                "example": "radwan"
+                                },
+                                "imageUrl": {
+                                "type": "string",
+                                "example": ""
+                                },
+                                "slug": {
+                                "type": "string",
+                                "example": "ah"
+                                }
+                            }
+                            },
+                            "user": {
+                            "type": "object",
+                            "properties": {
+                                "_id": {
+                                "type": "string",
+                                "example": "66d2513a77d0ea1a186ca475"
+                                },
+                                "firstName": {
+                                "type": "string",
+                                "example": "radwan"
+                                }
+                            }
+                            },
+                            "rating": {
+                            "type": "integer",
+                            "example": 5
+                            },
+                            "isRecommended": {
+                            "type": "boolean",
+                            "example": true
+                            },
+                            "status": {
+                            "type": "string",
+                            "example": "Rejected"
+                            },
+                            "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-09-03T13:14:16.206Z"
+                            }
+                        }
+                        }
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "currentPage": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "count": {
+                        "type": "integer",
+                        "example": 8
+                    }
+                    }
+                }
+                }
+            }
+            },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    },
+    "/api/review/{slug}": {
+    "get": {
+        "tags": ["Review"],
+        "summary": "Fetch review for a specific product",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "parameters": [
+        {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+            "type": "string",
+            "example": "product-slug"
+            }
+        }
+        ],
+        "responses": {
+            "200": {
+            "description": "List of reviews for the product",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "reviews": {
+                        "type": "array",
+                        "items": {
+                        "type": "object",
+                        "properties": {
+                            "_id": {
+                            "type": "string",
+                            "example": "66d70ee87104f230800d4dce"
+                            },
+                            "product": {
+                            "type": "string",
+                            "example": "66d7083f88a5fb8efc82caf6"
+                            },
+                            "user": {
+                            "type": "object",
+                            "properties": {
+                                "_id": {
+                                "type": "string",
+                                "example": "66d2513a77d0ea1a186ca475"
+                                },
+                                "firstName": {
+                                "type": "string",
+                                "example": "radwan"
+                                }
+                            }
+                            },
+                            "rating": {
+                            "type": "integer",
+                            "example": 4
+                            },
+                            "isRecommended": {
+                            "type": "boolean",
+                            "example": true
+                            },
+                            "status": {
+                            "type": "string",
+                            "example": "Approved"
+                            },
+                            "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-09-03T13:28:08.694Z"
+                            }
+                        }
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            },
+        "404": {
+            "description": "Product not found",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                    "type": "string",
+                    "example": "No product found."
+                    }
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    },
+    "/api/review/{id}": {
+    "put": {
+        "tags": ["Review"],
+        "summary": "Update a review",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "parameters": [
+        {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+            "type": "string",
+            "example": "reviewId"
+            }
+        }
+        ],
+        "requestBody": {
+        "required": true,
+        "content": {
+            "application/json": {
+            "schema": {
+                "type": "object",
+                "properties": {
+                "rating": {
+                    "type": "integer",
+                    "example": 4
+                },
+                "comment": {
+                    "type": "string",
+                    "example": "Updated comment here."
+                }
+                }
+            }
+            }
+        }
+        },
+        "responses": {
+        "200": {
+            "description": "Review updated successfully",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                    "type": "boolean",
+                    "example": true
+                    },
+                    "message": {
+                    "type": "string",
+                    "example": "Review has been updated successfully!"
+                    }
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "delete": {
+        "tags": ["Review"],
+        "summary": "Delete a review",
+        "parameters": [
+        {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+            "type": "string",
+            "example": "reviewId"
+            }
+        }
+        ],
+        "responses": {
+        "200": {
+            "description": "Review deleted successfully",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                    "type": "boolean",
+                    "example": true
+                    },
+                    "message": {
+                    "type": "string",
+                    "example": "Review has been deleted successfully!"
+                    }
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    },
+    "/api/review/approve/{reviewId}": {
+    "put": {
+        "tags": ["Review"],
+        "summary": "Approve a review",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "parameters": [
+        {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+            "type": "string",
+            "example": "reviewId"
+            }
+        }
+        ],
+        "responses": {
+        "200": {
+            "description": "Review approved successfully",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                    "type": "boolean",
+                    "example": true
+                    },
+                    "message": {
+                    "type": "string",
+                    "example": "Review has been approved successfully!"
+                    }
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    },
+    "/api/review/reject/{reviewId}": {
+    "put": {
+        "tags": ["Review"],
+        "summary": "Reject a review",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "parameters": [
+        {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+            "type": "string",
+            "example": "reviewId"
+            }
+        }
+        ],
+        "responses": {
+        "200": {
+            "description": "Review rejected successfully",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                    "type": "boolean",
+                    "example": true
+                    }
+
+                }
+                }
+            }
+            }
+        },
+        "400": {
+            "description": "Invalid request",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                    "type": "string",
+                    "example": "Your request could not be processed. Please try again."
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+},
+"components": {
+    "securitySchemes": {
+    "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+    }
+    }
+}
 }
