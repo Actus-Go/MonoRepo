@@ -1,3 +1,152 @@
 {
-    "paths": {}
+    "paths": {
+      "/savings": {
+      "post": {
+        "tags": [
+          "Savings"
+        ],
+        "summary": "Retrieve savings data ",
+        "description": "Retrieve savings records based on the number of days provided.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "days": {
+                    "type": "number"
+                  }
+                },
+                "required": ["days"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of savings data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "type": "string",
+                        "description": "User ID associated with the savings record"
+                      },
+                      "order": {
+                        "type": "string",
+                        "description": "Order ID associated with the savings record"
+                      },
+                      "orderProducts": {
+                        "type": "object",
+                        "items": {
+                          "sku": {
+                            "type": "string",
+                            "description": "The stock keeping unit (SKU) of the product."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the product."
+                          },
+                          "slug": {
+                            "type": "string",
+                            "description": "A unique URL-friendly identifier for the product, based on the name."
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "description": "URL of the product's image."
+                          },
+                          "imageKey": {
+                            "type": "string",
+                            "description": "Key for accessing the product's image in storage."
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "A detailed description of the product."
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "description": "The quantity of the product available in stock."
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "The price of the product."
+                          },
+                          "productCoupon": {
+                            "type": "string",
+                            "description": "ID of the coupon associated with the product."
+                          },
+                          "taxable": {
+                            "type": "boolean",
+                            "description": "Indicates whether the product is taxable."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates whether the product is currently active."
+                          },
+                          "brand": {
+                            "type": "string",
+                            "description": "ID of the brand associated with the product."
+                          },
+                          "updated": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date and time when the product was last updated."
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date and time when the product was created."
+                          }
+                        }
+                                                
+                      },
+                      "totalSavings": {
+                        "type": "number",
+                        "description": "Total savings amount"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data or processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "examples": {
+                    "invalidData": {
+                      "summary": "Invalid data format",
+                      "value": {
+                        "error": "You entered unvalid Data"
+                      }
+                    },
+                    "processingError": {
+                      "summary": "Processing error",
+                      "value": {
+                        "error": "Your request could not be processed. Please try again."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    }
 }
