@@ -1,3 +1,763 @@
 {
-    "paths": {}
+  "paths": {
+    "/api/category/add": {
+      "post": {
+        "summary": "Add a new category (Admin only)",
+        "description": "This endpoint creates a new category. It requires authentication and admin role.",
+        "tags": ["Category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the category",
+                    "example": "Electronics"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the category",
+                    "example": "A variety of electronic devices and gadgets."
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "List of product IDs related to the category",
+                      "example": "64f631c4e4b0d4a5b324d56c"
+                    }
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Indicates if the category is active",
+                    "example": true
+                  }
+                },
+                "required": ["name", "description"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully added the new category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category has been added successfully!"
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "Unique identifier for the category",
+                          "example": "64f631c4e4b0d4a5b324d56b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the category",
+                          "example": "Electronics"
+                        },
+                        "slug": {
+                          "type": "string",
+                          "description": "URL-friendly slug for the category",
+                          "example": "electronics"
+                        },
+                        "image": {
+                          "type": "object",
+                          "properties": {
+                            "data": {
+                              "type": "string",
+                              "format": "binary",
+                              "description": "Binary data of the image"
+                            },
+                            "contentType": {
+                              "type": "string",
+                              "description": "MIME type of the image",
+                              "example": "image/jpeg"
+                            }
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Description of the category",
+                          "example": "A variety of electronic devices and gadgets."
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "description": "Indicates if the category is active",
+                          "example": true
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "description": "List of product IDs related to the category",
+                            "example": "64f631c4e4b0d4a5b324d56c"
+                          }
+                        },
+                        "created": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date when the category was created",
+                          "example": "2024-09-01T12:34:56.789Z"
+                        },
+                        "updated": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date when the category was last updated",
+                          "example": "2024-09-02T12:34:56.789Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to validation error or processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "You must enter description & name."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category/list": {
+      "get": {
+        "summary": "Retrieve a list of active categories",
+        "description": "This endpoint returns a list of categories that are currently active.",
+        "tags": ["Category"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of active categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "description": "Unique identifier for the category",
+                            "example": "64f631c4e4b0d4a5b324d56b"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the category",
+                            "example": "Electronics"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "description": "URL-friendly slug for the category",
+                            "example": "electronics"
+                          },
+                          "image": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "Binary data of the image"
+                              },
+                              "contentType": {
+                                "type": "string",
+                                "description": "MIME type of the image",
+                                "example": "image/jpeg"
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the category",
+                            "example": "A variety of electronic devices and gadgets."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates if the category is active",
+                            "example": true
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "description": "List of product IDs related to the category",
+                              "example": "64f631c4e4b0d4a5b324d56c"
+                            }
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date when the category was created",
+                            "example": "2024-09-01T12:34:56.789Z"
+                          },
+                          "updated": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date when the category was last updated",
+                            "example": "2024-09-02T12:34:56.789Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category": {
+      "get": {
+        "summary": "Retrieve all categories",
+        "description": "This endpoint returns a list of all categories, regardless of their active status.",
+        "tags": ["Category"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of all categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "description": "Unique identifier for the category",
+                            "example": "64f631c4e4b0d4a5b324d56b"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the category",
+                            "example": "Electronics"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "description": "URL-friendly slug for the category",
+                            "example": "electronics"
+                          },
+                          "image": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "Binary data of the image"
+                              },
+                              "contentType": {
+                                "type": "string",
+                                "description": "MIME type of the image",
+                                "example": "image/jpeg"
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the category",
+                            "example": "A variety of electronic devices and gadgets."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates if the category is active",
+                            "example": true
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "description": "List of product IDs related to the category",
+                              "example": "64f631c4e4b0d4a5b324d56c"
+                            }
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date when the category was created",
+                            "example": "2024-09-01T12:34:56.789Z"
+                          },
+                          "updated": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The date when the category was last updated",
+                            "example": "2024-09-02T12:34:56.789Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category/{id}": {
+      "get": {
+        "summary": "Retrieve a category by ID",
+        "description": "This endpoint returns the details of a specific category identified by its ID. It also populates the related products with their names.",
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique identifier for the category",
+              "example": "64f631c4e4b0d4a5b324d56b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the category details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "Unique identifier for the category",
+                          "example": "64f631c4e4b0d4a5b324d56b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the category",
+                          "example": "Electronics"
+                        },
+                        "slug": {
+                          "type": "string",
+                          "description": "URL-friendly slug for the category",
+                          "example": "electronics"
+                        },
+                        "image": {
+                          "type": "object",
+                          "properties": {
+                            "data": {
+                              "type": "string",
+                              "format": "binary",
+                              "description": "Binary data of the image"
+                            },
+                            "contentType": {
+                              "type": "string",
+                              "description": "MIME type of the image",
+                              "example": "image/jpeg"
+                            }
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Description of the category",
+                          "example": "A variety of electronic devices and gadgets."
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "description": "Indicates if the category is active",
+                          "example": true
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the product",
+                                "example": "Smartphone"
+                              }
+                            }
+                          }
+                        },
+                        "created": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date when the category was created",
+                          "example": "2024-09-01T12:34:56.789Z"
+                        },
+                        "updated": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date when the category was last updated",
+                          "example": "2024-09-02T12:34:56.789Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No Category found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a category by ID (Admin only)",
+        "description": "This endpoint updates the details of a specific category identified by its ID. Requires authentication and admin role. Checks for slug uniqueness.",
+        "tags": ["Category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique identifier for the category",
+              "example": "64f631c4e4b0d4a5b324d56b"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the category",
+                        "example": "Updated Electronics"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the category",
+                        "example": "Updated description for electronics."
+                      },
+                      "products": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "description": "List of product IDs related to the category",
+                          "example": "64f631c4e4b0d4a5b324d56c"
+                        }
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "description": "Indicates if the category is active",
+                        "example": true
+                      },
+                      "slug": {
+                        "type": "string",
+                        "description": "URL-friendly slug for the category",
+                        "example": "updated-electronics"
+                      }
+                    },
+                    "required": ["name", "description"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to validation error or processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Slug is already in use."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category/{id}/active": {
+      "put": {
+        "summary": "Update the active status of a category (Admin only)",
+        "description": "This endpoint updates the `isActive` status of a category identified by its ID. If the category is being deactivated, its associated products will also be disabled.",
+        "tags": ["Category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique identifier for the category",
+              "example": "64f631c4e4b0d4a5b324d56b"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "isActive": {
+                        "type": "boolean",
+                        "description": "Indicates if the category should be active or inactive",
+                        "example": false
+                      }
+                    },
+                    "required": ["isActive"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the category's active status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to validation error or processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category/delete/{id}": {
+      "delete": {
+        "summary": "Delete a category by ID (Admin only)",
+        "description": "This endpoint deletes a specific category identified by its ID. Requires authentication and admin role.",
+        "tags": ["Category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique identifier for the category",
+              "example": "64f631c4e4b0d4a5b324d56b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Category has been deleted successfully!"
+                    },
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "deletedCount": {
+                          "type": "integer",
+                          "description": "Number of documents deleted",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
