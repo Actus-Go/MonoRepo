@@ -1,3 +1,131 @@
 {
-    "paths": {}
+  "paths": {
+    "/api/coupon/add": {
+      "post": {
+        "tags": ["Coupon"],
+        "summary": "Add a new coupon",
+        "description": "Creates a new coupon with the provided details. Accessible by Admin and Merchant roles.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ownerBrand": {
+                    "type": "string",
+                    "description": "ID of the brand that owns the coupon",
+                    "example": "60c72b2f9b1e8a001c8e4c4b"
+                  },
+                  "discount": {
+                    "type": "number",
+                    "description": "Discount percentage for the coupon",
+                    "example": 15
+                  },
+                  "isLimited": {
+                    "type": "boolean",
+                    "description": "Indicates if the coupon has a redemption limit",
+                    "example": true
+                  },
+                  "isOpen": {
+                    "type": "boolean",
+                    "description": "Indicates if the coupon is open to all users",
+                    "example": false
+                  },
+                  "startTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time of the coupon's validity",
+                    "example": "2024-09-01T00:00:00Z"
+                  },
+                  "endTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time of the coupon's validity",
+                    "example": "2024-09-30T23:59:59Z"
+                  },
+                  "redemptionLimit": {
+                    "type": "number",
+                    "description": "Maximum number of redemptions allowed for the coupon",
+                    "example": 100
+                  },
+                  "isForSpecificGroup": {
+                    "type": "boolean",
+                    "description": "Indicates if the coupon is for a specific user group",
+                    "example": true
+                  },
+                  "group": {
+                    "type": "string",
+                    "description": "Name or ID of the user group eligible for the coupon",
+                    "example": "VIP Customers"
+                  }
+                },
+                "required": ["ownerBrand", "discount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Coupon has been added successfully!"
+                    },
+                    "coupon": {
+                      "type": "object",
+                      "description": "Details of the newly added coupon",
+                      "example": {
+                        "_id": "64f7d1baf0c2ab001b74f2aa",
+                        "code": "ABCD1234",
+                        "ownerBrand": "60c72b2f9b1e8a001c8e4c4b",
+                        "discount": 15,
+                        "isLimited": true,
+                        "isOpen": false,
+                        "startTime": "2024-09-01T00:00:00.000Z",
+                        "endTime": "2024-09-30T23:59:59.000Z",
+                        "redemptionLimit": 100,
+                        "isForSpecificGroup": true,
+                        "group": "VIP Customers"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data or request could not be processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Unvalid data."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
