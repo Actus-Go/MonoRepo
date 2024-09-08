@@ -1,3 +1,246 @@
 {
-    "paths": {}
+"paths": {
+    "/api/wishlist/": {
+      "post": {
+        "tags": [
+          "Wishlist"
+        ],
+        "summary": "Add or Update a Wishlist Item",
+        "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+        "description": "Add a product to the user's wishlist or update the existing wishlist entry.",
+        "operationId": "addOrUpdateWishlistItem",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "type": "string",
+                    "description": "ID of the product to add or update in the wishlist"
+                  },
+                  "isLiked": {
+                    "type": "boolean",
+                    "description": "Indicates whether the product is liked or not"
+                  }
+                },
+                "required": ["product", "isLiked"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with either the added or updated wishlist item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "wishlist": {
+                      "type": "object",
+                      "properties": {
+                        "product": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "type": "string"
+                        },
+                        "isLiked": {
+                          "type": "boolean"
+                        },
+                        "_id": {
+                          "type": "string"
+                        },
+                        "updated": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "created": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "__v": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "wishlistAdded": {
+                    "summary": "Wishlist Item Added",
+                    "value": {
+                      "success": true,
+                      "message": "Added to your Wishlist successfully!",
+                      "wishlist": {
+                        "product": "productid",
+                        "user": "",
+                        "isLiked": true,
+                        "_id": "",
+                        "updated": "2024-09-03T13:53:49.370Z",
+                        "created": "2024-09-03T13:53:49.370Z",
+                        "__v": 0
+                      }
+                    }
+                  },
+                  "wishlistUpdated": {
+                    "summary": "Wishlist Item Updated",
+                    "value": {
+                      "success": true,
+                      "message": "Your Wishlist has been updated successfully!",
+                      "wishlist": {
+                        "product": "productid",
+                        "user": "",
+                        "isLiked": false,
+                        "_id": "",
+                        "updated": "2024-09-03T13:54:59.407Z",
+                        "created": "2024-09-03T13:53:49.370Z",
+                        "__v": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request could not be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Wishlist"
+        ],
+        "summary": "Fetch Wishlist",
+        "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+        "description": "Retrieve the wishlist for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Successful response with the user's wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "wishlist": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "product": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "imageUrl": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "user": {
+                            "type": "string"
+                          },
+                          "isLiked": {
+                            "type": "boolean"
+                          },
+                          "_id": {
+                            "type": "string"
+                          },
+                          "updated": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "__v": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "wishlist": [
+                    {
+                      "product": {
+                        "_id": "",
+                        "name": "",
+                        "price": 99.99,
+                        "imageUrl": "",
+                        "slug": ""
+                      },
+                      "user": "",
+                      "isLiked": true,
+                      "_id": "",
+                      "updated": "2024-09-03T13:56:17.893Z",
+                      "created": "2024-09-03T13:53:49.370Z",
+                      "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request could not be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+
