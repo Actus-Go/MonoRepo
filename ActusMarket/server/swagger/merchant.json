@@ -1,3 +1,630 @@
 {
-    "paths": {}
+  "paths": {
+    "/api/merchant/add": {
+      "post": {
+        "summary": "Add a new merchant",
+        "description": "Adds a new merchant with provided details.",
+        "tags": ["Merchant"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "business", "phoneNumber"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe",
+                    "description": "The full name of the merchant."
+                  },
+                  "business": {
+                    "type": "string",
+                    "example": "John's Bakery",
+                    "description": "A description of the merchant's business."
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890",
+                    "description": "The merchant's phone number."
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com",
+                    "description": "The merchant's email address."
+                  },
+                  "brandName": {
+                    "type": "string",
+                    "example": "John's Bakery",
+                    "description": "The brand name associated with the business."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merchant successfully added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indicates if the operation was successful."
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We received your request! We will reach you on your phone number +1234567890!",
+                      "description": "Success message."
+                    },
+                    "merchant": {
+                      "type": "object",
+                      "description": "Details of the newly created merchant.",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "johndoe@example.com"
+                        },
+                        "business": {
+                          "type": "string",
+                          "example": "John's Bakery"
+                        },
+                        "phoneNumber": {
+                          "type": "string",
+                          "example": "+1234567890"
+                        },
+                        "brandName": {
+                          "type": "string",
+                          "example": "John's Bakery"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "You must enter a phone number and an email address.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant/search": {
+      "get": {
+        "summary": "Search for merchants (Admin only)",
+        "description": "Searches for merchants based on various criteria such as phone number, email, name, brand name, or status.",
+        "tags": ["Merchant"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search term to filter merchants. The search term is matched against phone number, email, name, brand name, or status."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merchants matching the search criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "merchants": {
+                      "type": "array",
+                      "description": "List of merchants matching the search criteria.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "johndoe@example.com"
+                          },
+                          "phoneNumber": {
+                            "type": "string",
+                            "example": "+1234567890"
+                          },
+                          "brandName": {
+                            "type": "string",
+                            "example": "John's Bakery"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "Active"
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "John's Bakery"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant": {
+      "get": {
+        "summary": "Retrieve a paginated list of merchants (Admin only)",
+        "description": "Retrieves a paginated list of merchants, sorted by the creation date.",
+        "tags": ["Merchant"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of merchants to return per page."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of merchants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "merchants": {
+                      "type": "array",
+                      "description": "List of merchants for the current page.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "johndoe@example.com"
+                          },
+                          "phoneNumber": {
+                            "type": "string",
+                            "example": "+1234567890"
+                          },
+                          "brandName": {
+                            "type": "string",
+                            "example": "John's Bakery"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "Active"
+                          },
+                          "brand": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "John's Bakery"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5,
+                      "description": "Total number of pages available."
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "example": 1,
+                      "description": "The current page number."
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 50,
+                      "description": "Total number of merchants."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant/{id}/active": {
+      "put": {
+        "summary": "Activate or deactivate a merchant",
+        "description": "Updates the active status of a merchant. If the merchant is deactivated, their associated brand is also deactivated and an email notification is sent.",
+        "tags": ["Merchant"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the merchant to be updated."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "merchant": {
+                    "type": "object",
+                    "properties": {
+                      "isActive": {
+                        "type": "boolean",
+                        "description": "Indicates whether the merchant account should be active or inactive.",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merchant status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indicates if the operation was successful."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant/approve/{id}": {
+      "put": {
+        "summary": "Approve a merchant",
+        "description": "Approves a merchant account, sets their status to 'Approved', and activates the account. It also creates a user account and brand for the merchant.",
+        "tags": ["Merchant"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the merchant to be approved."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merchant approved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indicates if the operation was successful."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant/signup/{token}": {
+      "post": {
+        "summary": "Complete signup process with a token",
+        "description": "Completes the merchant signup process by verifying the token. This route updates the user's details and creates a merchant brand if applicable.",
+        "tags": ["Merchant"],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "The reset password token used for verifying the user",
+            "schema": {
+              "type": "string",
+              "example": "abc123def456"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address of the user",
+                    "example": "user@example.com"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "description": "The first name of the user",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "The last name of the user",
+                    "example": "Doe"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "The new password for the user",
+                    "example": "password123"
+                  }
+                },
+                "required": ["email", "firstName", "lastName", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User signup completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "You must enter an email address.",
+                      "description": "Error message indicating missing or invalid input."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/merchant/delete/{id}": {
+      "delete": {
+        "summary": "Delete a merchant (Admin only)",
+        "description": "Deletes a merchant account by ID. The associated brand is deactivated before deletion.",
+        "tags": ["Merchant"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the merchant to be deleted."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merchant deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indicates if the operation was successful."
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Merchant has been deleted successfully!",
+                      "description": "A message confirming the merchant's deletion."
+                    },
+                    "merchant": {
+                      "type": "object",
+                      "description": "The result of the delete operation, typically including the number of documents affected.",
+                      "properties": {
+                        "acknowledged": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "deletedCount": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
