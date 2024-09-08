@@ -16,7 +16,7 @@ import Friends from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
-
+// import ChallengeCardData from "./components/ChallengeCard/ChallengCardData";
 // Lazy load MapComponent
 const Tasks = lazy(() => import("./pages/tasks"));
 
@@ -89,6 +89,7 @@ function App() {
 
   return (
     <div className="">
+      {/* <ChallengeCardData /> */}
       <OnlineIndicator />
       {popupVisible && (
         <LocationPopup onAllow={handleAllowLocation} setPopupVisible={setPopupVisible} />

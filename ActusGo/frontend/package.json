@@ -33,6 +33,7 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "socket.io-client": "^4.7.5",
+    "swiper": "^11.1.12",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
