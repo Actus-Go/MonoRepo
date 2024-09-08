@@ -1,3 +1,375 @@
 {
-    "paths": {}
+    "paths": {
+        "/getProfile/{username}": {
+    "get": {
+      "tags": [
+        "Profile"
+      ],
+      "summary": "Get User Profile",
+      "description": "Fetches the profile of a user including posts and friends.",
+      "parameters": [
+        {
+          "name": "username",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "The username of the user whose profile you want to retrieve."
+        }
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved user profile information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "User ID"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of the user"
+                  },
+                  "first_name": {
+                    "type": "string",
+                    "description": "First name of the user"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "Last name of the user"
+                  },
+                  "picture": {
+                    "type": "string",
+                    "description": "Profile picture URL"
+                  },
+                  "posts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "Post ID"
+                        },
+                        "content": {
+                          "type": "string",
+                          "description": "Post content"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Creation date of the post"
+                        }
+                      }
+                    }
+                  },
+                  "friendship": {
+                    "type": "object",
+                    "properties": {
+                      "friends": {
+                        "type": "boolean",
+                        "description": "Indicates if the users are friends"
+                      },
+                      "following": {
+                        "type": "boolean",
+                        "description": "Indicates if the current user is following the profile user"
+                      },
+                      "requestSent": {
+                        "type": "boolean",
+                        "description": "Indicates if a friend request has been sent to the profile user"
+                      },
+                      "requestReceived": {
+                        "type": "boolean",
+                        "description": "Indicates if a friend request has been received from the profile user"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Server error.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/updateDetails": {
+    "put": {
+      "tags": [
+        "Profile"
+      ],
+      "summary": "Update User Details",
+      "description": "Updates the details of the authenticated user. Details can include bio, job, workplace, education, and more.",
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "infos": {
+                  "type": "object",
+                  "properties": {
+                    "bio": {
+                      "type": "string"
+                    },
+                    "otherName": {
+                      "type": "string"
+                    },
+                    "job": {
+                      "type": "string"
+                    },
+                    "workplace": {
+                      "type": "string"
+                    },
+                    "highSchool": {
+                      "type": "string"
+                    },
+                    "college": {
+                      "type": "string"
+                    },
+                    "currentCity": {
+                      "type": "string"
+                    },
+                    "hometown": {
+                      "type": "string"
+                    },
+                    "relationship": {
+                      "type": "string",
+                      "enum": ["Single", "In a relationship", "Married", "Divorced"]
+                    },
+                    "instagram": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "infos"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated user details.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bio": {
+                    "type": "string"
+                  },
+                  "otherName": {
+                    "type": "string"
+                  },
+                  "job": {
+                    "type": "string"
+                  },
+                  "workplace": {
+                    "type": "string"
+                  },
+                  "highSchool": {
+                    "type": "string"
+                  },
+                  "college": {
+                    "type": "string"
+                  },
+                  "currentCity": {
+                    "type": "string"
+                  },
+                  "hometown": {
+                    "type": "string"
+                  },
+                  "relationship": {
+                    "type": "string",
+                    "enum": ["Single", "In a relationship", "Married", "Divorced"]
+                  },
+                  "instagram": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Server error.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/updateProfilePicture": {
+    "put": {
+      "tags": [
+        "Profile"
+      ],
+      "summary": "Update Profile Picture",
+      "description": "Updates the profile picture of the authenticated user.",
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The URL of the new profile picture"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated profile picture.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "description": "The URL of the updated profile picture"
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Server error.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/updateCover": {
+    "put": {
+      "tags": [
+        "Profile"
+      ],
+      "summary": "Update Cover Picture",
+      "description": "Updates the cover picture of the authenticated user.",
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The URL of the new cover picture"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated cover picture.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "description": "The URL of the updated cover picture"
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Server error.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+}
+
+
+    
+
