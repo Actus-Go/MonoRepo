@@ -55,4 +55,8 @@ setupDB();
 require('./config/passport')(app);
 app.use(routes);
 
+const swaggerUi = require("swagger-ui-express");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require("./swagger")));
+
 module.exports = io;
