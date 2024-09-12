@@ -1,0 +1,427 @@
+{
+    "paths": {
+    "/api/address/add": {
+        "post": {
+        "tags": ["Address"],
+        "summary": "Add a new address",
+        "description": "Creates a new address and associates it with the authenticated user.",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "street": {
+                    "type": "string"
+                    },
+                    "city": {
+                    "type": "string"
+                    },
+                    "state": {
+                    "type": "string"
+                    },
+                    "zipCode": {
+                    "type": "string"
+                    },
+                    "country": {
+                    "type": "string"
+                    }
+                },
+                "required": ["street", "city", "state", "zipCode", "country"]
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+            "description": "Address added successfully.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "user": {
+                            "type": "string"
+                        },
+                        "street": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "zipCode": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                        },
+                        "required": ["_id", "user", "street", "city", "state", "zipCode", "country"]
+                    }
+                    },
+                    "required": ["success", "message", "address"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+
+                    }
+                    },
+                    "required": ["error"]
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "/api/address/": {
+        "get": {
+        "tags": ["Address"],
+        "summary": "Fetch all addresses",
+        "description": "Retrieves all addresses associated with the authenticated user.",
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "List of addresses.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "addresses": {
+                        "type": "array",
+                        "items": {
+                        "type": "object",
+                        "properties": {
+                            "isDefault":{
+                            "type": "boolean"
+                            },
+                            "_id": {
+                            "type": "string"
+                            },
+                            "user": {
+                            "type": "string"
+                            },
+                            "street": {
+                            "type": "string"
+                            },
+                            "city": {
+                            "type": "string"
+                            },
+                            "state": {
+                            "type": "string"
+                            },
+                            "zipCode": {
+                            "type": "string"
+                            },
+                            "country": {
+                            "type": "string"
+                            }
+                        },
+                        "required": ["_id", "user", "street", "city", "state", "zipCode", "country"]
+                        }
+                    }
+                    },
+                    "required": ["addresses"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+
+                    }
+                    },
+                    "required": ["error"]
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "/api/address/{id}": {
+        "get": {
+        "tags": ["Address"],
+        "summary": "Fetch address by ID",
+        "description": "Retrieves a single address by its ID.",
+        "parameters": [
+            {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "Address found.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                        "isDefault":{
+                            "type": "boolean"
+                        },
+                        "_id": {
+                            "type": "string"
+                        },
+                        "user": {
+                            "type": "string"
+                        },
+                        "street": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "zipCode": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                        },
+                        "required": ["_id", "user", "street", "city", "state", "zipCode", "country"]
+                    }
+                    },
+                    "required": ["address"]
+                }
+                }
+            }
+            },
+            "404": {
+            "description": "Address not found.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                    },
+                    "required": ["message"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                    },
+                    "required": ["error"]
+                }
+                }
+            }
+            }
+        }
+        },
+        "put": {
+        "tags": ["Address"],
+        "summary": "Update an address",
+        "description": "Updates an existing address by its ID.",
+        "parameters": [
+            {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+            }
+        ],
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "street": {
+                    "type": "string"
+                    },
+                    "city": {
+                    "type": "string"
+                    },
+                    "state": {
+                    "type": "string"
+                    },
+                    "zipCode": {
+                    "type": "string"
+                    },
+                    "country": {
+                    "type": "string"
+                    }
+                }
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+            "description": "Address updated successfully.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                    },
+                    "required": ["success", "message"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+
+                    }
+                    },
+                    "required": ["error"]
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "/api/address/delete/{id}": {
+        "delete": {
+        "tags": ["Address"],
+        "summary": "Delete an address",
+        "description": "Deletes an address by its ID.",
+        "parameters": [
+            {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "Address deleted successfully.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "object",
+                        "properties": {
+                        "_id": {
+                            "type": "string"
+                        }
+                        }
+                    }
+                    },
+                    "required": ["success", "message", "address"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+
+                    }
+                    },
+                    "required": ["error"]
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+}

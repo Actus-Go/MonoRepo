@@ -12,6 +12,10 @@ ARG NODE_VERSION=16.16.0
 FROM node:${NODE_VERSION}-alpine as build
 LABEL stage=builder
 
+# Install Python and other necessary build tools
+RUN apk add --no-cache python3 make g++
+
+
 # Use a specific node environment
 ENV NODE_ENV=production
 # Add ARG for REACT_APP_BACKEND_URL 

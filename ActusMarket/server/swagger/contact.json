@@ -1,0 +1,126 @@
+{
+    "paths": {
+        "/add": {
+      "post": {
+        "tags":[
+            "Contact"
+        ],
+        "summary": "Add a contact request",
+        "description": "Sends an email to the user confirming receipt of their contact request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the person making the request"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address of the person making the request"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "The message from the person making the request"
+                  }
+                },
+                "required": ["name", "email", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact request successfully added and email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We received your message, we will reach you on your email address example@example.com!"
+                    },
+                    "contact": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "The ID of the newly created contact"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the contact"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "description": "The email address of the contact"
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The message of the contact"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message describing the issue"
+                    }
+                  }
+                },
+                "examples": {
+                  "missing-email": {
+                    "value": {
+                      "error": "You must enter an email address."
+                    }
+                  },
+                  "missing-name": {
+                    "value": {
+                      "error": "You must enter description & name."
+                    }
+                  },
+                  "missing-message": {
+                    "value": {
+                      "error": "You must enter a message."
+                    }
+                  },
+                  "existing-contact": {
+                    "value": {
+                      "error": "A request already existed for same email address"
+                    }
+                  },
+                  "processing-error": {
+                    "value": {
+                      "error": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    }
+}
