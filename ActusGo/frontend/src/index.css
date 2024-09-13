@@ -21,8 +21,8 @@
 /* // add fonts locally  */
 @font-face {
   font-family: "Poppins";
-  src: url("../public/FONTS/en/Poppins-Black.ttf");
-  font-weight: bold;
+  src: url("../public/FONTS/en/Poppins-Regular.ttf");
+  font-weight: normal;
   font-display: swap;
 }
 

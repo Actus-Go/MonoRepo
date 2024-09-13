@@ -16,6 +16,7 @@ import Friends from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
+// import ShopData from "./components/ShopSidebar/ShopData"
 
 // Lazy load MapComponent
 const Tasks = lazy(() => import("./pages/tasks"));
@@ -124,6 +125,7 @@ function App() {
           <CustomNav user={user} />
         </div>
       </div>
+      {/* <ShopData /> */}
     </div>
   );
 }
