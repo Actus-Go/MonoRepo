@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Picker, { EmojiStyle } from "emoji-picker-react";
 import { useMediaQuery } from "react-responsive";
-import { Photo } from "../../svg";
+import { Photo } from "../../icons";
 
 export default function EmojiPickerBackgrounds({
   text,

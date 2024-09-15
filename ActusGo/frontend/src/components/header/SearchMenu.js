@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Return, Search } from "../../svg";
+import { Return, Search } from "../../icons";
 import useClickOutside from "../../helpers/clickOutside";
 import {
   addToSearchHistory,

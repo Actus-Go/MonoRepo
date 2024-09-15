@@ -1,4 +1,4 @@
-import { ArrowRight, Plus } from "../../../svg";
+import { ArrowRight, Plus } from "../../../icons";
 import "./style.css";
 import { stories } from "../../../data/home";
 import Story from "./Story";
@@ -42,7 +42,9 @@ export default function Stories() {
         <Story story={story} key={i} />
       ))}
       <div className="white_circle">
-        <ArrowRight color="#65676b" />
+        <span className="text-[#65676b] aspect-square w-5">
+          <ArrowRight />
+        </span>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Dots, NewRoom, Search } from "../../../svg";
+import { Dots, NewRoom, Search } from "../../../icons";
 import Contact from "./Contact";
 import "./style.css";
 export default function RightHome({ user }) {

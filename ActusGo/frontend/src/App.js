@@ -6,6 +6,7 @@ import { postsReducer } from "./functions/reducers";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Home from "./pages/home";
+import Development from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/activate";
@@ -98,6 +99,8 @@ function App() {
           <CreatePostPopup user={user} setVisible={setVisible} posts={posts} dispatch={dispatch} />
         )}
         <Routes>
+          <Route path="/development" element={<Development />} exact />
+
           <Route element={<LoggedInRoutes />}>
             <Route path="/profile" element={<Profile setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
             <Route path="/profile/:username" element={<Profile setVisible={setVisible} getAllPosts={getAllPosts} />} exact />
