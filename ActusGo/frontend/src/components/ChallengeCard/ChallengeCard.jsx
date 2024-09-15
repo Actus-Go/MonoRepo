@@ -1,6 +1,6 @@
 import React from 'react';
-import FavIcon from '../../svg/FavIcon';
 import image3 from './Images/CoinIcon.png';
+import { Heart, HeartOutline } from '../../icons';
 
 
 const ChallengeCard = ({ card, index, favoriteStatus, toggleFavorite }) => {
@@ -23,7 +23,9 @@ const ChallengeCard = ({ card, index, favoriteStatus, toggleFavorite }) => {
                     }}
                     onClick={() => toggleFavorite(index)}
                 >
-                    <FavIcon isFavorited={favoriteStatus[index]} />
+                    <span className='w-6 aspect-square inline-block'>
+                        {favoriteStatus[index] ? (<Heart />) : (<HeartOutline />)}
+                    </span>
                 </div>
             </div>
 

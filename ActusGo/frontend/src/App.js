@@ -20,13 +20,12 @@ import Activate from "./pages/home/activate";
 import Reset from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import Friends from "./pages/friends";
-// import Tasks from "./pages/tasks";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
 import NotificationBar from "./components/Notifications/NotificationBar";
 import { generateDemoNotifications } from "./components/Notifications/notificationData";
-// import ChallengeCardData from "./components/ChallengeCard/ChallengCardData";
+
 // Lazy load MapComponent
 const Tasks = lazy(() => import("./pages/tasks"));
 
