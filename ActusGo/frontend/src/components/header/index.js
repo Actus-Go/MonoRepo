@@ -13,7 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import SearchMenu from "./SearchMenu";
 import { useRef, useState } from "react";
-import useClickOutside from "../../helpers/clickOutside";
+import useClickOutside from "../../utils/clickOutside";
 import UserMenu from "./userMenu";
 import Map from "../../icons/watch";
 

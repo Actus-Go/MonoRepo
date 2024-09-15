@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Return, Search } from "../../icons";
-import useClickOutside from "../../helpers/clickOutside";
+import useClickOutside from "../../utils/clickOutside";
 import {
   addToSearchHistory,
   getSearchHistory,
