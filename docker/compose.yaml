@@ -10,9 +10,9 @@
 services:
   market_backend:
     build:
-      context: ./ActusMarket/server
+      context: ../ActusMarket/server
     env_file:
-      - ./ActusMarket/server/.env
+      - ../ActusMarket/server/.env
     environment:
       NODE_ENV: production
     ports:
@@ -20,25 +20,25 @@ services:
     depends_on:
       - mongodb
     
-  market_frontend:
-    build:
-      context: ./ActusMarket/client
-      args:
-        - API_URL=http://localhost:3000
-    env_file:
-      - ./ActusMarket/client/.env
-    ports:
-      - "3001:80"
-    depends_on:
-      - market_backend
+  # market_frontend:
+  #   build:
+  #     context: ../ActusMarket/client
+  #     args:
+  #       - API_URL=http://localhost:3000
+  #   env_file:
+  #     - ../ActusMarket/client/.env
+  #   ports:
+  #     - "3001:80"
+  #   depends_on:
+  #     - market_backend
 
 
     
   go_backend:
     build:
-      context: ./ActusGo/backend
+      context: ../ActusGo/backend
     env_file:
-      - ./ActusGo/backend/.env
+      - ../ActusGo/backend/.env
     environment:
       NODE_ENV: production
     ports:
@@ -47,16 +47,16 @@ services:
       - mongodb
 
   
-  go_frontend:
-    build:
-      context: ./ActusGo/frontend
-      args:
-        - REACT_APP_BACKEND_URL=http://localhost:8000
-    ports:
-      - "5000:80"
-    depends_on:
-      - market_backend
-      - go_backend
+  # go_frontend:
+  #   build:
+  #     context: ../ActusGo/frontend
+  #     args:
+  #       - REACT_APP_BACKEND_URL=http://localhost:8000
+  #   ports:
+  #     - "5000:80"
+  #   depends_on:
+  #     - market_backend
+  #     - go_backend
 
 
   mongodb:

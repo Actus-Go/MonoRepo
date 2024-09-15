@@ -1,59 +1,50 @@
-const notificationItemsData = [
-  // General notifications
-  { type: "general", action: "post a photo", time: "5 Min ago" },
-  { type: "general", action: "comment on your post", time: "10 Min ago" },
-  { type: "general", action: "like your status", time: "15 Min ago" },
-  { type: "general", action: "mentioned you in a comment", time: "20 Min ago" },
-  { type: "general", action: "shared your post", time: "30 Min ago" },
-  {
-    type: "general",
-    action: "sent you a friend request",
-    time: "40 Min ago",
-    requiresAction: true,
-  },
-  // Ignore notifications
-  { type: "ignore", action: "declined to split a coupon", time: "5 Min ago" },
-  { type: "ignore", action: "declined to share a coupon", time: "10 Min ago" },
-  {
-    type: "ignore",
-    action: "ignored a group purchase invitation",
-    time: "15 Min ago",
-  },
-  {
-    type: "ignore",
-    action: "declined a bill split request",
-    time: "20 Min ago",
-  },
-  {
-    type: "ignore",
-    action: "ignored a shared discount code",
-    time: "25 Min ago",
-  },
-];
-export const generalNotifications = [
-  {
-    type: "share",
-    action: "share a coupon",
-    time: "5 Min ago",
-    requiresAction: true,
-    singleButton: true,
-  },
-  {
-    type: "share",
-    action: "wants to share a coupon",
-    time: "5 Min ago",
-    requiresAction: true,
-  },
-  {
-    type: "split",
-    action: "wants to split a coupon",
-    time: "5 Min ago",
-    requiresAction: true,
-  },
-];
-export const ignoreNotifications = [
-  { type: "share", action: "decline to split a coupon", time: "5 Min ago" },
-  { type: "share", action: "decline to share a coupon", time: "5 Min ago" },
-  { type: "share", action: "decline to share a coupon", time: "5 Min ago" },
-];
-export default notificationItemsData;
+
+// Helper function to generate random data
+const getRandomUser = () => {
+  const names = ["Alice", "Bob", "Charlie", "Diana", "Evan", "Fiona", "Faisal", "Ahmed Ali", "Hossam"];
+  const actions = ["liked your post", "commented on your photo", "sent you a message", "followed you"];
+  const avatars = [
+    "https://randomuser.me/api/portraits/women/1.jpg",
+    "https://randomuser.me/api/portraits/men/1.jpg",
+    "https://randomuser.me/api/portraits/women/2.jpg",
+    "https://randomuser.me/api/portraits/men/2.jpg",
+    "https://randomuser.me/api/portraits/women/3.jpg",
+    "https://randomuser.me/api/portraits/women/5.jpg",
+    "https://randomuser.me/api/portraits/women/4.jpg",
+    "https://randomuser.me/api/portraits/women/6.jpg",
+    "https://randomuser.me/api/portraits/men/3.jpg",
+    "https://randomuser.me/api/portraits/men/4.jpg",
+    "https://randomuser.me/api/portraits/men/5.jpg",
+    "https://randomuser.me/api/portraits/men/6.jpg",
+  ];
+
+  const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+  return {
+    user: {
+      name: getRandomElement(names),
+      avatar: getRandomElement(avatars),
+      isActive: Math.random() > 0.5,
+    },
+    actionDescription: getRandomElement(actions),
+    timestamp: new Date(Date.now() - Math.floor(Math.random() * 10000000)),
+    primaryActionButton: Math.random() > 0.5 && {
+      label: "Accept",
+      onClick: () => console.log("Accepted"),
+      additionalClasses: "",
+    },
+    secondaryActionButton: Math.random() > 0.5 && {
+      label: "Decline",
+      onClick: () => console.log("Declined"),
+      additionalClasses: "",
+    },
+    isIgnored:  Math.random() > 0.5
+  };
+};
+
+// Generate 30 demo notifications
+export const generateDemoNotifications = (length) => {
+  return Array.from({ length }, () => ({
+    ...getRandomUser()
+  }));
+};

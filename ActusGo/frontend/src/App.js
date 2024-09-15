@@ -13,6 +13,7 @@ import { postsReducer } from "./functions/reducers";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Home from "./pages/home";
+import Development from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/activate";
@@ -23,8 +24,9 @@ import Friends from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
-import DisplayNotifications from "./components/Notifications/Notifications";
-import DisplaySplitNotifications from "./components/Notifications/SplitNotif";
+import NotificationBar from "./components/Notifications/NotificationBar";
+import { generateDemoNotifications } from "./components/Notifications/notificationData";
+
 // Lazy load MapComponent
 const Tasks = lazy(() => import("./pages/tasks"));
 
@@ -93,11 +95,14 @@ function App() {
     setPopupVisible(false);
   };
 
+  
+  const notifications = generateDemoNotifications(30);
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <>
       <div className="flex justify-evenly flex-col md:flex-row items-start">
-        <DisplayNotifications />
-        <DisplaySplitNotifications />
+        <NotificationBar isOpen={isOpen} onClose={() => setIsOpen(false)} notifications={notifications}  />
       </div>
       <div className="">
         <OnlineIndicator />
@@ -117,6 +122,8 @@ function App() {
             />
           )}
           <Routes>
+            <Route path="/development" element={<Development />} exact />
+
             <Route element={<LoggedInRoutes />}>
               <Route
                 path="/profile"
