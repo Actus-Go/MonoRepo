@@ -1,0 +1,560 @@
+{
+  "paths": {
+    "/near-brands": {
+      "post": {
+        "tags": ["Guide"],
+        "summary": "Get Nearby Brands",
+        "description": "Finds and returns nearby brands based on user's location and specified distance.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "location": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "User's geographical location as [longitude, latitude]"
+                  },
+                  "distance": {
+                    "type": "number",
+                    "description": "Maximum distance in meters to search for brands"
+                  }
+                },
+                "required": ["location", "distance"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved nearby brands",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nearBrands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the brand"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "description": "Unique slug for the brand"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the brand"
+                          },
+                          "image": {
+                            "type": "string",
+                            "description": "Image associated with the brand, stored as Base64"
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates if the brand is active"
+                          },
+                          "merchant": {
+                            "type": "string",
+                            "description": "ID of the associated merchant"
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": ["Point"],
+                                "description": "Type of location"
+                              },
+                              "coordinates": {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                },
+                                "description": "Geographical coordinates of the brand"
+                              }
+                            }
+                          },
+                          "sector": {
+                            "type": "string",
+                            "description": "ID of the associated sector"
+                          },
+                          "brandCategory": {
+                            "type": "string",
+                            "enum": ["Wooden", "Silver", "Golden", "Champ"],
+                            "description": "Category of the brand"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input or no brands found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message explaining why the request failed"
+                    }
+                  }
+                },
+                "examples": {
+                  "invalidData": {
+                    "summary": "Invalid data",
+                    "value": {
+                      "error": "Your have to enter valid data."
+                    }
+                  },
+                  "noBrands": {
+                    "summary": "No brands found",
+                    "value": {
+                      "error": "There's no products for that brand."
+                    }
+                  },
+                  "genericError": {
+                    "summary": "Generic server error",
+                    "value": {
+                      "error": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/products": {
+      "get": {
+        "tags": ["Guide"],
+        "summary": "Get Products by Brand ID",
+        "description": "Retrieve a list of products associated with a specific brand ID, including their price, quantity, and discount details. The price after applying any discounts is also calculated.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the brand for which products are to be retrieved."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier of the product."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the product."
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "description": "The quantity of the product available in stock."
+                          },
+                          "discount": {
+                            "type": "number",
+                            "description": "The discount amount associated with the product."
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "The price of the product."
+                          },
+                          "priceAfterCoupon": {
+                            "type": "number",
+                            "description": "The price of the product after applying the coupon."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input or failed retrieval",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message explaining why the request failed"
+                    }
+                  }
+                },
+                "examples": {
+                  "invalidBrandId": {
+                    "summary": "Invalid Brand ID",
+                    "value": {
+                      "error": "The provided brand ID is not valid."
+                    }
+                  },
+                  "noProductsFound": {
+                    "summary": "No Products Found",
+                    "value": {
+                      "error": "No products found for the given brand ID."
+                    }
+                  },
+                  "genericError": {
+                    "summary": "Generic server error",
+                    "value": {
+                      "error": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "tags": ["Guide"],
+        "summary": "Retrieve product details by ID",
+        "description": "Retrieves details of a product, including associated brand and coupon information.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the product to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "sku": {
+                          "type": "string",
+                          "description": "The stock keeping unit (SKU) of the product."
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the product."
+                        },
+                        "slug": {
+                          "type": "string",
+                          "description": "A unique URL-friendly identifier for the product, based on the name."
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "description": "URL of the product's image."
+                        },
+                        "imageKey": {
+                          "type": "string",
+                          "description": "Key for accessing the product's image in storage."
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "A detailed description of the product."
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "The quantity of the product available in stock."
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "The price of the product."
+                        },
+                        "productCoupon": {
+                          "type": "string",
+                          "description": "ID of the coupon associated with the product."
+                        },
+                        "taxable": {
+                          "type": "boolean",
+                          "description": "Indicates whether the product is taxable."
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "description": "Indicates whether the product is currently active."
+                        },
+                        "brand": {
+                          "type": "string",
+                          "description": "ID of the brand associated with the product."
+                        },
+                        "updated": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date and time when the product was last updated."
+                        },
+                        "created": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date and time when the product was created."
+                        }
+                      }
+                    },
+                    "productCoupon": {
+                      "type": "object",
+                      "properties": {
+                        "type": "string",
+                        "description": "Unique code for the coupon. Required and must be unique."
+                      },
+                      "ownerBrand": {
+                        "type": "string",
+                        "description": "ID of the brand that owns the coupon. Must reference a valid Brand."
+                      },
+                      "discount": {
+                        "type": "number",
+                        "description": "Discount value for the coupon. Required and must be between 0 and 100.",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "couponCategory": {
+                        "type": "string",
+                        "description": "Category of the coupon. Must be one of the predefined BRAND_CATEGORY values."
+                      },
+                      "isLimited": {
+                        "type": "boolean",
+                        "description": "Indicates if the coupon is limited in some way. Defaults to false."
+                      },
+                      "isOpen": {
+                        "type": "boolean",
+                        "description": "Indicates if the coupon is currently open for use. Defaults to false."
+                      },
+                      "startTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Start time for the coupon's validity. Defaults to null."
+                      },
+                      "endTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "End time for the coupon's validity. Defaults to null."
+                      },
+                      "redemptionLimit": {
+                        "type": "number",
+                        "description": "Maximum number of times the coupon can be redeemed. Defaults to null."
+                      },
+                      "isForSpecificGroup": {
+                        "type": "boolean",
+                        "description": "Indicates if the coupon is for a specific user group. Defaults to false."
+                      },
+                      "group": {
+                        "type": "string",
+                        "description": "User group that the coupon is intended for. Must be one of the predefined USER_TYPES values or null.",
+                        "enum": [
+                          "USER_TYPE_1",
+                          "USER_TYPE_2",
+                          "USER_TYPE_3",
+                          null
+                        ]
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "description": "Indicates if the coupon is active. Defaults to true."
+                      }
+                    },
+                    "brand": {
+                      "type": "object",
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the brand. Trimmed string."
+                      },
+                      "slug": {
+                        "type": "string",
+                        "description": "Unique slug generated from the brand name."
+                      },
+                      "image": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "string",
+                            "format": "binary",
+                            "description": "Binary data of the brand image."
+                          },
+                          "contentType": {
+                            "type": "string",
+                            "description": "Content type of the brand image (e.g., 'image/jpeg')."
+                          }
+                        },
+                        "description": "Image associated with the brand."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the brand. Trimmed string."
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "description": "Indicates if the brand is active. Defaults to true."
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Type of location data. Always 'Point'.",
+                            "enum": ["Point"]
+                          },
+                          "coordinates": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "description": "Geospatial coordinates (longitude, latitude)."
+                          }
+                        },
+                        "description": "Geospatial location data of the brand."
+                      },
+                      "sector": {
+                        "type": "string",
+                        "description": "ID of the sector associated with the brand. References a Sector document."
+                      },
+                      "brandCategory": {
+                        "type": "string",
+                        "description": "Category of the brand.",
+                        "enum": ["Wooden", "Silver", "Golden", "Champ"],
+                        "default": "Wooden"
+                      },
+                      "updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the brand was last updated."
+                      },
+                      "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the brand was created. Defaults to the current date and time."
+                      },
+                      "merchant": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the merchant. Trimmed string."
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "Email address of the merchant."
+                          },
+                          "phoneNumber": {
+                            "type": "string",
+                            "description": "Phone number of the merchant."
+                          },
+                          "brandName": {
+                            "type": "string",
+                            "description": "Name of the brand associated with the merchant."
+                          },
+                          "business": {
+                            "type": "string",
+                            "description": "Business name of the merchant. Trimmed string."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Indicates if the merchant is active. Defaults to false."
+                          },
+                          "brand": {
+                            "type": "string",
+                            "description": "ID of the brand associated with the merchant. References a Brand document."
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Current status of the merchant.",
+                            "enum": [
+                              "Waiting_Approval",
+                              "Rejected",
+                              "Approved"
+                            ],
+                            "default": "Waiting_Approval"
+                          },
+                          "updated": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Date and time when the merchant was last updated."
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Date and time when the merchant was created. Defaults to the current date and time."
+                          }
+                        },
+                        "description": "Details of the merchant associated with the brand."
+                      }
+                    }
+                  },
+                  "updated": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "created": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Bad Request - Product not found or request error",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": {
+            "Product not found": {
+              "value": {
+                "error": "Theres no product with that ID."
+              }
+            },
+            "Request processing error": {
+              "value": {
+                "error": "Your request could not be processed. Please try again."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

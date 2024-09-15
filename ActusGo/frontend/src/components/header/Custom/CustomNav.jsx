@@ -1,6 +1,6 @@
 import React from "react";
-import { Gaming, Market } from "../../../svg";
-import Map from "../../../svg/watch";
+import { Gaming, Market } from "../../../icons";
+import Map from "../../../icons/watch";
 import { Link } from "react-router-dom";
 import SkeletonTheme from "react-loading-skeleton";
 

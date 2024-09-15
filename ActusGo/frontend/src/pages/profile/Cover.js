@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import useClickOutside from "../../helpers/clickOutside";
-import getCroppedImg from "../../helpers/getCroppedImg";
+import useClickOutside from "../../utils/clickOutside";
+import getCroppedImg from "../../utils/getCroppedImg";
 import { uploadImages } from "../../functions/uploadImages";
 import { useSelector } from "react-redux";
 import { updateCover } from "../../functions/user";
