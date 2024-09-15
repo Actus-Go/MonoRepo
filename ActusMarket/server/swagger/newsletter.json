@@ -1,0 +1,80 @@
+{
+    "paths": {
+        "/subscribe": {
+      "post": {
+        "tags":[
+            "Newsletter"
+        ],
+        "summary": "Subscribe to the newsletter",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address to subscribe"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully subscribed to the newsletter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You have successfully subscribed to the newsletter"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message describing the issue"
+                    }
+                  }
+                },
+                "examples": {
+                  "missing-email": {
+                    "value": {
+                      "error": "You must enter an email address."
+                    }
+                  },
+                  "mailchimp-error": {
+                    "value": {
+                      "error": "Mailchimp subscription failed."
+                    }
+                  }
+                }
+              }
+            }
+          }
+     }
+    }
+   }
+  }
+}
