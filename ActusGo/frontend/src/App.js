@@ -20,16 +20,15 @@ import Activate from "./pages/home/activate";
 import Reset from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import Friends from "./pages/friends";
-// import Tasks from "./pages/tasks";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
 import NotificationBar from "./components/Notifications/NotificationBar";
 import { generateDemoNotifications } from "./components/Notifications/notificationData";
 
-// Lazy load MapComponent
+// Lazy load components
 const Tasks = lazy(() => import("./pages/tasks"));
-const Explore = lazy(() => import("./components/ExplorePage/ExplorePage"));
+
 function App() {
   const [visible, setVisible] = useState(false);
   const { user, darkTheme } = useSelector((state) => ({ ...state }));
@@ -48,26 +47,9 @@ function App() {
     }
   }, [user]);
 
-  useCallback(() => {
-    if (navigator.geolocation && userLocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-        },
-        (error) => console.error("Error getting user location:", error),
-        { enableHighAccuracy: true }
-      );
-
-      return () => navigator.geolocation.clearWatch(watchId);
-    }
-  }, [userLocation]);
-
   const getAllPosts = async () => {
     try {
-      dispatch({
-        type: "POSTS_REQUEST",
-      });
+      dispatch({ type: "POSTS_REQUEST" });
       const { data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getAllPosts`,
         {
@@ -95,15 +77,38 @@ function App() {
     setPopupVisible(false);
   };
 
-  
   const notifications = generateDemoNotifications(30);
   const [isOpen, setIsOpen] = useState(true);
+
+  const trackLocation = useCallback(() => {
+    if (navigator.geolocation && !userLocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => console.error("Error getting user location:", error),
+        { enableHighAccuracy: true }
+      );
+
+      return () => navigator.geolocation.clearWatch(watchId);
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
+    trackLocation();
+  }, [trackLocation]);
 
   return (
     <>
       <div className="flex justify-evenly flex-col md:flex-row items-start">
-        <NotificationBar isOpen={isOpen} onClose={() => setIsOpen(false)} notifications={notifications}  />
+        <NotificationBar
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          notifications={notifications}
+        />
       </div>
+
       <div className="">
         <OnlineIndicator />
         {popupVisible && (
@@ -112,7 +117,7 @@ function App() {
             setPopupVisible={setPopupVisible}
           />
         )}
-        <div className={`${darkTheme && "dark"}`}>
+        <div className={`${darkTheme ? "dark" : ""}`}>
           {visible && (
             <CreatePostPopup
               user={user}
@@ -121,6 +126,7 @@ function App() {
               dispatch={dispatch}
             />
           )}
+
           <Routes>
             <Route path="/development" element={<Development />} exact />
 
@@ -176,100 +182,17 @@ function App() {
               />
               <Route path="/activate/:token" element={<Activate />} exact />
             </Route>
+
             <Route element={<NotLoggedInRoutes />}>
               <Route path="/login" element={<Login />} exact />
             </Route>
             <Route path="/reset" element={<Reset />} />
           </Routes>
-          <div>
-            <CustomNav user={user} />
-          </div>
-        </div>
-      </div>
-    </>
-    <div className="">
-      <OnlineIndicator />
-      {popupVisible && (
-        <LocationPopup
-          onAllow={handleAllowLocation}
-          setPopupVisible={setPopupVisible}
-        />
-      )}
-      <Suspense fallback={<div>Loading...</div>}>
-        <Explore />
-      </Suspense>
-      <div className={`${darkTheme && "dark"}`}>
-        {visible && (
-          <CreatePostPopup
-            user={user}
-            setVisible={setVisible}
-            posts={posts}
-            dispatch={dispatch}
-          />
-        )}
-        <Routes>
-          <Route element={<LoggedInRoutes />}>
-            <Route
-              path="/profile"
-              element={
-                <Profile setVisible={setVisible} getAllPosts={getAllPosts} />
-              }
-              exact
-            />
-            <Route
-              path="/profile/:username"
-              element={
-                <Profile setVisible={setVisible} getAllPosts={getAllPosts} />
-              }
-              exact
-            />
-            <Route
-              path="/friends"
-              element={
-                <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
-              }
-              exact
-            />
-            <Route
-              path="/friends/:type"
-              element={
-                <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
-              }
-              exact
-            />
-            <Route
-              path="/"
-              element={
-                <Home
-                  setVisible={setVisible}
-                  posts={posts}
-                  loading={loading}
-                  getAllPosts={getAllPosts}
-                />
-              }
-              exact
-            />
-            <Route
-              path="/tasks"
-              element={
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Tasks setVisible={setVisible} getAllPosts={getAllPosts} />
-                </Suspense>
-              }
-              exact
-            />
-            <Route path="/activate/:token" element={<Activate />} exact />
-          </Route>
-          <Route element={<NotLoggedInRoutes />}>
-            <Route path="/login" element={<Login />} exact />
-          </Route>
-          <Route path="/reset" element={<Reset />} />
-        </Routes>
-        <div>
+
           <CustomNav user={user} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
