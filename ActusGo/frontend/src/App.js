@@ -20,7 +20,6 @@ import Activate from "./pages/home/activate";
 import Reset from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import Friends from "./pages/friends";
-// import Tasks from "./pages/tasks";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
