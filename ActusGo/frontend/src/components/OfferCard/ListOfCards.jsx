@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import Card from "./Cards";
+import Card from "./Card";
 
 
 const ListOfCards = ({ cardsData }) => (
