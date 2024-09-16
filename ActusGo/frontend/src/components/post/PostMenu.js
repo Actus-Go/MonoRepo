@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import MenuItem from "./MenuItem";
-import useOnClickOutside from "../../helpers/clickOutside";
+import useOnClickOutside from "../../utils/clickOutside";
 import { deletePost, savePost } from "../../functions/post";
 import { saveAs } from "file-saver";
 
