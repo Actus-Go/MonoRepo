@@ -21,6 +21,8 @@ import Public from "./public";
 import NewRoom from "./newRoom";
 import Home from "./home";
 import FriendsActive from "./friendsActive";
+export { default as HeartOutline } from "./HeartOutline";
+export { default as Heart } from "./Heart";
 
 export {
   Logo,
