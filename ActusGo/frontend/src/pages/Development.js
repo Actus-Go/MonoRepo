@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 
-const Explore = lazy(() => import("../components/ExplorePage/ExplorePage"));
+const Explore = lazy(() => import("../components/ExploreMedia/ExploreMedia"));
 
 export default function Development() {
 

@@ -2,9 +2,6 @@ import { ClapperboardIcon, Image } from "lucide-react";
 import { useState } from "react";
 import MediaPopup from "../Popup";
 
-
-
-// Main media exploration component
 export default function ExploreMedia({ media }) {
   const [selectedMedia, setSelectedMedia] = useState(null);
 
