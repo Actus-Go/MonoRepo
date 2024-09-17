@@ -1,35 +1,38 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { ArrowRight } from "../../icons";
 
-const Stories = () => {
+export default function Stories({ user }) {
   const [stories, setStories] = useState([]);
-  const [activeStoryIndex, setActiveStoryIndex] = useState(null); // For story navigation
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(null); // For navigating stories
 
-  const handleFileUpload = (event) => {
+  // Handles file upload and validation
+  const handleStoryUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const isValidFileType = file.type.includes('image') || file.type.includes('video');
-      const maxSizeInMB = 10;
-      const isValidFileSize = file.size / (1024 * 1024) <= maxSizeInMB;
+    if (!file) return;
 
-      if (isValidFileType && isValidFileSize) {
-        const newStory = {
-          id: stories.length,
-          url: URL.createObjectURL(file),
-          type: file.type.includes('video') ? 'video' : 'image',
-          user: {
-            name: `User ${stories.length + 1}`,
-            avatar: `https://via.placeholder.com/50?text=User${stories.length + 1}`,
-          },
-          viewed: false,
-        };
-        setStories([...stories, newStory]);
-      } else {
-        alert(`Please upload an image or video under ${maxSizeInMB}MB.`);
-      }
+    const isFileImageOrVideo = file.type.includes("image") || file.type.includes("video");
+    const fileSizeLimitMB = 10;
+    const isFileSizeValid = file.size / (1024 * 1024) <= fileSizeLimitMB;
+
+    if (isFileImageOrVideo && isFileSizeValid) {
+      const newStory = {
+        id: stories.length,
+        url: URL.createObjectURL(file),
+        type: file.type.includes("video") ? "video" : "image",
+        user: {
+          name: user.name,
+          avatar: user.avatar,
+        },
+        viewed: false,
+      };
+      setStories([...stories, newStory]);
+    } else {
+      alert(`Please upload an image or video under ${fileSizeLimitMB}MB.`);
     }
   };
 
-  const markStoryAsViewed = (index) => {
+  // Marks a story as viewed
+  const updateStoryAsViewed = (index) => {
     setStories(
       stories.map((story, i) =>
         i === index ? { ...story, viewed: true } : story
@@ -37,211 +40,236 @@ const Stories = () => {
     );
   };
 
-  const openFullScreen = (index) => {
-    setActiveStoryIndex(index);
-    markStoryAsViewed(index); // Mark the story as viewed when opened
+  // Opens a story in fullscreen and marks it as viewed
+  const openStory = (index) => {
+    setCurrentStoryIndex(index);
+    updateStoryAsViewed(index);
   };
 
-  const closeFullScreen = () => {
-    setActiveStoryIndex(null);
+  // Closes the fullscreen view
+  const closeStory = () => {
+    setCurrentStoryIndex(null);
   };
 
-  const goToPreviousStory = () => {
-    if (activeStoryIndex > 0) {
-      setActiveStoryIndex(activeStoryIndex - 1);
+  // Goes to the previous story
+  const navigatePreviousStory = () => {
+    if (currentStoryIndex > 0) {
+      let index = currentStoryIndex - 1;
+      setCurrentStoryIndex(index);
+      updateStoryAsViewed(index);
     }
   };
 
-  const goToNextStory = () => {
-    if (activeStoryIndex < stories.length - 1) {
-      setActiveStoryIndex(activeStoryIndex + 1);
+  // Goes to the next story
+  const navigateNextStory = () => {
+    if (currentStoryIndex < stories.length - 1) {
+      let index = currentStoryIndex + 1;
+      setCurrentStoryIndex(index);
+      updateStoryAsViewed(index);
     }
   };
 
   return (
     <>
-      <div className="mx-auto bg-gray-900 p-4 rounded-lg shadow-lg">
-        <h1 className="text-white text-xl p-2">Stories</h1>
+      <div className="bg-gray-900 flex flex-col overflow-x-auto gap-2 items-start p-6 pt-4 rounded-lg shadow-lg">
+        <h1 className="text-white text-xl text-start w-min left-0 sticky">Stories</h1>
 
-        <div className="flex  items-center pb-4">
-          <CreateStoryButton onFileUpload={handleFileUpload} />
+        <div className="flex items-center gap-4">
+          <StoryUploadButton onFileUpload={handleStoryUpload} />
+
           {stories.map((story, index) => (
-            <StoryCard
+            <StoryThumbnail
               key={story.id}
               story={story}
-              onStoryClick={() => openFullScreen(index)}
+              onClick={() => openStory(index)}
             />
           ))}
         </div>
       </div>
 
-      {activeStoryIndex !== null && (
-  <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-    <div className="absolute top-0 right-0 m-4 text-white z-10 bg-opacity-50 bg-slate-200  hover:bg-opacity-75 rounded-full w-8 h-8 flex items-center justify-center cursor-pointer">
-    <button
-      className=" text-2xl p-1"
-      onClick={closeFullScreen}
-    >
-      &times;
-    </button>
-
-    </div>
-    
-    {/* User Info */}
-    <div className="absolute top-5 left-5 flex items-center space-x-2 z-10">
-      <img
-        src={stories[activeStoryIndex].user.avatar}
-        alt={`${stories[activeStoryIndex].user.name} Avatar`}
-        className=" rounded-full border-2 border-red-500"
-      />
-      <p className="text-white font-semibold">{stories[activeStoryIndex].user.name}</p>
-    
-    </div>
-
-    {/* Story content */}
-    <div className="relative w-full max-w-xl h-auto p-4 ">
-    
-      {/* Left arrow */}
-      {activeStoryIndex > 0 && (
-        <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-slate-300 bg-opacity-50 rounded-full text-white w-7 h-7 text-xl"
-          onClick={goToPreviousStory}
-        >
-          &#8249;
-        </button>
-      )}
-      
-      {stories[activeStoryIndex].type === 'video' ? (
-        <video
-          src={stories[activeStoryIndex].url}
-          className="w-full h-auto max-h-screen rounded-lg"
-          controls
-          autoPlay
-        />
-      ) : (
-        <img
-          src={stories[activeStoryIndex].url}
-          alt={`Story ${stories[activeStoryIndex].id}`}
-          className="w-full h-auto max-h-screen rounded-lg"
+      {currentStoryIndex !== null && (
+        <FullScreenStory
+          story={stories[currentStoryIndex]}
+          onClose={closeStory}
+          onPrevious={navigatePreviousStory}
+          onNext={navigateNextStory}
+          isPreviousAvailable={currentStoryIndex > 0}
+          isNextAvailable={currentStoryIndex < stories.length - 1}
         />
       )}
-
-      {/* Right arrow */}
-      {activeStoryIndex < stories.length - 1 && (
-        <button
-          className="absolute right-0 top-1/2  transform -translate-y-1/2 bg-slate-300 bg-opacity-50 rounded-full text-white  w-7 h-7  text-xl"
-          onClick={goToNextStory}
-        >
-          &#8250;
-        </button>
-      )}
-    </div>
-  </div>
-)}
     </>
   );
 };
 
-const CreateStoryButton = ({ onFileUpload}) => (
+function StoryUploadButton({ onFileUpload }) {
+  return (
+    <>
+      <div className="relative flex-shrink-0 w-24 h-36 hidden md:block text-center rounded-xl overflow-hidden cursor-pointer border border-gray-700">
+        <label htmlFor="story-upload" className="w-full h-full flex flex-col items-center justify-end cursor-pointer">
+          <img
+            src="https://via.placeholder.com/96x144?text=USER"
+            alt="User"
+            className="absolute w-full h-full"
+          />
 
-  <>
-  <div className="relative flex-shrink-0 w-24 h-36 hidden md:block text-center rounded-xl overflow-hidden cursor-pointer border border-gray-700">
-    
-   
-    
-    <label htmlFor="story-upload" className="w-full h-full flex flex-col items-center justify-end">
-    <img src={`https://via.placeholder.com/50?text=User`} alt=""  className='absolute w-full h-full'/>
-      <div className="rounded-full right-0 z-10 bg-blue-500 flex items-center justify-center w-5 h-5">
-      <p className=' text-white  text-center  text-lg ' >+</p>
-    </div>
-    <p className="text-sm text-white font-semibold mb-2 z-10">Create Story</p>
-    </label>
-    <input
-      type="file"
-      id="story-upload"
-      accept="image/*,video/*"
-      onChange={onFileUpload}
-      className="hidden"
-    />
-  </div>
-  {/* moblie view */}
-  <div className="block md:hidden m-2">
-<div className="bottom-0 left-0 w-full h-12  flex flex-col items-center justify-center cursor-pointer"
-      
-  >
-  <div className=" relative bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded-full">
-  <div className="absolute bottom-0 rounded-full right-0 z-10 bg-blue-500 flex items-center justify-center w-5 h-5">
-      <p className=' text-white  text-center  text-lg ' >+</p>
-    </div>
-    <label htmlFor="story-upload" className=" w-full h-full relative left-0 flex flex-col items-center justify-center cursor-pointer">
-    <img
-      src={`https://via.placeholder.com/50?text=User`}
-      alt='avatar'
-      className="w-12 h-12 rounded-full"
-    />   
-    
-     </label>
+          <div className="rounded-full z-10 bg-blue-500 absolute left-1/2 bottom-6 -translate-x-1/2 w-5 aspect-square">
+            <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"></span>
+            <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-90"></span>
+          </div>
+
+          <p className="text-sm text-white font-semibold mb-2 z-10">Create Story</p>
+        </label>
+
         <input
-      type="file"
-      id="story-upload"
-      accept="image/*,video/*"
-      onChange={onFileUpload}
-      className="hidden"
-    />
-
-  </div>
-  <p className="text-white text-xs ml-2"> my story</p>
-</div>
-</div>
-
-  </>
-  
-);
-
-const StoryCard = ({ story, onStoryClick }) => (
-
-  <>
-    <div 
-    className={`relative w-24 h-36 mx-2 rounded-xl overflow-hidden hidden md:block cursor-pointer transition-transform transform hover:scale-105 ${
-      story.viewed ? 'bg-gray-400' : 'bg-gradient-to-br from-gray-400 to-gray-600'
-    }`} 
-    onClick={onStoryClick}
-  >
-    {story.type === 'video' ? (
-      <video src={story.url} className="w-full h-full object-cover" />
-    ) : (
-      <img src={story.url} alt={`Story ${story.id}`} className="w-full h-full object-cover" />
-    )}
-    <div className="absolute bottom-0 left-0 w-full h-14 bg-gradient-to-t from-black to-transparent flex flex-col items-center justify-center">
-      <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5 rounded-full">
-        <img
-          src={story.user.avatar}
-          alt={`${story.user.name} Avatar`}
-          className="w-8 h-8 rounded-full"
+          type="file"
+          id="story-upload"
+          accept="image/*,video/*"
+          onChange={onFileUpload}
+          className="hidden"
         />
       </div>
-      <p className="text-white text-xs ml-2">{story.user.name}</p>
+
+      {/* Mobile View */}
+      <div className="block md:hidden m-2">
+        <MobileStoryUploadButton onFileUpload={onFileUpload} />
+      </div>
+    </>
+  );
+}
+
+function MobileStoryUploadButton({ onFileUpload }) {
+  return (
+    <div className="bottom-0 left-0 w-12 flex flex-col flex-none items-center justify-center cursor-pointer">
+      <div className="relative bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5 rounded-full">
+        <label htmlFor="story-upload" className="relative left-0 flex flex-col items-center justify-center cursor-pointer">
+          <img
+            src="https://via.placeholder.com/200?text=User"
+            alt="avatar"
+            className="w-12 aspect-square rounded-full"
+          />
+
+          <div className="rounded-full z-10 bg-blue-500 absolute right-0 translate-x-1 bottom-0 w-4 aspect-square">
+            <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"></span>
+            <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rotate-90"></span>
+          </div>
+        </label>
+
+        <input
+          type="file"
+          id="story-upload"
+          accept="image/*,video/*"
+          onChange={onFileUpload}
+          className="hidden"
+        />
+      </div>
+      <p className="text-white text-xs ml-2 text-nowrap">My Story</p>
     </div>
-  </div>
+  );
+}
 
-<div className="block md:hidden mx-1.5">
-<div className="bottom-0 left-0 w-full h-12  flex flex-col items-center justify-center cursor-pointer"
-      onClick={onStoryClick}
+function StoryThumbnail({ story, onClick }) {
+  return (
+    <>
+      {/* Desktop View */}
+      <div
+        className={`relative w-24 h-36 rounded-xl overflow-hidden hidden md:block cursor-pointer transition-transform transform hover:scale-105 ${story.viewed ? "bg-gray-400" : "bg-gradient-to-br from-gray-400 to-gray-600"}`}
+        onClick={onClick}
+      >
+        {story.type === "video" ? (
+          <video src={story.url} className="min-w-full min-h-full object-cover" />
+        ) : (
+          <img
+            src={story.url}
+            alt={`Story ${story.id}`}
+            className="min-w-full min-h-full object-cover"
+          />
+        )}
 
-  >
-  <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded-full">
-    <img
-      src={story.user.avatar}
-      alt={`${story.user.name} Avatar`}
-      className="w-12 h-12 rounded-full"
-    />
-  </div>
-  <p className="text-white text-xs ml-2">{story.user.name}</p>
-</div>
-</div>
+        <div className="absolute bottom-2 left-0 w-full h-14 bg-gradient-to-t from-black to-transparent flex flex-col items-center justify-center">
+          <div className={`p-0.5 rounded-full ${story.viewed ? "bg-gray-400" : "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"}`}>
+            <img
+              src={story.user.avatar}
+              alt={`${story.user.name}'s Avatar`}
+              className="w-8 h-8 rounded-full"
+            />
+          </div>
 
+          <p className="text-white text-xs">{story.user.name}</p>
+        </div>
+      </div>
 
-  </>
-);
+      {/* Mobile View */}
+      <div className="flex relative  flex-col items-center flex-none cursor-pointer md:hidden" onClick={onClick}>
+        <div className={`p-0.5 rounded-full ${story.viewed ? "bg-gray-400" : "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"}`}>
+          <img
+            src={story.user.avatar}
+            alt={`${story.user.name}'s Avatar`}
+            className="w-12 aspect-square rounded-full"
+          />
+        </div>
 
-export default Stories;
+        <p className="text-white text-xs text-nowrap">{story.user.name}</p>
+      </div>
+    </>
+  );
+}
+
+function FullScreenStory({ story, onClose, onPrevious, onNext, isPreviousAvailable, isNextAvailable }) {
+  return (
+    <div className="fixed inset-0 bg-black/85 flex items-center justify-center z-[9999999999999999]">
+      {/* Close button */}
+      <button onClick={onClose} className="text-2xl p-1 absolute top-10 right-10 hover:rotate-[225deg] hover:scale-110 rotate-0 transition-all group text-white z-10 bg-opacity-50 bg-slate-200 hover:bg-opacity-75 rounded-full w-8 h-8 flex items-center justify-center cursor-pointer">
+        <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"></span>
+        <span className="bg-white text-lg h-0.5 w-2/3 absolute rounded-full inline-block left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 group-hover:rotate-90 transition-all"></span>
+      </button>
+
+      {/* User info */}
+      <div className="absolute top-10 left-10 flex items-center justify-center gap-2 z-10">
+        <div className="w-12 aspect-square rounded-full overflow-hidden flex justify-center items-center">
+          <img
+            src={story.user.avatar}
+            alt={`${story.user.name}'s Avatar`}
+            className="rounded-full border-2 border-red-500 min-w-full min-h-full object-cover"
+          />
+        </div>
+
+        <p className="text-white font-semibold">{story.user.name}</p>
+      </div>
+
+      {/* Story content */}
+      <div className="relative w-4/5 max-w-2xl group h-auto">
+        {isPreviousAvailable && (
+          <button
+            className="absolute group-hover:left-10 transition-all opacity-40 group-hover:opacity-100 left-16 top-1/2 transform -translate-y-1/2 rotate-180 p-2 bg-slate-500/80 rounded-full text-white w-10 aspect-square text-xl"
+            onClick={onPrevious}
+          >
+            <span className="w-5 aspect-square">
+              <ArrowRight />
+            </span>
+          </button>
+        )}
+
+        {story.type === "video" ? (
+          <video src={story.url} className="w-full h-auto max-h-screen rounded-lg" controls autoPlay />
+        ) : (
+          <img
+            src={story.url}
+            alt={`Story ${story.id}`}
+            className="w-full h-auto max-h-screen rounded-lg"
+          />
+        )}
+
+        {isNextAvailable && (
+          <button
+            className="absolute group-hover:right-10 transition-all opacity-40 group-hover:opacity-100 right-16 top-1/2 -translate-y-1/2 transform p-2 bg-slate-500/80 rounded-full text-white w-10 aspect-square text-xl"
+            onClick={onNext}
+          >
+            <span className="w-5 aspect-square">
+              <ArrowRight />
+            </span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}

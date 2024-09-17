@@ -9,13 +9,13 @@ import {
   HomeActive,
   Market,
   Search,
-} from "../../svg";
+} from "../../icons";
 import { useSelector } from "react-redux";
 import SearchMenu from "./SearchMenu";
 import { useRef, useState } from "react";
-import useClickOutside from "../../helpers/clickOutside";
+import useClickOutside from "../../utils/clickOutside";
 import UserMenu from "./userMenu";
-import Map from "../../svg/watch";
+import Map from "../../icons/watch";
 
 
 export default function Header({ page, getAllPosts }) {

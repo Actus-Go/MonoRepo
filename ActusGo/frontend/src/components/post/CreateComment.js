@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Picker from "emoji-picker-react";
 import { comment } from "../../functions/post";
 import { uploadImages } from "../../functions/uploadImages";
-import dataURItoBlob from "../../helpers/dataURItoBlob";
+import dataURItoBlob from "../../utils/dataURItoBlob";
 import { BeatLoader
 } from "react-spinners";
 export default function CreateComment({ user, postId, setComments, setCount }) {
