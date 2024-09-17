@@ -11,6 +11,7 @@
     "aws-sdk": "^2.799.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
+    "chalk": "^2.4.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dompurify": "^2.3.8",
@@ -29,8 +30,8 @@
     "passport-jwt": "^4.0.0",
     "socket.io": "^4.7.5",
     "stripe": "^15.4.0",
-    "validatorjs": "^3.18.1",
-    "chalk": "^2.4.2"
+    "swagger-ui-express": "^5.0.1",
+    "validatorjs": "^3.18.1"
   },
   "devDependencies": {
     "cross-env": "^5.2.1",

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../functions/post";
 import { uploadImages } from "../../functions/uploadImages";
 import { updateprofilePicture } from "../../functions/user";
-import getCroppedImg from "../../helpers/getCroppedImg";
+import getCroppedImg from "../../utils/getCroppedImg";
 import PulseLoader from "react-spinners/PulseLoader";
 import Cookies from "js-cookie";
 export default function UpdateProfilePicture({

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./style.css";
 import Moment from "react-moment";
-import { Dots } from "../../svg";
+import { Dots } from "../../icons";
 import ReactsPopup from "./ReactsPopup";
 import { useContext, useEffect, useRef, useState } from "react";
 import CreateComment from "./CreateComment";

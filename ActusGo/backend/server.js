@@ -82,6 +82,10 @@ app.post('/register-hook', async (req, res) => {
 //routes
 readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
 
+const swaggerUi = require("swagger-ui-express");
+
+app.use("/swagger-docs", swaggerUi.serve, swaggerUi.setup(require("./swagger-docs")));
+
 //database
 mongoose
   .connect(process.env.DATABASE_URL, {
