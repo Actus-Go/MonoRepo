@@ -26,7 +26,7 @@ import LocationPopup from "./components/Location/LocationPopup";
 import NotificationBar from "./components/Notifications/NotificationBar";
 import { generateDemoNotifications } from "./components/Notifications/notificationData";
 
-// Lazy load MapComponent
+// Lazy load components
 const Tasks = lazy(() => import("./pages/tasks"));
 
 function App() {
@@ -47,26 +47,9 @@ function App() {
     }
   }, [user]);
 
-  useCallback(() => {
-    if (navigator.geolocation && userLocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-        },
-        (error) => console.error("Error getting user location:", error),
-        { enableHighAccuracy: true }
-      );
-
-      return () => navigator.geolocation.clearWatch(watchId);
-    }
-  }, [userLocation]);
-
   const getAllPosts = async () => {
     try {
-      dispatch({
-        type: "POSTS_REQUEST",
-      });
+      dispatch({ type: "POSTS_REQUEST" });
       const { data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getAllPosts`,
         {
@@ -94,15 +77,38 @@ function App() {
     setPopupVisible(false);
   };
 
-  
   const notifications = generateDemoNotifications(30);
   const [isOpen, setIsOpen] = useState(true);
+
+  const trackLocation = useCallback(() => {
+    if (navigator.geolocation && !userLocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => console.error("Error getting user location:", error),
+        { enableHighAccuracy: true }
+      );
+
+      return () => navigator.geolocation.clearWatch(watchId);
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
+    trackLocation();
+  }, [trackLocation]);
 
   return (
     <>
       <div className="flex justify-evenly flex-col md:flex-row items-start">
-        <NotificationBar isOpen={isOpen} onClose={() => setIsOpen(false)} notifications={notifications}  />
+        <NotificationBar
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          notifications={notifications}
+        />
       </div>
+
       <div className="">
         <OnlineIndicator />
         {popupVisible && (
@@ -111,7 +117,7 @@ function App() {
             setPopupVisible={setPopupVisible}
           />
         )}
-        <div className={`${darkTheme && "dark"}`}>
+        <div className={`${darkTheme ? "dark" : ""}`}>
           {visible && (
             <CreatePostPopup
               user={user}
@@ -120,6 +126,7 @@ function App() {
               dispatch={dispatch}
             />
           )}
+
           <Routes>
             <Route path="/development" element={<Development />} exact />
 
@@ -175,14 +182,14 @@ function App() {
               />
               <Route path="/activate/:token" element={<Activate />} exact />
             </Route>
+
             <Route element={<NotLoggedInRoutes />}>
               <Route path="/login" element={<Login />} exact />
             </Route>
             <Route path="/reset" element={<Reset />} />
           </Routes>
-          <div>
-            <CustomNav user={user} />
-          </div>
+
+          <CustomNav user={user} />
         </div>
       </div>
     </>
