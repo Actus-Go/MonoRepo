@@ -1,5 +1,4 @@
 import Categories from "../components/labels/Categories";
-import avatar from "../components/labels/Avatar.png";
 import { Coins } from "lucide-react";
 
 export default function Development() {
