@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useSelector } from "react-redux";
-import useClickOutside from "../../helpers/clickOutside";
+import useClickOutside from "../../utils/clickOutside";
 
 export default function OldCovers({ photos, setCoverPicture, setShow }) {
   const { user } = useSelector((state) => ({ ...state }));

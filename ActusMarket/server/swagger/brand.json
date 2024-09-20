@@ -1,0 +1,785 @@
+{
+  "paths": {
+    "/api/brand/add": {
+      "post": {
+        "summary": "Add a new brand (Admin only)",
+        "description": "Creates a new brand with the provided name, description, coordinates, and sector.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the brand.",
+                    "example": "BrandX"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A description of the brand.",
+                    "example": "A leading provider of innovative products."
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Indicates whether the brand is active.",
+                    "example": true
+                  },
+                  "coordinates": {
+                    "type": "string",
+                    "description": "Geographical coordinates of the brand's location, in the format 'latitude,longitude'.",
+                    "example": "34.0522,-118.2437"
+                  },
+                  "sector": {
+                    "type": "string",
+                    "description": "The sector to which the brand belongs.",
+                    "example": "Technology"
+                  }
+                },
+                "required": ["name", "description", "coordinates", "sector"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Brand added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indicates if the operation was successful."
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Brand has been added successfully!",
+                      "description": "A message confirming the brand's addition."
+                    },
+                    "brand": {
+                      "type": "object",
+                      "description": "Details of the newly created brand.",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "BrandX"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A leading provider of innovative products."
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "Point"
+                            },
+                            "coordinates": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "example": [34.0522, -118.2437]
+                            }
+                          }
+                        },
+                        "sector": {
+                          "type": "string",
+                          "example": "Technology"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "You must enter right data.",
+                      "description": "Error message explaining the reason for the failure."
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "name is required"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "description is required"
+                    },
+                    "coordinates": {
+                      "type": "string",
+                      "example": "coordinates is required"
+                    },
+                    "sector": {
+                      "type": "string",
+                      "example": "sector is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brand/list": {
+      "get": {
+        "summary": "List all active brands",
+        "description": "Retrieves a list of all active brands, including the associated merchant's name.",
+        "tags": ["Brand"],
+        "responses": {
+          "200": {
+            "description": "List of active brands",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f2c0b2b9cce23bd9a1b1c3"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "BrandX"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "A leading provider of innovative products."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "Point"
+                              },
+                              "coordinates": {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                },
+                                "example": [34.0522, -118.2437]
+                              }
+                            }
+                          },
+                          "sector": {
+                            "type": "string",
+                            "example": "Technology"
+                          },
+                          "merchant": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "64f2c0b2b9cce23bd9a1b1c4"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "MerchantX"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brand": {
+      "get": {
+        "summary": "List all brands (Admin and Merchant only)",
+        "description": "Retrieves a list of all brands. Admin users can see all brands, while Merchants see only their own brands.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of brands",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f2c0b2b9cce23bd9a1b1c3"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "BrandX"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "A leading provider of innovative products."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "Point"
+                              },
+                              "coordinates": {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                },
+                                "example": [34.0522, -118.2437]
+                              }
+                            }
+                          },
+                          "sector": {
+                            "type": "string",
+                            "example": "Technology"
+                          },
+                          "merchant": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "64f2c0b2b9cce23bd9a1b1c4"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "MerchantX"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brand/{id}": {
+      "get": {
+        "summary": "Get brand details by ID",
+        "description": "Retrieves the details of a specific brand by its ID.",
+        "tags": ["Brand"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the brand to retrieve",
+            "schema": {
+              "type": "string",
+              "example": "64f2c0b2b9cce23bd9a1b1c3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Brand details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brand": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "64f2c0b2b9cce23bd9a1b1c3"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "BrandX"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "A leading provider of innovative products."
+                        },
+                        "isActive": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "Point"
+                            },
+                            "coordinates": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "example": [34.0522, -118.2437]
+                            }
+                          }
+                        },
+                        "sector": {
+                          "type": "string",
+                          "example": "Technology"
+                        },
+                        "merchant": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "64f2c0b2b9cce23bd9a1b1c4"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot find brand with the id: 64f2c0b2b9cce23bd9a1b1c3.",
+                      "description": "Error message explaining that the brand could not be found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update brand details (Admin and Merchant only)",
+        "description": "Updates the details of a specific brand by its ID. Admin users can update any brand, while Merchants can only update their own brands.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the brand to update",
+            "schema": {
+              "type": "string",
+              "example": "64f2c0b2b9cce23bd9a1b1c3"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "brand": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "BrandX"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "A leading provider of innovative products."
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "Point"
+                          },
+                          "coordinates": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "example": [34.0522, -118.2437]
+                          }
+                        }
+                      },
+                      "sector": {
+                        "type": "string",
+                        "example": "Technology"
+                      },
+                      "slug": {
+                        "type": "string",
+                        "example": "brandx"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Brand updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Brand has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or Slug conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Slug is already in use.",
+                      "description": "Error message indicating that the provided slug is already used by another brand."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brand/list/select": {
+      "get": {
+        "summary": "Get a list of brand names (Admin and Merchant only)",
+        "description": "Retrieves a list of brand names. Admin users can see all brand names, while Merchants can only see their own brand names.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of brand names retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f2c0b2b9cce23bd9a1b1c3"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "BrandX"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brand/{id}/active": {
+      "put": {
+        "summary": "Update brand's active status (Admin and Mervhant only)",
+        "description": "Updates the active status of a specific brand by its ID. If the brand is deactivated, associated products will also be disabled.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the brand to update",
+            "schema": {
+              "type": "string",
+              "example": "64f2c0b2b9cce23bd9a1b1c3"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "brand": {
+                    "type": "object",
+                    "properties": {
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Brand status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Brand has been updated successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete/{id}": {
+      "delete": {
+        "summary": "Delete a brand by ID (Admin only)",
+        "description": "Deletes a brand by its ID. This action is restricted to Admin users and also deactivates the associated merchant.",
+        "tags": ["Brand"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the brand to delete",
+            "schema": {
+              "type": "string",
+              "example": "64f2c0b2b9cce23bd9a1b1c3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Brand deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Brand has been deleted successfully!"
+                    },
+                    "brand": {
+                      "type": "object",
+                      "description": "The deleted brand details."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again.",
+                      "description": "Error message explaining the reason for the failure."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

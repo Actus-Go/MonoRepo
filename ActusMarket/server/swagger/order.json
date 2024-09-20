@@ -1,0 +1,686 @@
+{
+  "paths": {
+    "/api/order/add": {
+      "post": {
+        "tags": ["Order"],
+        "summary": "Place a new order",
+        "description": "Creates a new order based on the provided cart and optional coupon. Accessible by authenticated users.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cartId": {
+                    "type": "string",
+                    "description": "ID of the cart associated with the order",
+                    "example": "64f7d1baf0c2ab001b74f2aa"
+                  },
+                  "total": {
+                    "type": "number",
+                    "description": "Total amount for the order",
+                    "example": 150.75
+                  },
+                  "coupon": {
+                    "type": "string",
+                    "description": "Optional coupon ID for applying a discount",
+                    "example": "64f7d1baf0c2ab001b74f2bb"
+                  }
+                },
+                "required": ["cartId", "total"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order placed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Your order has been placed successfully!"
+                    },
+                    "order": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "64f7d1baf0c2ab001b74f2cc"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data or request could not be processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/search": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "Search for orders",
+        "description": "Search for orders by order ID. Admins can search any order, while other users can only search their own orders.",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The order ID to search for",
+              "example": "64f7d1baf0c2ab001b74f2cc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orders": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f7d1baf0c2ab001b74f2cc"
+                          },
+                          "total": {
+                            "type": "number",
+                            "example": 150.75
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-09-01T00:00:00Z"
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "product": {
+                                  "type": "string",
+                                  "description": "ID of the product",
+                                  "example": "64f7d1baf0c2ab001b74f2aa"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "description": "Quantity of the product ordered",
+                                  "example": 2
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or order ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "Fetch orders with pagination",
+        "description": "Fetches a paginated list of orders, sorted by creation date in descending order. Admins can view all orders, while other users can only view their own orders.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "description": "Page number for pagination",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "description": "Number of orders per page",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of orders with pagination info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orders": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f7d1baf0c2ab001b74f2cc"
+                          },
+                          "total": {
+                            "type": "number",
+                            "example": 150.75
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-09-01T00:00:00Z"
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "product": {
+                                  "type": "string",
+                                  "description": "ID of the product",
+                                  "example": "64f7d1baf0c2ab001b74f2aa"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "description": "Quantity of the product ordered",
+                                  "example": 2
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Total number of orders",
+                      "example": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/me": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "Fetch user orders with pagination",
+        "description": "Fetches a paginated list of the authenticated user's orders, sorted by creation date in descending order.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "description": "Page number for pagination",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "description": "Number of orders per page",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of user's orders with pagination info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orders": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64f7d1baf0c2ab001b74f2cc"
+                          },
+                          "total": {
+                            "type": "number",
+                            "example": 150.75
+                          },
+                          "created": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-09-01T00:00:00Z"
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "product": {
+                                  "type": "string",
+                                  "description": "ID of the product",
+                                  "example": "64f7d1baf0c2ab001b74f2aa"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "description": "Quantity of the product ordered",
+                                  "example": 2
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Total number of user's orders",
+                      "example": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/{orderId}": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "Fetch an order by ID",
+        "description": "Fetches details of a specific order by its ID. Admins can fetch any order, while regular users can only fetch their own orders.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the order to retrieve",
+              "example": "64f7d1baf0c2ab001b74f2cc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "order": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "64f7d1baf0c2ab001b74f2cc"
+                        },
+                        "total": {
+                          "type": "number",
+                          "example": 150.75
+                        },
+                        "created": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2024-09-01T00:00:00Z"
+                        },
+                        "totalTax": {
+                          "type": "number",
+                          "example": 12.5
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "product": {
+                                "type": "string",
+                                "description": "ID of the product",
+                                "example": "64f7d1baf0c2ab001b74f2aa"
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "description": "Quantity of the product ordered",
+                                "example": 2
+                              }
+                            }
+                          }
+                        },
+                        "cartId": {
+                          "type": "string",
+                          "description": "The ID of the cart associated with the order",
+                          "example": "64f7d1baf0c2ab001b74f2dd"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot find order with the id: 64f7d1baf0c2ab001b74f2cc."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/cancel/{orderId}": {
+      "delete": {
+        "tags": ["Order"],
+        "summary": "Cancel an order",
+        "description": "Cancels an order by its ID. This operation also increases the quantity of the products in the cart back to their original stock levels.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the order to cancel",
+              "example": "64f7d1baf0c2ab001b74f2cc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order successfully canceled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or error during cancellation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/order/status/item/{itemId}": {
+      "put": {
+        "tags": ["Order"],
+        "summary": "Update the status of an item in an order",
+        "description": "Updates the status of an item in the cart associated with an order. If the item's status is set to 'Cancelled' and all items in the cart are cancelled, the entire order and cart are deleted.",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the item to update",
+              "example": "64f7d1baf0c2ab001b74f2cc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "description": "The ID of the order that contains the item",
+                    "example": "64f7d1baf0c2ab001b74f2dd"
+                  },
+                  "cartId": {
+                    "type": "string",
+                    "description": "The ID of the cart that contains the item",
+                    "example": "64f7d1baf0c2ab001b74f2ee"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The new status of the item",
+                    "example": "Cancelled"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item status successfully updated or cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Item status has been updated successfully!"
+                    },
+                    "orderCancelled": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or error during status update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Your request could not be processed. Please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ import Search from "./search";
 import Return from "./return";
 import ArrowDown1 from "./arrowDow1";
 import Plus from "./plus";
-import ArrowRight from "./arrowRight";
+import ArrowRight from "./ArrowRight.js";
 import LiveVideo from "./liveVideo";
 import Photo from "./photo";
 import Feeling from "./feeling";
@@ -21,6 +21,8 @@ import Public from "./public";
 import NewRoom from "./newRoom";
 import Home from "./home";
 import FriendsActive from "./friendsActive";
+export { default as HeartOutline } from "./HeartOutline";
+export { default as Heart } from "./Heart";
 
 export {
   Logo,

@@ -13,18 +13,20 @@ import { postsReducer } from "./functions/reducers";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Home from "./pages/home";
+import Development from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/activate";
 import Reset from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import Friends from "./pages/friends";
-// import Tasks from "./pages/tasks";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
-import Categories from "./components/labels/Categories";
-// Lazy load MapComponent
+import NotificationBar from "./components/Notifications/NotificationBar";
+import { generateDemoNotifications } from "./components/Notifications/notificationData";
+
+// Lazy load components
 const Tasks = lazy(() => import("./pages/tasks"));
 
 function App() {
@@ -45,26 +47,9 @@ function App() {
     }
   }, [user]);
 
-  useCallback(() => {
-    if (navigator.geolocation && userLocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-        },
-        (error) => console.error("Error getting user location:", error),
-        { enableHighAccuracy: true }
-      );
-
-      return () => navigator.geolocation.clearWatch(watchId);
-    }
-  }, [userLocation]);
-
   const getAllPosts = async () => {
     try {
-      dispatch({
-        type: "POSTS_REQUEST",
-      });
+      dispatch({ type: "POSTS_REQUEST" });
       const { data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getAllPosts`,
         {
@@ -92,9 +77,38 @@ function App() {
     setPopupVisible(false);
   };
 
+  const notifications = generateDemoNotifications(30);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const trackLocation = useCallback(() => {
+    if (navigator.geolocation && !userLocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => console.error("Error getting user location:", error),
+        { enableHighAccuracy: true }
+      );
+
+      return () => navigator.geolocation.clearWatch(watchId);
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
+    trackLocation();
+  }, [trackLocation]);
+
   return (
     <>
-      <Categories />
+      <div className="flex justify-evenly flex-col md:flex-row items-start">
+        <NotificationBar
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          notifications={notifications}
+        />
+      </div>
+
       <div className="">
         <OnlineIndicator />
         {popupVisible && (
@@ -103,7 +117,7 @@ function App() {
             setPopupVisible={setPopupVisible}
           />
         )}
-        <div className={`${darkTheme && "dark"}`}>
+        <div className={`${darkTheme ? "dark" : ""}`}>
           {visible && (
             <CreatePostPopup
               user={user}
@@ -112,7 +126,10 @@ function App() {
               dispatch={dispatch}
             />
           )}
+
           <Routes>
+            <Route path="/development" element={<Development />} exact />
+
             <Route element={<LoggedInRoutes />}>
               <Route
                 path="/profile"
@@ -165,14 +182,14 @@ function App() {
               />
               <Route path="/activate/:token" element={<Activate />} exact />
             </Route>
+
             <Route element={<NotLoggedInRoutes />}>
               <Route path="/login" element={<Login />} exact />
             </Route>
             <Route path="/reset" element={<Reset />} />
           </Routes>
-          <div>
-            <CustomNav user={user} />
-          </div>
+
+          <CustomNav user={user} />
         </div>
       </div>
     </>

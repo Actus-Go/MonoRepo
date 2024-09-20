@@ -1,0 +1,497 @@
+{
+    "paths": {
+    "/api/user/search": {
+        "get": {
+        "tags": ["User"],
+        "summary": "Search for users",
+        "description": "Search for users by first name, last name, or email.",
+        "operationId": "searchUsers",
+        "parameters": [
+            {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "description": "Search term to filter users by first name, last name, or email.",
+            "schema": {
+                "type": "string"
+            }
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "A list of users matching the search criteria.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "users": {
+                        "type": "array",
+                        "items": {
+                        "type": "object",
+                        "properties": {
+                            "lastLocation": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                "type": "string",
+                                "example": "Point"
+                                },
+                                "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                },
+                                "example": [0, 0]
+                                }
+                            },
+                            "required": ["type", "coordinates"]
+                            },
+                            "merchant": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                "type": "string"
+                                }
+                            }
+                            },
+                            "provider": {
+                            "type": "string"                      
+                            },
+                            "role": {
+                            "type": "string"
+                            },
+                            "userType": {
+                            "type": "string"
+                            },
+                            "email": {
+                            "type": "string"
+                            },
+                            "firstName": {
+                            "type": "string"
+                            },
+                            "lastName": {
+                            "type": "string"
+                            },
+                            "created": {
+                            "type": "string",
+                            "format": "date-time"
+                            },
+                            "__v": {
+                            "type": "integer"
+                            }
+                        },
+                        "required": ["email", "firstName", "lastName"]
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ]
+        }
+    },
+    "/api/user": {
+        "get": {
+        "tags": ["User"],
+        "summary": "Fetch users",
+        "description": "Retrieve a paginated list of users.",
+        "operationId": "getUsers",
+        "parameters": [
+            {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination.",
+            "schema": {
+                "type": "integer",
+                "example": 1
+            }
+            },
+            {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of users per page.",
+            "schema": {
+                "type": "integer",
+                "example": 10
+            }
+            }
+        ],
+        "responses": {
+            "200": {
+            "description": "A paginated list of users.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "users": {
+                        "type": "array",
+                        "items": {
+                        "type": "object",
+                        "properties": {
+                            "lastLocation": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                "type": "string"
+                                },
+                                "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                                }
+                            },
+                            "required": ["type", "coordinates"]
+                            },
+                            "merchant": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                "type": "string"
+                                }
+                            }
+                            },
+                            "provider": {
+                            "type": "string"
+                            },
+                            "role": {
+                            "type": "string"
+                            },
+                            "userType": {
+                            "type": "string"
+                            },
+                            "email": {
+                            "type": "string"
+                            },
+                            "firstName": {
+                            "type": "string"
+                            },
+                            "lastName": {
+                            "type": "string"
+                            },
+                            "created": {
+                            "type": "string",
+                            "format": "date-time"
+                            },
+                            "__v": {
+                            "type": "integer"
+                            }
+                        },
+                        "required": ["email", "firstName", "lastName"]
+                        }
+                    },
+                    "totalPages": {
+                        "type": "integer"
+                    },
+                    "currentPage": {
+                        "type": "integer"
+                    },
+                    "count": {
+                        "type": "integer"
+                    }
+                    },
+                    "required": ["users", "totalPages", "currentPage", "count"]
+                }
+                }
+            }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ]
+        },
+        "put": {
+        "tags": ["User"],
+        "summary": "Update user profile",
+        "description": "Update the profile of the currently authenticated user.",
+        "operationId": "updateUserProfile",
+        "requestBody": {
+            "required": true,
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "profile": {
+                    "type": "object",
+                    "properties": {
+                        "firstName": {
+                        "type": "string"
+                        },
+                        "lastName": {
+                        "type": "string"
+                        },
+                        "phoneNumber": {
+                        "type": "string"
+                        },
+                        "avatar": {
+                        "type": "string"
+                        }
+                    },
+                    "required": ["firstName", "lastName"]
+                    }
+                }
+                }
+            }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Profile updated successfully.",
+                "content": {
+                "application/json": {
+                    "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                        "type": "boolean"
+                        },
+                        "message": {
+                        "type": "string"
+                        },
+                        "user": {
+                        "type": "object",
+                        "properties": {
+                            "lastLocation": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                "type": "string"
+                                },
+                                "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                                }
+                            },
+                            "required": ["type", "coordinates"]
+                            },
+                            "merchant": {
+                            "type": "object",
+                            "nullable": true,
+                            "properties": {
+                                "name": {
+                                "type": "string"
+                                }
+                            }
+                            },
+                            "provider": {
+                            "type": "string"
+                            },
+                            "role": {
+                            "type": "string"
+                            },
+                            "userType": {
+                            "type": "string"
+                            },
+                            "_id": {
+                            "type": "string"
+                            },
+                            "email": {
+                            "type": "string"
+                            },
+                            "password": {
+                            "type": "string"
+                            },
+                            "firstName": {
+                            "type": "string"
+                            },
+                            "lastName": {
+                            "type": "string"
+                            },
+                            "created": {
+                            "type": "string",
+                            "format": "date-time"
+                            },
+                            "__v": {
+                            "type": "integer"
+                            },
+                            "avatar": {
+                            "type": "string"
+                            },
+                            "phoneNumber": {
+                            "type": "string"
+                            }
+                        },
+                        "required": ["_id", "email", "firstName", "lastName", "created"]
+                        }
+                    },
+                    "required": ["success", "message", "user"]
+                    }
+                }
+                }
+            },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ]
+        }
+    },
+    "/api/user/me": {
+        "get": {
+        "tags": ["User"],
+        "summary": "Get current user profile",
+        "description": "Retrieve the profile of the currently authenticated user.",
+        "operationId": "getCurrentUserProfile",
+        "responses": {
+        "200": {
+            "description": "A list of users matching the search criteria.",
+            "content": {
+            "application/json": {
+                "schema": {
+                "type": "object",
+                "properties": {
+                    "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                        "lastLocation": {
+                            "type": "object",
+                            "properties": {
+                            "type": {
+                                "type": "string",
+                                "example": "Point"
+                            },
+                            "coordinates": {
+                                "type": "array",
+                                "items": {
+                                "type": "number"
+                                },
+                                "example": [0, 0]
+                            }
+                            },
+                            "required": ["type", "coordinates"]
+                        },
+                        "merchant": {
+                            "type": "object",
+                            "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                            }
+                        },
+                        "provider": {
+                            "type": "string"
+                        },
+                        "role": {
+                            "type": "string"
+                        },
+                        "userType": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "firstName": {
+                            "type": "string"
+                        },
+                        "lastName": {
+                            "type": "string"
+                        },
+                        "created": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "__v": {
+                            "type": "integer",
+                            "example": 0
+                        }
+                        },
+                        "required": ["email", "firstName", "lastName"]
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+            "400": {
+            "description": "Bad request. Could not process the request.",
+            "content": {
+                "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Your request could not be processed. Please try again."
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "security": [
+            {
+            "BearerAuth": []
+            }
+        ]
+        }
+    }
+    }
+}
