@@ -12,6 +12,7 @@
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.25.0",
     "axios": "^1.7.2",
+    "classnames": "^2.5.1",
     "emoji-picker-react": "^4.5.16",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
