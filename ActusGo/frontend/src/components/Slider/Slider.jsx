@@ -1,5 +1,11 @@
-export default function Slider() {
+export default function Slider({ slides }) {
     return (
-        <div>Slider</div>
+        <div>
+            {slides.map((slide) => (
+                <div>
+                    {slide}
+                </div>
+            ))}
+        </div>
     )
 }
