@@ -1,67 +1,38 @@
-import Categories from "../components/labels/Categories";
-import { Coins } from "lucide-react";
+import OffersSlider from "../components/OffersSlider";
 
 export default function Development() {
-    const categories = [
-        {
-            name: "ALL",
-            bg: "bg-purple-300",
-            hoverBg: "hover:bg-purple-400",
-            text: "text-purple-400",
-            hoverText: "hover:text-purple-800",
-            icon: (<Coins size={20} />)
-        },
-        {
-            name: "Top Offers",
-            bg: "bg-green-200",
-            hoverBg: "hover:bg-green-400",
-            text: "text-green-600",
-            hoverText: "hover:text-green-800",
-            icon: (<Coins size={20} />)
-        },
-        {
-            name: "Food & Beverage",
-            bg: "bg-red-200",
-            hoverBg: "hover:bg-red-400",
-            text: "text-red-400",
-            hoverText: "hover:text-red-800",
-            icon: (<Coins size={20} />)
-        },
-        {
-            name: "Fun & Activities",
-            bg: "bg-purple-100",
-            hoverBg: "hover:bg-purple-400",
-            text: "text-purple-400",
-            hoverText: "hover:text-purple-800",
-            icon: (<Coins size={20} />)
-        },
-        {
-            name: "Clothing & Accessories",
-            bg: "bg-green-200",
-            hoverBg: "hover:bg-green-400",
-            text: "text-green-600",
-            hoverText: "hover:text-green-800",
-            icon: (<Coins size={20} />)
-        },
-        {
-            name: "Health & Beauty",
-            bg: "bg-purple-100",
-            hoverBg: "hover:bg-purple-200",
-            text: "text-purple-700",
-            hoverText: "hover:text-purple-800",
-            icon: (<Coins size={20} />)
-        },
-    ];
-
-    const onFilterChange = (filter) => {
-        console.log(filter);
-    };
+    const offersSliderProps = {
+        offers: [
+            {
+                title: "Offer 1",
+                content: [<div />],
+                buy: () => { console.log('buy 1') },
+                details: () => { console.log('details 1') }
+            },
+            {
+                title: "Offer 2",
+                content: [<div />, <div />],
+                buy: () => { console.log('buy 2') },
+                details: () => { console.log('details 2') }
+            },
+            {
+                title: "Offer 3",
+                content: [<div />, <div />, <div />],
+                buy: () => { console.log('buy 3') },
+                details: () => { console.log('details 3') }
+            },
+            {
+                title: "Offer 4",
+                content: [<div />, <div />, <div />, <div />],
+                buy: () => { console.log('buy 4') },
+                details: () => { console.log('details 4') }
+            }
+        ]
+    }
 
     return (
         <div className="w-full h-full min-h-screen text-xl font-bold flex justify-center items-center text-center">
-            <div className="w-fit">
-                <Categories categories={categories} onFilterChange={(filter) => onFilterChange(filter)} />
-            </div>
+            <OffersSlider {...offersSliderProps} />
         </div>
     )
 }
