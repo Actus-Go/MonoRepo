@@ -6,7 +6,7 @@ import './Style/SwiperStyle.css';
 export default function ProductsWrapper({ products }) {
 
     const handleLove = () => {
-        console.log("Love can't be handeled")
+       
     };
     const handleBuy = () => {
         
