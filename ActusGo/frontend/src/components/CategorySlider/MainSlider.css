@@ -1,0 +1,16 @@
+
+.slick-dots li{
+    width: 10px; /* Default width for inactive dots */
+    background-color: #ccc; /* Inactive dot color */
+    transition: width 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+border-radius: 9999px;  
+    height: 10px; 
+}
+.slick-dots li div{
+width: 10px;
+height: 10px;
+}
+.slick-dots li.slick-active {
+  width: 40px; /* Width for the active dot */
+  background-color: #ddd; /* Active dot color */
+}
