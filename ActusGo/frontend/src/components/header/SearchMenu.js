@@ -45,7 +45,7 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
     getHistory();
   };
   return (
-    <div className="header_left search_area scrollbar bg-[#101010] " ref={menu}>
+    <div className="header_left search_area relative -top-11 scrollbar bg-[#101010] " ref={menu}>
       <div className="search_wrap">
         <div className="header_logo">
           <div
