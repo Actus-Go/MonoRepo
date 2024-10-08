@@ -37,12 +37,9 @@ export default function LogoComponent() {
   ));
 
   return (
-    <>
-      <div className="slider">
-        <h1 className="text-white  text-3xl mb-6">Brands</h1>
-        <LogoSlider logos={logoElements} />
-      </div>
-
-    </>
+    <div className="slider flex flex-col items-start">
+      <h1 className="text-white pl-2 text-xl md:text-3xl mb-6">Brands</h1>
+      <LogoSlider logos={logoElements} />
+    </div>
   );
 }

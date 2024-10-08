@@ -11,11 +11,11 @@ const LogoSlider = ({ logos }) => {
   const settings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 6, 
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 1500, // Duration between slides
+    autoplaySpeed: 500, // Duration between slides
     pauseOnHover: true,
     responsive: [
       {
@@ -58,8 +58,6 @@ const LogoSlider = ({ logos }) => {
           </div>
         ))}
       </Slider>
-
-      
     </div>
   );
 };
