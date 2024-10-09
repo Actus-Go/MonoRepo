@@ -5,18 +5,34 @@ import Heart from "../../icons/HeartOutline"
 import Eye from "../../icons/eye"
 
 const renderStars = (rating) => {
-    const fullStars = Math.floor(rating / 2);
-    const emptyStars = 5 - fullStars;
-    const stars = [];
-    for (let i = 0; i < fullStars; i++) {
-        stars.push(<Star key={`full-${i}`} />);
-    }
-    for (let i = 0; i < emptyStars; i++) {
-        stars.push(<EmptyStar key={`empty-${i}`} />);
-    }
+    const percentage = (rating / 10) * 100; // Convert rating to percentage
 
-    return stars;
+    return (
+        <div className="relative flex items-center w-[90px] h-[18px] mr-2">
+            {/* Empty stars */}
+            <div className="absolute top-0 left-0 flex justify-start items-start gap-0 w-full h-full overflow-hidden">
+                {Array(5).fill(0).map((_, i) => (
+                    <div key={`empty-${i}`} className="aspect-square h-full">
+                        <EmptyStar />
+                    </div>
+                ))}
+            </div>
+
+            {/* Full stars based on rating percentage */}
+            <div
+                className="absolute top-0 left-0 flex justify-start items-start gap-0 h-full overflow-hidden"
+                style={{ width: `${percentage}%` }}
+            >
+                {Array(5).fill(0).map((_, i) => (
+                    <div key={`full-${i}`} className="aspect-square h-full">
+                        <Star />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
+
 export default function ProductCard({
     title,
     rating,
@@ -29,38 +45,41 @@ export default function ProductCard({
     see
 }) {
     return (
-        <div className=" bg-[#232323] w-full h-full rounded-3xl min-h-fit relative cursor-pointer">
-
+        <div className=" bg-[#232323] w-full h-full rounded-3xl min-h-fit relative">
             <div className="w-[90%] m-auto h-[60%] relative mt-5">
-                <div className="overLay w-full h-full bg-[#0000007e] absolute rounded-3xl flex flex-row justify-center opacity-0 hover:opacity-100 transition-opacity duration-1000">
-                <button
-                    className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center z-20 bg-white"
-                    onClick={love}
-                >
-                    <span className="w-6 aspect-square inline-block text-black">
-                        <Heart/>
-                    </span>
-                </button>
+                <div className="w-full h-full bg-[#0000007e] text-black absolute rounded-3xl flex flex-row justify-center opacity-0 hover:opacity-100 transition-opacity duration-1000">
+                    <button
+                        id="love"
+                        className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center bg-white hover:bg-opacity-70 hover:backdrop-blur-sm"
+                        onClick={()=> {love()}}
+                    >
+                        <span className="w-6 aspect-square inline-block">
+                            <Heart />
+                        </span>
+                    </button>
 
-                <button
-                    className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center z-20 bg-white"
-                    onClick={buy}
-                >
-                    <span className="w-6 aspect-square inline-block text-black">
-                        <Cart/>
-                    </span>
-                </button>
+                    <button
+                        className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center z-20 bg-white hover:bg-opacity-70 hover:backdrop-blur-sm"
+                        onClick={buy}
+                    >
+                        <span className="w-6 aspect-square inline-block">
+                            <Cart />
+                        </span>
+                    </button>
 
-                <button
-                    className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center z-20 bg-[#6550E1]"
-                    onClick={see}
-                >
-                    <span className="w-6 aspect-square inline-block text-white">
-                        <Eye/>
-                    </span>
-                </button>
+                    <button
+                        className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center z-20 bg-[#6550E1] hover:bg-opacity-70 hover:backdrop-blur-sm text-white"
+                        onClick={see}
+                    >
+                        <span className="w-6 aspect-square inline-block">
+                            <Eye />
+                        </span>
+                    </button>
                 </div>
-                <img src={image} alt="ProductImage" className="w-full h-full object-contain" />
+
+                <div className="w-full h-full overflow-hidden rounded-3xl">
+                    {image}
+                </div>  
             </div>
 
             <div className="rating flex flex-row w-32 h-5 gap-0 ml-5 my-3">
@@ -84,17 +103,17 @@ export default function ProductCard({
             {
                 label &&
                 (
-                    <div className="label z-1 absolute top-0 m-3 text-[12px] p-1 font-semibold rounded-xl"
-                    style={{
-                       backgroundColor:  label.bgcolor || "red",
-                       color :  label.textcolor || "white"
-                   }}>
-                      {label.text}
-       
-                   </div>
+                    <div className="z-1 absolute flex justify-center items-center top-3 left-3 text-[10px] px-2 h-5 font-semibold rounded-md"
+                        style={{
+                            backgroundColor: label.bgcolor || "red",
+                            color: label.textcolor || "white"
+                        }}>
+                            <span>
+                                {label.text}
+                            </span>
+                    </div>
                 )
             }
-
         </div>
     )
 }

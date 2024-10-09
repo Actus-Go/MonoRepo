@@ -1,22 +1,11 @@
 import ProductCard from "./ProductCard";
-import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import './Style/SwiperStyle.css';
 export default function ProductsWrapper({ products }) {
-
-    const handleLove = () => {
-       
-    };
-    const handleBuy = () => {
-        
-    };
-    const handleSee = () => {
-    
-    };
     return (
         <div className="w-full h-96 bg-black min-h-fit">
-            <div className="header m-5 text-[#f0f0f0] text-2xl font-semibold">
+            <div className="flex justify-start m-5 text-[#f0f0f0] text-2xl font-semibold">
                 <h4>Recommended for you</h4>
             </div>
             <Swiper
@@ -24,18 +13,12 @@ export default function ProductsWrapper({ products }) {
                 spaceBetween={55}
                 className="mySwiper"
             >
-                {products.map((product) => (
-                    <SwiperSlide>
-                        <ProductCard {...product} 
-                         love={() => handleLove()}
-                         buy={() => handleBuy()}
-                         see={() => handleSee()}
-                        />
+                {products.map((product, index) => (
+                    <SwiperSlide key={index}>
+                        <ProductCard {...product} />
                     </SwiperSlide>
                 ))}
-
             </Swiper>
-
         </div>
     )
 }
