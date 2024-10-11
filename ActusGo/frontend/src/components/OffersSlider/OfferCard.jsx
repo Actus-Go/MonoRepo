@@ -1,33 +1,24 @@
 // OfferCard.js
 import React from 'react';
+import Button, { ButtonVariants } from '../Buttons/Button';
 
 const OfferCard = ({ title, content, buy, details }) => {
   return (
-    <div className="bg-gray-800 text-white p-4 rounded-md shadow-lg min-w-sm h-full w-full">
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      <div className={` space-y-2`}>
+    <div className="bg-gray-800 text-white p-4 flex flex-col gap-4 max-w-[500px] text-start rounded-md shadow-lg h-full w-full min-w-[300px]">
+      <h3 className="text-lg font-semibold w-full">{title}</h3>
+      <div className={`space-y-2 w-full`}>
         {content.map((Component, index) => (
           <div
             key={index}
-            className="transition-transform transform hover:scale-105"
+            className="transition-transform transform"
           >
             {Component}
           </div>
         ))}
       </div>
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={buy}
-          className="bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-md"
-        >
-          Buy Now
-        </button>
-        <button
-          onClick={details}
-          className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md"
-        >
-          Details
-        </button>
+      <div className="flex justify-between w-full">
+        <Button label={"Buy Now"} onClick={buy} className="!w-fit" />
+        <Button label={"Details"} onClick={details} variant={ButtonVariants.SECONDARY} className="!w-fit" />
       </div>
     </div>
   );

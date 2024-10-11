@@ -1,57 +1,26 @@
 // OffersWrapper.js
-import React from 'react';
 import OfferCard from './OfferCard';
-import Slider from 'react-slick';
+import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const OffersWrapper = ({ offers }) => {
-  const settings = {
-    speed: 500,
-    slidesToShow: 2, // Default number of slides to show for larger screens
-    slidesToScroll: 1,
-    Infinity:true,
-    dots: false,
-    arrows:false,
-
-    infinite: false, // Disable infinite loop
-    responsive: [
-      {
-        breakpoint: 1024, // Tablets and smaller screens
-        settings: {
-          slidesToShow: 2, // 2 items for medium screens
-          slidesToScroll: 1,
-
-        },
-      },
-      {
-        breakpoint: 768, // Mobile screens
-        settings: {
-          arrows:true,
-          
-          slidesToShow: 1, // 1 item for small screens
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
+export default function OffersWrapper({ offers }) {
   return (
-    <div className="offers-wrapper">
-      <Slider {...settings}>
+    <div className="p-8 bg-black min-h-screen w-full">
+      <h2 className="text-2xl font-bold text-white mb-6">Offers</h2>
+      <Swiper
+        slidesPerView={"auto"}
+        spaceBetween={55}
+        className="w-full h-full flex justify-start"
+      >
         {offers.map((offer, index) => (
-          <div key={index} className="grid grid-cols-2 px-2"> 
-            <OfferCard 
-              title={offer.title}
-              content={offer.content}
-              buy={offer.buy}
-              details={offer.details}
-            />
-          </div>
+          <SwiperSlide className='w-full max-w-[500px]' key={index}>
+            <OfferCard key={index} {...offer} />
+          </SwiperSlide>
         ))}
-      </Slider>
+      </Swiper>
     </div>
   );
 };
 
-export default OffersWrapper;
