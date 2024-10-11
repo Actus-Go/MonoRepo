@@ -64,6 +64,7 @@ function App() {
       dispatch({ type: "POSTS_SUCCESS", payload: data });
     } catch (error) {
       console.error("Error fetching posts:", error.response);
+
       dispatch({
         type: "POSTS_ERROR",
         payload: error.response?.data?.message || "Error fetching posts",
