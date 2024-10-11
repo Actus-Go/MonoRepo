@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Map from "../../../svg/watch";
-import { FaPlay, FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa'; // Import your desired icons
+import Map from "../../../icons/watch";
+import { FaMoon, FaTimes } from 'react-icons/fa'; // Import your desired icons
 import { PiGameControllerFill } from "react-icons/pi";
 import { NavLink } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 
 // Ensure these are correctly imported from the specified path
-import { Home, Gaming, Market, Friends, FriendsActive } from '../../../svg';
+import { Home, Market, Friends } from '../../../icons';
 import { ChevronLeft, ChevronRight, Compass, BarChart2, Settings, HelpCircle, LogOut } from 'lucide-react';
 
 const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts }) => {
@@ -39,13 +39,11 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
     console.log(page, "hello from nav page")
     return (
         <div className={`bg-[#222222] relative z-50  text-gray-200 h-screen  ${isCollapsed ? 'w-[86px] md:translate-x-0 -translate-x-full' : 'w-[320px] md:translate-x-0'} transition-all duration-300 ease-in-out flex flex-col `}>
-
-
             {/* Burger Menu Icon for mobile screens */}
             <div className="text-white w-full flex pb-5 shadow-2xl	flex-col justify-between items-center gap-6">
                 {/* Logo - Positioning based on `isCollapsed` */}
-                <div className={`w-full pt-1 flex ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
-                    <Link to="/" className="header_logo">
+                <div className={`w-full pt-1 flex transition-all ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
+                    <Link to="/" className="header_logo transition-all">
                         <img
                             src="/actuswhite.svg"
                             className={`max-w-[64px] w-[64px] scale-150 ${isCollapsed ? 'mx-auto' : ''}`}
@@ -137,7 +135,6 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                         <Friends color='#ddd' />
                         {!isCollapsed && <span className="ml-4 text-white">Friends</span>}
                     </NavLink>
-
 
                     {/* Analysis NavLink */}
                     <div className="relative  cursor-not-allowed  flex items-center">

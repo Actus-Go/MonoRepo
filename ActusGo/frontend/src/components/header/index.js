@@ -1,38 +1,13 @@
 import "./style.css";
-import { Link } from "react-router-dom";
-import {
-  ArrowDown,
-  Friends,
-  FriendsActive,
-  Gaming,
-  Home,
-  HomeActive,
-  Market,
-  Search,
-} from "../../svg";
 import { useSelector } from "react-redux";
-import SearchMenu from "./SearchMenu";
-import { useRef, useState } from "react";
-import useClickOutside from "../../helpers/clickOutside";
-import UserMenu from "./userMenu";
-import Map from "../../svg/watch";
+import { useState } from "react";
 import SearchAndIcon from "./SearchAndIcons/SearchAndIcons";
 
 
-export default function Header({isCollapsed, page, getAllPosts }) {
+export default function Header({ isCollapsed, toggleNotificationBarOpen }) {
   const { user } = useSelector((user) => ({ ...user }));
   const color = "#efff55";
   const [showSearchMenu, setShowSearchMenu] = useState(false);
-  const [showAllMenu, setShowAllMenu] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const allmenu = useRef(null);
-  const usermenu = useRef(null);
-  useClickOutside(allmenu, () => {
-    setShowAllMenu(false);
-  });
-  useClickOutside(usermenu, () => {
-    setShowUserMenu(false);
-  });
 
   return (
     <>
@@ -42,7 +17,8 @@ export default function Header({isCollapsed, page, getAllPosts }) {
           color={color}
           showSearchMenu={showSearchMenu}
           setShowSearchMenu={setShowSearchMenu}
-          token={user.token}
+          token={user?.token}
+          toggleNotificationBarOpen={toggleNotificationBarOpen}
         />
       </header>
     </>

@@ -6,13 +6,30 @@ import Header from "../components/header";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-
+import { generateDemoNotifications } from '../components/Notifications/notificationData.js';
+import NotificationBar from '../components/Notifications/NotificationBar.jsx';
 
 export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));
   const [isCollapsed, setCollapsed] = useState(false);
+  const [isNotificationBarOpen, setNotificationBarOpen] = useState(false);
+
+  const demoNotifications = generateDemoNotifications(30);
+
+  let toggleNotificationBarOpen = () => {
+      setNotificationBarOpen(!isNotificationBarOpen);
+  };
+
 
   return user ? (<>
+      <div className="flex justify-evenly text-start z-[99999] flex-col md:flex-row items-start">
+        <NotificationBar
+        isOpen={isNotificationBarOpen}
+        onClose={() => setNotificationBarOpen(false)}
+        notifications={demoNotifications}
+        />
+    </div>
+
     <div className="fixed left-0 top-0 z-[400]">
       <AsideNav
         isCollapsedProp={isCollapsed}
@@ -34,7 +51,7 @@ export default function LoggedInRoutes() {
             />
           </Link>
         </div>
-        <Header isCollapsed={isCollapsed} />
+        <Header isCollapsed={isCollapsed} toggleNotificationBarOpen={toggleNotificationBarOpen} />
       </div>
     </div>
     <Outlet />

@@ -6,18 +6,14 @@ import { Link } from 'react-router-dom';
 import {
     Search,
     Friends,
-} from "../../../svg";
+} from "../../../icons";
 import SearchMenu from "../SearchMenu";
 
-
-
-
-export default function SearchAndIcon({ color, showSearchMenu, setShowSearchMenu, token }) {
+export default function SearchAndIcon({ color, showSearchMenu, setShowSearchMenu, token, toggleNotificationBarOpen }) {
 
     useEffect(() => {
         console.log("Props: ", { color, showSearchMenu, token });
     }, [showSearchMenu, color, token]);
-
 
     return (
         <div className="flex px-4 md:w-full w-fit md:justify-between">
@@ -43,21 +39,17 @@ export default function SearchAndIcon({ color, showSearchMenu, setShowSearchMenu
                     />
                 )}
             </div>
-          
-
 
             <div className="rightIcons flex gap-10">
                 <div className="cursor-pointer">
-                    <Link>
-
-                    <IoNotifications size={25} color={color} />
-                    </Link>
+                    <button onClick={toggleNotificationBarOpen}>
+                        <IoNotifications size={25} color={color} />
+                    </button>
                 </div>
                 <div className="cursor-pointer">
                     <Link
-                    to="/friends">
-                    
-                    <Friends size={25} color={color} />
+                        to="/friends">
+                        <Friends size={25} color={color} />
                     </Link>
                 </div>
             </div>
