@@ -1,16 +1,35 @@
-import React from 'react';
-import MainSlider from './MainSlider';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import './style.css';
 
-export default function SliderComponent() {
-  const slides = [
-    { id: 1, image: <img src="https://fresh-cart-swart.vercel.app/assets/grocery-banner-2-BWrZqEBM.jpeg" className="w-full rounded-2xl h-60 md:h-72" alt="Offer 1" /> },
-    { id: 2, image: <img src="https://www.furniture-work.co.uk/media/wysiwyg/content-imagery/price/price_header.jpeg" className="w-full  rounded-2xl h-60 md:h-72" alt="Offer 1" /> },
-    { id: 3, image: <img src="https://www.freebie-depot.com/wp-content/uploads/2020/11/Amazon-Deals-2.jpg" className="w-full rounded-2xl h-60 md:h-72" alt="Offer 1" /> },
-  ];
+export default function SliderComponent({ slides }) {
+  const settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    pauseOnHover: true,
+    autoplaySpeed: 3000,
+    appendDots: (dots) => (
+      <div >
+        <ul className="flex transform bottom-9 left-1/2 -translate-x-1/2 absolute opacity-100">{dots}</ul>
+      </div>
+    ),
+    customPaging: (_) => (
+      <div className="transition-all duration-300"></div>
+    ),
+  };
 
   return (
-    <div>
-      <MainSlider SliderData={slides} />
-    </div>
+    <Slider className="w-full" {...settings}>
+      {slides.map((slide, index) => (
+        <div key={index} className="w-full h-[85vh] flex justify-center overflow-hidden items-center">
+          {slide}
+        </div>
+      ))}
+    </Slider>
   );
 }
