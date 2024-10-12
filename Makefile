@@ -1,6 +1,10 @@
-up:
+up-dev:
 		@echo "Starting services..."
-		docker compose -f docker/compose.yaml up
+		docker compose -f docker/docker-compose.yml up
+
+up-production:
+		@echo "Starting services..."
+		docker compose -f docker/docker-compose.production.yml up
 
 restart:
 		@echo "Restarting services..."
@@ -10,13 +14,21 @@ stop:
 		@echo "Stopping services..."
 		docker compose -f docker/compose.yaml stop
 
-down:
+down-dev:
 		@echo "Down services..."
-		docker compose -f docker/compose.yaml down
+		docker compose -f docker/docker-compose.yml down
 
-build:
+down-production:
+		@echo "Down services..."
+		docker compose -f docker/docker-compose.production.yml down
+
+build-dev:
 		@echo "Building the project..."
-		docker compose -f docker/compose.yaml build
+		docker compose -f docker/docker-compose.yml build
+
+build-production:
+		@echo "Building the project..."
+		docker compose -f docker/docker-compose.production.yml build
 
 backend:
 		@echo "Running backend for Go and Market..."

@@ -23,8 +23,7 @@ import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
-import NotificationBar from "./components/Notifications/NotificationBar";
-import { generateDemoNotifications } from "./components/Notifications/notificationData";
+import Market from "./pages/Market";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -153,6 +152,12 @@ function App() {
               path="/friends/:type"
               element={
                 <FriendsPage setVisible={setPostPopupVisible} getAllPosts={fetchAllPosts} />
+              }
+            />
+            <Route
+              path="/market"
+              element={
+                <Market />
               }
             />
             <Route
