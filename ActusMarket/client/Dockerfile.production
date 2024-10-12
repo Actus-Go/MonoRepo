@@ -1,0 +1,48 @@
+# syntax=docker/dockerfile:1
+
+# Base image
+ARG NODE_VERSION=20.12.0
+FROM node:${NODE_VERSION}-alpine as build
+LABEL stage=builder
+
+# Install Python and other necessary build tools
+RUN apk add --no-cache python3 make g++
+
+# Use a specific node environment
+ENV NODE_ENV=production
+
+# Add ARG for REACT_APP_BACKEND_URL 
+ARG REACT_APP_BACKEND_URL
+ARG API_URL
+ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+ENV API_URL=${API_URL}
+ENV NODE_ENV=development
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and yarn.lock first
+COPY package.json yarn.lock ./
+
+# Install dependencies using Yarn
+RUN yarn install --frozen-lockfile
+
+# Now copy the rest of the application source code
+COPY . .
+
+# Build the application
+RUN yarn build
+
+# Prune development dependencies for production to minimize image size
+RUN yarn install --production --frozen-lockfile
+
+# Second stage: Use Nginx to serve the React app
+FROM nginx:alpine
+
+# Copy built static files from the build stage to Nginx
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Run Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]

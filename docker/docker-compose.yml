@@ -1,0 +1,76 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker compose reference guide at
+# https://docs.docker.com/compose/compose-file/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  market_backend:
+    build:
+      context: ../ActusMarket/server
+    env_file:
+      - ../ActusMarket/server/.env
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
+  market_frontend:
+    build:
+      context: ../ActusMarket/client
+      args:
+        - API_URL=http://localhost:3000
+    env_file:
+      - ../ActusMarket/client/.env
+    ports:
+      - 3001:80
+    depends_on:
+      - market_backend
+
+  go_backend:
+    build:
+      context: ../ActusGo/backend
+    env_file:
+      - ../ActusGo/backend/.env
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+
+  go_frontend:
+    build:
+      context: ../ActusGo/frontend
+      dockerfile: Dockerfile.development
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:8000
+    ports:
+      - "5000:3000"
+    volumes:
+      - ../ActusGo/frontend:/usr/src/app # Bind mount the frontend directory
+      - /usr/src/app/node_modules # Prevent overriding node_modules
+    depends_on:
+      - market_backend
+      - go_backend
+
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data: {}
+
+networks:
+  default:
+    driver: bridge
