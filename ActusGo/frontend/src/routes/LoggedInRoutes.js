@@ -1,6 +1,13 @@
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Login from "../pages/login";
+import AsideNav from '../components/header/ASideNav/AsideNav.jsx'
+import Header from "../components/header";
+import { useState } from "react";
+import { FaBars } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { generateDemoNotifications } from '../components/Notifications/notificationData.js';
+import NotificationBar from '../components/Notifications/NotificationBar.jsx';
 
 export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));

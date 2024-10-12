@@ -281,7 +281,7 @@ const MapComponent = memo(() => {
 
 
   return (
-    <div className="h-[70%] sm:h-[80%] w-full bg-black relative top-[5rem] border-white border-[1px]">
+    <div className="h-screen  w-full bg-black relative">
       <div ref={mapElement} className="h-full w-full relative">
         <ZoomButtons handleZoom={handleZoom} />
         <UserLocation setUserLocation={setUserLocation} map={map} showAllProducts={showAllProducts} />

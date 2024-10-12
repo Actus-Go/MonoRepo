@@ -39,7 +39,6 @@ function App() {
 
   const [userLocation, setUserLocation] = useState(null);
   const [isLocationPopupVisible, setLocationPopupVisible] = useState(true);
-  const [isNotificationBarOpen, setNotificationBarOpen] = useState(true);
 
   // Fetch posts when user is logged in
   useEffect(() => {
@@ -96,19 +95,8 @@ function App() {
   useEffect(() => {
     trackUserLocation();
   }, [trackUserLocation]);
-
-  const demoNotifications = generateDemoNotifications(30);
-
   return (
     <>
-      <div className="flex justify-evenly flex-col md:flex-row items-start">
-        <NotificationBar
-          isOpen={isNotificationBarOpen}
-          onClose={() => setNotificationBarOpen(false)}
-          notifications={demoNotifications}
-        />
-      </div>
-
       <div className={`${darkTheme ? "dark" : ""}`}>
         <OnlineIndicator />
         {isLocationPopupVisible && (

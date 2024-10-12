@@ -10,9 +10,7 @@ services:
       - 3000:3000
     depends_on:
       - mongodb
-    
 
-    
   go_backend:
     build:
       context: ../ActusGo/backend
@@ -24,7 +22,6 @@ services:
       - 8000:8000
     depends_on:
       - mongodb
-
 
   mongodb:
     image: mongo:latest
