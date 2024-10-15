@@ -12,7 +12,7 @@ import Header from "../../components/header";
 import SendVerification from "../../components/home/sendVerification";
 import Post from "../../components/post";
 import "./style.css";
-
+import AsideNav from "../../components/header/ASideNav/AsideNav"
 const MobileOnlyComponent = React.lazy(() => import("./MobileOnlyComponent"));
 
 export default function Home({ setVisible, posts, loading, getAllPosts }) {
@@ -92,47 +92,37 @@ export default function Home({ setVisible, posts, loading, getAllPosts }) {
   }, [handleScroll]); // Include handleScroll in the dependency array
 
   return (
-    <div className=" h-full w-full  ">  
-      <div className='home ' style={{ height: `${height + 150}px` }}>
-        <Header page='home' getAllPosts={getAllPosts} />
+    <div className=" relative h-full w-full  ">
 
-        <div className='home ' style={{ height: `${height + 150}px` }}>
-          <Header page='home' getAllPosts={getAllPosts} />
-
-          <div className='home ' style={{ height: `${height + 150}px` }}>
-  <Header page='home' getAllPosts={getAllPosts} />
-
-  <div className='home_middle pt-12 sm:pt-20 lg:pt-0 h-full w-full flex flex-col items-center  lg:items-start m-auto' ref={middle}>
-    <div className="absolute top-12 w-full  lg:mx-auto sm:px-0 h-full">
+      <div className='home_middle pt-12 sm:pt-20 lg:pt-0 h-full w-full flex flex-col items-center  lg:items-start m-auto' ref={middle}>
+        <div className="absolute top-12 w-full  lg:mx-auto sm:px-0 h-full">
 
 
-      {loading ? (<>
+          {loading ? (<>
 
-      <div className='sekelton_loader'>
-          <BeatLoader color='#6e56fc' />
-        </div>
-      </>
-       
-      ) : (
-        <>
-<div 
-className="max-w-5xl w-full flex flex-col  items-center justify-center relative   m-auto"
->
-{user.verified === false && <SendVerification user={user} />}
-      <CreatePost user={user}  setVisible={setVisible} />
-</div>
-         <div className='posts w-full px-1 sm:px-0 lg:w-1/2 flex flex-col justify-center lg:mx-auto'>
-          {posts.map((post, i) => (
-            <Post key={i} id={i} post={post} user={user} />
-          ))}
-        </div></>
-       
-      )}
-    </div>
-  </div>
-</div>
+            <div className='sekelton_loader'>
+              <BeatLoader color='#6e56fc' />
+            </div>
+          </>
+
+          ) : (
+            <>
+              <div
+                className="max-w-5xl w-full flex flex-col  items-center justify-center relative   m-auto"
+              >
+                {user.verified === false && <SendVerification user={user} />}
+                <CreatePost user={user} setVisible={setVisible} />
+              </div>
+              <div className='posts w-full px-1 sm:px-0 lg:w-1/2 flex flex-col justify-center lg:mx-auto'>
+                {posts.map((post, i) => (
+                  <Post key={i} id={i} post={post} user={user} />
+                ))}
+              </div></>
+
+          )}
         </div>
       </div>
+
 
       <div
         style={{

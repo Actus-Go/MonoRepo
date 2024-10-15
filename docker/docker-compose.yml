@@ -19,21 +19,19 @@ services:
       - 3000:3000
     depends_on:
       - mongodb
-    
-  # market_frontend:
-  #   build:
-  #     context: ../ActusMarket/client
-  #     args:
-  #       - API_URL=http://localhost:3000
-  #   env_file:
-  #     - ../ActusMarket/client/.env
-  #   ports:
-  #     - "3001:80"
-  #   depends_on:
-  #     - market_backend
 
+  market_frontend:
+    build:
+      context: ../ActusMarket/client
+      args:
+        - API_URL=http://localhost:3000
+    env_file:
+      - ../ActusMarket/client/.env
+    ports:
+      - 3001:80
+    depends_on:
+      - market_backend
 
-    
   go_backend:
     build:
       context: ../ActusGo/backend
@@ -46,17 +44,20 @@ services:
     depends_on:
       - mongodb
 
-  
-  # go_frontend:
-  #   build:
-  #     context: ../ActusGo/frontend
-  #     args:
-  #       - REACT_APP_BACKEND_URL=http://localhost:8000
-  #   ports:
-  #     - "5000:80"
-  #   depends_on:
-  #     - market_backend
-  #     - go_backend
+  go_frontend:
+    build:
+      context: ../ActusGo/frontend
+      dockerfile: Dockerfile.development
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:8000
+    ports:
+      - "5000:3000"
+    volumes:
+      - ../ActusGo/frontend:/usr/src/app # Bind mount the frontend directory
+      - /usr/src/app/node_modules # Prevent overriding node_modules
+    depends_on:
+      - market_backend
+      - go_backend
 
 
   mongodb:

@@ -10,7 +10,7 @@ import Sparkels from "../../components/createPost/Sparkels";
 import FriendsCard from "./FriendsCard";
 import Hub from "./Hub/Hub";
 import Skeleton from "react-loading-skeleton";
-
+import AsideNav from "../../components/header/ASideNav/AsideNav"
 export default function Friends() {
   const { user } = useSelector((state) => ({ ...state }));
   const { type } = useParams();
@@ -43,8 +43,8 @@ export default function Friends() {
   const catigory = "Travel";
 
   return (
-    <>
-      <Header page='friends' />
+    <div className=" relative h-full w-full  ">
+     
       <div className='pt-24 px-2 text-white flex  m-auto w-full justify-center '>
         <div className=' max-w-[800px]  w-full '>
           {(type === undefined || type === "requests") && data.requests && (
@@ -138,15 +138,15 @@ export default function Friends() {
                   <div className='flex justify-between w-full'>
                     {data.friends && data.friends.length > 0
                       ? data.friends.map((user) => (
-                          <>
-                            <FriendsCard
-                              userr={user}
-                              key={user._id}
-                              type='friends'
-                              getData={getData}
-                            />
-                          </>
-                        ))
+                        <>
+                          <FriendsCard
+                            userr={user}
+                            key={user._id}
+                            type='friends'
+                            getData={getData}
+                          />
+                        </>
+                      ))
                       : null}
                     {type === undefined &&
                       data.friends &&
@@ -210,6 +210,6 @@ export default function Friends() {
         {" "}
         <Hub name={"sdsd"} category={"Try it"} link={"props.link"} />
       </div>
-    </>
+    </div>
   );
 }

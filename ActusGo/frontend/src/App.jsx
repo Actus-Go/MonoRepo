@@ -23,8 +23,7 @@ import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
-import NotificationBar from "./components/Notifications/NotificationBar";
-import { generateDemoNotifications } from "./components/Notifications/notificationData";
+import Market from "./pages/Market";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -40,7 +39,6 @@ function App() {
 
   const [userLocation, setUserLocation] = useState(null);
   const [isLocationPopupVisible, setLocationPopupVisible] = useState(true);
-  const [isNotificationBarOpen, setNotificationBarOpen] = useState(true);
 
   // Fetch posts when user is logged in
   useEffect(() => {
@@ -64,6 +62,7 @@ function App() {
       dispatch({ type: "POSTS_SUCCESS", payload: data });
     } catch (error) {
       console.error("Error fetching posts:", error.response);
+
       dispatch({
         type: "POSTS_ERROR",
         payload: error.response?.data?.message || "Error fetching posts",
@@ -96,19 +95,8 @@ function App() {
   useEffect(() => {
     trackUserLocation();
   }, [trackUserLocation]);
-
-  const demoNotifications = generateDemoNotifications(30);
-
   return (
     <>
-      <div className="flex justify-evenly flex-col md:flex-row items-start">
-        <NotificationBar
-          isOpen={isNotificationBarOpen}
-          onClose={() => setNotificationBarOpen(false)}
-          notifications={demoNotifications}
-        />
-      </div>
-
       <div className={`${darkTheme ? "dark" : ""}`}>
         <OnlineIndicator />
         {isLocationPopupVisible && (
@@ -152,6 +140,12 @@ function App() {
               path="/friends/:type"
               element={
                 <FriendsPage setVisible={setPostPopupVisible} getAllPosts={fetchAllPosts} />
+              }
+            />
+            <Route
+              path="/market"
+              element={
+                <Market />
               }
             />
             <Route

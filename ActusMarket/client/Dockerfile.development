@@ -1,0 +1,32 @@
+# syntax=docker/dockerfile:1
+
+# Base image
+ARG NODE_VERSION=16.16.0
+FROM node:${NODE_VERSION}-alpine as development
+
+# Install Python and other necessary build tools
+RUN apk add --no-cache python3 make g++
+
+# Set working directory
+# Set environment to development
+ARG API_URL
+ENV API_URL=${API_URL}
+ENV NODE_ENV=development
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and yarn.lock first
+COPY package.json yarn.lock ./
+
+# Install dependencies using Yarn
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of the application source code
+COPY . .
+
+# Expose port for the React dev server
+EXPOSE 80
+
+# Start React app in development mode with hot reload
+CMD ["yarn", "start"]
