@@ -1,4 +1,4 @@
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "./style.css";
 import EmojiPickerBackgrounds from "./EmojiPickerBackgrounds";
 import ImagePreview from "./ImagePreview";
@@ -33,7 +33,6 @@ export default function CreatePostPopup({
         background,
         text,
         null,
-        user.id,
         user.token
       );
       setLoading(false);
@@ -120,17 +119,11 @@ export default function CreatePostPopup({
           >
             <i className="exit_icon"></i>
           </div>
-          <span className="text-gray-100" >Create Post</span>
+          <span className="text-gray-100">Create Post</span>
         </div>
         <div className="box_profile">
           <img src={user.picture} alt="" className="box_profile_img" />
-
-  
-          </div>
-
-
-
-
+        </div>
 
         {!showPrev ? (
           <div className="">
@@ -143,10 +136,7 @@ export default function CreatePostPopup({
               background={background}
               setShowPrev={setShowPrev}
               setError={setError}
-
             />
-
-
           </div>
         ) : (
           <ImagePreview
@@ -159,24 +149,8 @@ export default function CreatePostPopup({
             setShowPrev={setShowPrev}
             setError={setError}
           />
-         
+        )}
 
-
-
-        )
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        }
-        
         <button
           className="post_submit rounded-2xl text-black"
           onClick={() => {

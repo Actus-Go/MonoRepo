@@ -14,23 +14,11 @@ services:
     env_file:
       - ../ActusMarket/server/.env
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 3000:3000
     depends_on:
       - mongodb
-
-  market_frontend:
-    build:
-      context: ../ActusMarket/client
-      args:
-        - API_URL=http://localhost:3000
-    env_file:
-      - ../ActusMarket/client/.env
-    ports:
-      - "3001:80"
-    depends_on:
-      - market_backend
 
   go_backend:
     build:
@@ -38,7 +26,7 @@ services:
     env_file:
       - ../ActusGo/backend/.env
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 8000:8000
     depends_on:

@@ -4,7 +4,6 @@ export const createPost = async (
   background,
   text,
   images,
-  user,
   token
 ) => {
   try {
@@ -15,7 +14,6 @@ export const createPost = async (
         background,
         text,
         images,
-        user,
       },
       {
         headers: {

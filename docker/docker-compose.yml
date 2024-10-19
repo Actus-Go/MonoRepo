@@ -20,18 +20,6 @@ services:
     depends_on:
       - mongodb
 
-  market_frontend:
-    build:
-      context: ../ActusMarket/client
-      args:
-        - API_URL=http://localhost:3000
-    env_file:
-      - ../ActusMarket/client/.env
-    ports:
-      - 3001:80
-    depends_on:
-      - market_backend
-
   go_backend:
     build:
       context: ../ActusGo/backend
