@@ -38,24 +38,22 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
     return (
         <div className={`bg-[#222222] relative z-50  text-gray-200 h-screen  ${isCollapsed ? 'w-[86px] md:translate-x-0 -translate-x-full' : 'w-[320px] md:translate-x-0'} transition-all duration-300 ease-in-out flex flex-col `}>
             {/* Burger Menu Icon for mobile screens */}
-            <div className="text-white w-full flex pb-5 shadow-2xl	flex-col justify-between items-center gap-6">
+            <div className="text-white w-full flex shadow-2xl flex-col justify-between items-center gap-6">
                 {/* Logo - Positioning based on `isCollapsed` */}
-                <div className={`w-full pt-1 flex transition-all pl-3`}>
+                <div className={`w-full pt-3 flex transition-all pl-3`}>
                     <Link to="/" className="header_logo transition-all">
                         <img
                             src="/actuswhite.svg"
-                            className={`max-w-[64px] w-[64px] scale-150 ${isCollapsed ? 'mx-auto' : ''}`}
+                            className={`w-[64px] scale-150 ${isCollapsed ? 'mx-auto' : ''}`}
                             alt="Logo"
                         />
                     </Link>
                 </div>
 
                 {/* Profile Image - Hidden when collapsed */}
-                {!isCollapsed && (
                     <Link
                         to="/profile"
-                        className={`profile_link  ${page === 'profile' ? 'active_link bg-[#efff55] text-gray-900 w-[48px] h-[48px] rounded-full font-bold' : ''
-                            }`}
+                        className={`profile_link ${isCollapsed ? "h-0 opacity-0" : "h-28"} transition-all  ${page === 'profile' ? 'active_link bg-[#efff55] text-gray-900 w-[48px] rounded-full font-bold' : ''}`}
                     >
                         <div className="flex flex-col items-center">
                             <img src={user?.picture} alt="" className="w-16 h-16 bg-white rounded-full" />
@@ -64,17 +62,16 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                             </span>
                         </div>
                     </Link>
-                )}
             </div>
 
 
-            <div className='w-full flex flex-col justify-between h-full  overflow-y-auto'>
+            <div className='w-full flex flex-col justify-between h-full z-10  overflow-y-auto'>
                 {/* Navigation links */}
                 <div className="flex-grow px-3 w-full">
                     {/* Home Link */}
                     <NavLink
                         to="/"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
                         onClick={() => getAllPosts()}
                     >
                         <Home color='#ddd' />
@@ -84,7 +81,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     {/* Explore NavLink */}
                     <NavLink
                         to="/explore"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
                     >
                         <Compass size={24} />
                         {!isCollapsed && <span className="ml-4 text-white">Explore</span>}
@@ -93,7 +90,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     {/* Map Link */}
                     <NavLink
                         to="/tasks"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
                     >
                         <Map color='#ddd' />
                         {!isCollapsed && (
@@ -106,7 +103,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     {/* Gaming Link */}
                     <NavLink
                         to="/profile"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
                     >
                         <CgProfile color='#ddd' size={24} />
                         {!isCollapsed && <span className="ml-4 text-white">Profile</span>}
@@ -115,7 +112,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     {/* Market Link */}
                     <NavLink
                         to="/market"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
 
                     >
                         <Market color='#ddd' />
@@ -125,7 +122,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     {/* Friends NavLink */}
                     <NavLink
                         to="/friends"
-                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
+                        className={({ isActive }) => `flex items-center rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ''}`}
 
                     >
                         <Friends color='#ddd' />
@@ -138,7 +135,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                         <NavLink
                             to="/analysis"
                             className={({ isActive }) =>
-                                `flex items-center pointer-events-none rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ' '}`
+                                `flex items-center pointer-events-none rounded-[34px] py-3 px-4 ${isActive ? 'bg-[#5d5b5b]' : ' '}`
                             }
                             onClick={(e) => e.preventDefault()} // Prevent link from being clickable
                         >
@@ -160,7 +157,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                         <NavLink
                             to="/settings"
                             className={({ isActive }) =>
-                                `flex items-center pointer-events-none rounded-[34px] py-3 ${isCollapsed ? 'justify-center' : ''} px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ' '}`
+                                `flex items-center pointer-events-none rounded-[34px] py-3 px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ' '}`
                             }
                             onClick={(e) => e.preventDefault()} // Prevent link from being clickable
                         >
