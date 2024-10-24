@@ -18,6 +18,7 @@ export const createPost = async (
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          "content-type": "application/json",
         },
       }
     );

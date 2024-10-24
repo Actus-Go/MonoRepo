@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const uploadImages = async (formData, path, token) => {
+export const uploadImages = async (formData, token) => {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/uploadImages`,

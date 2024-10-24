@@ -59,7 +59,7 @@ export default function UpdateProfilePicture({
       let formData = new FormData();
       formData.append("file", blob);
       formData.append("path", path);
-      const res = await uploadImages(formData, path, user.token);
+      const res = await uploadImages(formData, user.token);
       const updated_picture = await updateprofilePicture(
         res[0].url,
         user.token

@@ -35,14 +35,12 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
         setCollapsedProp(new_value);
     };
 
-    console.log(user, page, "hello from nav")
-    console.log(page, "hello from nav page")
     return (
         <div className={`bg-[#222222] relative z-50  text-gray-200 h-screen  ${isCollapsed ? 'w-[86px] md:translate-x-0 -translate-x-full' : 'w-[320px] md:translate-x-0'} transition-all duration-300 ease-in-out flex flex-col `}>
             {/* Burger Menu Icon for mobile screens */}
             <div className="text-white w-full flex pb-5 shadow-2xl	flex-col justify-between items-center gap-6">
                 {/* Logo - Positioning based on `isCollapsed` */}
-                <div className={`w-full pt-1 flex transition-all ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
+                <div className={`w-full pt-1 flex transition-all pl-3`}>
                     <Link to="/" className="header_logo transition-all">
                         <img
                             src="/actuswhite.svg"
@@ -71,8 +69,6 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
 
 
             <div className='w-full flex flex-col justify-between h-full  overflow-y-auto'>
-
-
                 {/* Navigation links */}
                 <div className="flex-grow px-3 w-full">
                     {/* Home Link */}
@@ -180,7 +176,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                     </div>
 
                     {/* Toggle Switches and Footer NavLinks */}
-                    <div className="mt-[40px] px-4 py-2 w-full">
+                    <div className={`mt-[40px] px-4 py-2 w-full transition-all ${isCollapsed && "hidden"}`}>
                         <div className="flex items-center justify-between w-full px-4 text-white py-2">
                             {/* Label to wrap everything */}
                             <label htmlFor="playMode" className="flex items-center justify-between w-full cursor-pointer">
