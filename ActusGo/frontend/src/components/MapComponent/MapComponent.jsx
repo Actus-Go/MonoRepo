@@ -18,7 +18,7 @@ const CustomMarker = () => {
 // Fetch brands from the API
 const fetchBrands = async (token) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/brand/list`, {
+    const response = await axios.get(`${process.env.REACT_APP_MARKET_BACKEND_URL}/api/brand/list`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -33,7 +33,7 @@ const fetchBrands = async (token) => {
 // Fetch products from the API
 const fetchProducts = async (token) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/product`, {
+    const response = await axios.get(`${process.env.REACT_APP_MARKET_BACKEND_URL}/api/product`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
