@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import {useUser} from './customHooks/UserHook';
+import { useUser } from "./customHooks/UserHook";
 
 const useInitializeSocket = () => {
   const user = useUser();
@@ -13,7 +13,7 @@ if (!user) {
     auth: {
       token: `Bearer ${user.token}`,
     },
-  });
+  }); 
 
   socket.on('connect_error', (error) => {
     console.error('Connection error:', error);
