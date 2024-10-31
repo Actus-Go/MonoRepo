@@ -4,7 +4,7 @@ import { SharedDataContext } from "../../SharedDataProvider";
 import useInitializeSocket from '../../socket';
 import Notification from "./Notification";
 
-const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
+const UserLocation = memo(({ setUserLocation, map, showAllProducts }) => {
   // Context
   const { sharedProduct } = useContext(SharedDataContext);
 
@@ -15,29 +15,28 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
   const [userRequest, setUserRequest] = useState(null); 
   const [userName, setUserName] = useState(null); 
   const [checkoutUrl, setCheckoutUrl] = useState(null); 
-  const [clickAccept, setClickAccept] = useState(false); 
-  const [clickReject, setClickReject] = useState(false);
-  const [codePart, setCodePart] = useState(null);
+  const [isAcceptClicked, setIsAcceptClicked] = useState(false); 
+  const [isRejectClicked, setIsRejectClicked] = useState(false);
+  const [codeSnippet, setCodeSnippet] = useState(null);
 
   // Socket initialization
   const socket = useInitializeSocket();
 
-  // Function to request split
-  const requestSplit = useCallback(() => {
+  // Function to request product sharing
+  const requestProductSharing = useCallback(() => {
     if (socket && sharedProduct) {
       socket.emit("requestToShare", {
         id: `${sharedProduct.sharedProduct}`,
       });
     } else {
-      console.error('Socket is not initialized');
+      console.error('Socket is not initialized or sharedProduct is missing');
     }
   }, [socket, sharedProduct]);
 
-
   // Function to handle accept action
-  const onAccept = useCallback(() => {
-    setClickAccept(true);
-    setClickReject(false);
+  const handleAccept = useCallback(() => {
+    setIsAcceptClicked(true);
+    setIsRejectClicked(false);
     setNotification(null);
     if (checkoutUrl) {
       window.location.href = checkoutUrl;
@@ -46,8 +45,8 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
 
   // Function to handle reject action
   const onReject = useCallback(() => {
-    setClickReject(true);
-    setClickAccept(false);
+    setIsRejectClicked(true);
+    setIsAcceptClicked(false);
     setNotification(null);
   }, []);
 
@@ -59,7 +58,7 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
   }, []);
 
   const handlePaidOrder = useCallback((data) => {
-    setCodePart(data.codePart);
+    setCodeSnippet(data.codeSnippet);
   }, []);
 
   // Socket event listeners
@@ -73,10 +72,9 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
     }
   }, []);
 
-
   // Effect hooks
   useEffect(() => {
-    if (clickAccept && userRequest && sharedProduct.sharedProduct) {
+    if (isAcceptClicked && userRequest && sharedProduct.sharedProduct) {
       socket.emit("acceptToSplit", { id: `${userRequest}` });
       socket.on("acceptToSplit", handleRequestToShareEvent);
       socket.on("payForSplitedOrder", AcceptShare);
@@ -89,10 +87,10 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
       socket.off("accept", AcceptShare);
       socket.off("paidOrder", handlePaidOrder);
     };
-  }, [clickAccept]);
+  }, [isAcceptClicked]);
 
   useEffect(() => {
-    if (clickAccept && userRequest) {
+    if (isAcceptClicked && userRequest) {
       socket.emit("accept", { id: `${userRequest}` });
       socket.on("requestToShare", handleRequestToShareEvent);
       socket.on("paidOrder", handlePaidOrder);
@@ -101,17 +99,17 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
       socket.off("requestToShare", handleRequestToShareEvent);
       socket.off("paidOrder", handlePaidOrder);
     };
-  }, [clickAccept]);
+  }, [isAcceptClicked]);
 
   useEffect(() => {
-    if (clickReject && userRequest) {
+    if (isRejectClicked && userRequest) {
       socket.emit("reject", { id: `${userRequest}` });
       socket.on("requestToShare", handleRequestToShareEvent);
     }
     return () => {
       socket.off("requestToShare", handleRequestToShareEvent);
     };
-  }, [clickReject]);
+  }, [isRejectClicked]);
 
   useEffect(() => {
     const DetailsSharedProduct = () => {
@@ -134,7 +132,7 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
           const requestSplitBtn = document.getElementById('requestSplitBtn');
           if (backButton || requestSplitBtn) {
             backButton.addEventListener('click', showInitialPopup);
-            requestSplitBtn.addEventListener('click', requestSplit);
+            requestSplitBtn.addEventListener('click', requestProductSharing);
           }
         }, 100);
       }
@@ -195,22 +193,45 @@ const UserLocation =memo( ({ setUserLocation, map, showAllProducts }) => {
     }
   }, [map, setUserLocation, sharedProduct, marker, showAllProducts]);
 
+  // Add useEffect to handle socket events if needed
+  useEffect(() => {
+    if (socket) {
+      socket.connect(); // Manually connect the socket
+
+      // Handle socket events
+      socket.on('connect', () => {
+        console.log('Socket connected');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Socket disconnected');
+      });
+
+      // Cleanup on unmount
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
+
   return (
     <>
       {notification && (
         <Notification
           message={notification}
-          onAccept={onAccept}
+          onAccept={handleAccept}
           onReject={onReject}
         />
       )}
-      {codePart && (
+      {codeSnippet && (
         <div>
-          <p>Your part of the coupon code: {codePart}</p>
+          <p>Your part of the coupon code: {codeSnippet}</p>
         </div>
       )}
     </>
   );
-    });
+});
 
 export default UserLocation;

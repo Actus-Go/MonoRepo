@@ -112,7 +112,6 @@ const MapComponent = memo(() => {
 
         // Add click event to log brand details
         customMarkerContainer.addEventListener("click", () => {
-          console.log("Brand clicked:", brand);
           setActiveBrandOrProduct({ brand, product: null });
         });
       });
@@ -153,19 +152,17 @@ const MapComponent = memo(() => {
         return {
           ...brand,
           products: allProducts.filter(
-            (product) => product?.brand?.slug == brand.slug
+            (product) => product?.brand?.slug === brand.slug
           ),
         };
       });
-
-      console.log(brandsData);
 
       if (!map) {
         initializeMap(brandsData);
       }
     };
     fetchAndInitialize();
-  }, []);
+  }, [map, user]);
 
   return (
     <div className="h-screen w-full bg-black relative">

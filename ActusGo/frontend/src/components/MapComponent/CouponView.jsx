@@ -2,22 +2,89 @@ import { BiSolidCoupon } from "react-icons/bi";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { GoPlusCircle } from "react-icons/go";
 import { Button } from "../Buttons";
-import { useState } from "react";
+import { useUser } from "../../customHooks/UserHook";
+import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
+import useSocket from '../../socket';
 
-export default function CouponView({ name, description, productCoupon }) {
+// Fetch brands from the API and redirect to Stripe payment link if available
+const buyProduct = async (productId, token) => {
+  try {
+    console.log(productId);
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_MARKET_BACKEND_URL}/api/payment/pay-for-product`,
+      {
+        id: productId,
+        quantity: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const { url } = response.data; // assuming the payment link is returned as `paymentUrl`
+
+    if (url) {
+      window.location.href = url; // Redirect to Stripe payment link
+    } else {
+      console.error("No payment link found in the response.");
+    }
+
+    return response.data.brands;
+  } catch (error) {
+    console.error("Error fetching products:", error.message);
+    return [];
+  }
+};
+
+export default function CouponView({ _id, name, description, productCoupon }) {
   const [quantity, setQuantity] = useState(1);
+  const user = useUser();
+  const socket = useSocket();
 
   const handleAdd = () => {
-    if (quantity < 99) setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity(quantity + 1);
   };
 
-  const handleMinus = () => {
-    if (quantity > 1) setQuantity((prevQuantity) => prevQuantity - 1);
+  const handleSubtract = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
+
+  const handleShare = useCallback(() => {
+    if (socket) {
+      socket.emit('share', { productId: _id });
+    } else {
+      console.error('Socket is not initialized');
+    }
+  }, [socket, _id]);
+
+  useEffect(() => {
+    if (socket) {
+      if (!socket.connected) {
+        socket.connect(); // Manually connect the socket
+      }
+
+      socket.on('share', (data) => {
+        console.log('Share event received:', data);
+        // Handle the share event data as needed
+      });
+
+      // Cleanup on unmount
+      return () => {
+        socket.off('share');
+        socket.disconnect();
+      };
+    }
+  }, [socket]);
 
   const zeroLeading = (number) => {
     if (number < 10) return "0" + number;
-    return number; 
+    return number;
   };
 
   return (
@@ -42,6 +109,13 @@ export default function CouponView({ name, description, productCoupon }) {
         <Button
           className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
           label={"Buy"}
+          onClick={async () => {
+            if (user && user.token) {
+              await buyProduct(_id, user.token);
+            } else {
+              console.error("User is not authenticated");
+            }
+          }}
         />
 
         <div className="bg-gray-800 w-full rounded-3xl p-4 gap-4 flex flex-col justify-start items-start">
@@ -59,8 +133,10 @@ export default function CouponView({ name, description, productCoupon }) {
               <button onClick={handleAdd}>
                 <GoPlusCircle size={24} />
               </button>
-              <span className="font-semibold text-2xl">{zeroLeading(quantity)}</span>
-              <button onClick={handleMinus}>
+              <span className="font-semibold text-2xl">
+                {zeroLeading(quantity)}
+              </span>
+              <button onClick={handleSubtract}>
                 <AiOutlineMinusCircle size={24} />
               </button>
             </div>
@@ -74,6 +150,7 @@ export default function CouponView({ name, description, productCoupon }) {
             <Button
               className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
               label={"Share"}
+              onClick={handleShare}
             />
           </div>
         </div>

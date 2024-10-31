@@ -72,10 +72,10 @@ export default function ColoredMarket() {
       <path
         fill="none"
         stroke="#40396e"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-miterlimit="10"
-        stroke-width="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="10"
+        strokeWidth="3"
         d="M88.5,44.5c0-1.517-0.377-2.948-1.043-4.203L79.5,24.5v-5c0-2.209-1.791-4-4-4h-52c-2.209,0-4,1.791-4,4v5l-7.957,15.797 C10.877,41.552,10.5,42.983,10.5,44.5c0,4.963,4.037,9,9,9v12h-4v17c0,1.657,1.343,3,3,3h1h60h1c1.657,0,3-1.343,3-3v-17h-4v-12 C84.463,53.5,88.5,49.463,88.5,44.5z"
       ></path>
     </svg>

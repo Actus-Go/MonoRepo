@@ -1,11 +1,9 @@
 import { AiOutlineShop } from "react-icons/ai";
 import { Button } from "../Buttons";
-import { GoLocation, GoStarFill } from "react-icons/go";
+// import { GoLocation, GoStarFill } from "react-icons/go";
 import { BiSolidCoupon } from "react-icons/bi";
 
 export default function MarketView({ name, description, products }) {
-  console.log(products);
-
   return (
     <div className="w-full flex flex-col gap-8">
       <div className="w-full bg-gradient-to-tr from-green-500 to-yellow-500 relative h-80 flex justify-center items-center">

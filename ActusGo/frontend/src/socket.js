@@ -1,26 +1,17 @@
-import { useEffect, useState } from 'react';
+// socket.js
 import { io } from 'socket.io-client';
 import { useUser } from "./customHooks/UserHook";
 
-const useInitializeSocket = () => {
+export default function useSocket() {
   const user = useUser();
-if (!user) {
-    console.error('User token is required for socket connection');
-    return;
-  }
+  const token = user?.token;
+  const URL = process.env.REACT_APP_MARKET_BACKEND_URL;
 
-  const socket = io('http://localhost:3000', {
-    auth: {
-      token: `Bearer ${user.token}`,
-    },
-  }); 
-
-  socket.on('connect_error', (error) => {
-    console.error('Connection error:', error);
+  const socket = io(URL, {
+    auth: token,
+    transports: ['websocket'],
+    autoConnect: false, // Disable auto connection
   });
 
   return socket;
-};
-
-export default useInitializeSocket;
-
+}
