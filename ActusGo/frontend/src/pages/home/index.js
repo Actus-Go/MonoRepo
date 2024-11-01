@@ -8,11 +8,9 @@ import React, {
 import { useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import CreatePost from "../../components/createPost";
-import Header from "../../components/header";
 import SendVerification from "../../components/home/sendVerification";
 import Post from "../../components/post";
 import "./style.css";
-import AsideNav from "../../components/header/ASideNav/AsideNav"
 const MobileOnlyComponent = React.lazy(() => import("./MobileOnlyComponent"));
 
 export default function Home({ setVisible, posts, loading, getAllPosts }) {

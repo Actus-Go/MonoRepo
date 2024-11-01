@@ -3,14 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@lemonsqueezy/wedges": "^1.4.0",
-    "@stripe/react-stripe-js": "^2.7.1",
-    "@stripe/stripe-js": "^4.0.0",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
-    "@tomtom-international/web-sdk-services": "^6.25.0",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
     "emoji-picker-react": "^4.5.16",
@@ -21,12 +14,11 @@
     "lucide-react": "^0.439.0",
     "moment": "^2.29.4",
     "pure-react-carousel": "^1.30.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-easy-crop": "^4.1.4",
     "react-icons": "^5.2.1",
     "react-loading-skeleton": "^3.0.3",
-    "react-masonry-css": "^1.0.16",
     "react-moment": "^1.1.1",
     "react-redux": "^7.2.6",
     "react-responsive": "^9.0.0-beta.6",
@@ -34,13 +26,11 @@
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
     "react-spinners": "^0.14.1",
-    "reactstrap": "^9.2.0",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.5",
     "swiper": "^11.1.12",
-    "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
@@ -68,7 +58,15 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^9.0.0",
-    "tailwindcss": "^3.3.3"
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.6.3"
   }
 }

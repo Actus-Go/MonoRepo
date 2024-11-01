@@ -12,7 +12,8 @@ import { useSelector } from "react-redux";
 import { postsReducer } from "./functions/reducers";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
-import HomePage from "./pages/home";
+// import HomePage from "./pages/home";
+import HomePage from "./pages/Home.V2";
 import DevelopmentPage from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
@@ -98,7 +99,6 @@ function App() {
   return (
     <>
       <div className={`${darkTheme ? "dark" : ""}`}>
-        <OnlineIndicator />
         {isLocationPopupVisible && (
           <LocationPopup
             onAllow={handleAllowLocation}
@@ -151,12 +151,7 @@ function App() {
             <Route
               path="/"
               element={
-                <HomePage
-                  setVisible={setPostPopupVisible}
-                  posts={posts}
-                  loading={loading}
-                  getAllPosts={fetchAllPosts}
-                />
+                <HomePage posts={posts} loading={loading}/>
               }
             />
             <Route
