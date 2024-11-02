@@ -151,7 +151,7 @@ function App() {
             <Route
               path="/"
               element={
-                <HomePage posts={posts} loading={loading}/>
+                <HomePage posts={posts} loading={loading} setVisible={setPostPopupVisible}/>
               }
             />
             <Route
