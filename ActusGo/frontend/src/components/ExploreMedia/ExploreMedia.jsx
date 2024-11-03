@@ -4,7 +4,7 @@ import { Play, Heart, MessageCircle, Share2 } from 'lucide-react';
 
 const PostCard = ({ post }) => {
   return (
-    <div className="relative group overflow-hidden rounded-lg h-[375px]">
+    <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-[280px]">
       <div className="w-full h-full overflow-hidden bg-gray-100">
         {post.type === 'video' ? (
           <div className="relative w-full h-full">
