@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import EmojiPickerBackgrounds from "./EmojiPickerBackgrounds";
+import PropTypes from 'prop-types';
 
 export default function ImagePreview({
   text,
@@ -153,3 +154,13 @@ export default function ImagePreview({
     </div>
   );
 }
+
+ImagePreview.propTypes = {
+  text: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  setText: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setImages: PropTypes.func.isRequired,
+  setShowPrev: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+};

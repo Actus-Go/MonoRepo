@@ -22,5 +22,4 @@ export default function OffersWrapper({ offers }) {
       </Swiper>
     </div>
   );
-};
-
+}

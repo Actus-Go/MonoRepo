@@ -54,7 +54,7 @@ export default function CreatePost({ user, setVisible, profile }) {
                         alt={`${user?.first_name}'s profile`}
                     />
                 </div>
-                <p>What's on your mind, {user?.first_name}?</p>
+                <p>What&apos;s on your mind, {user?.first_name}?</p>
             </div>
 
             {/* Additional content for the body of the post */}

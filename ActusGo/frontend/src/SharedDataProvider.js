@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import PropTypes from 'prop-types';
 
 export const SharedDataContext = createContext();
 
@@ -10,4 +11,8 @@ export const SharedDataProvider = ({ children }) => {
       {children}
     </SharedDataContext.Provider>
   );
+};
+
+SharedDataProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
