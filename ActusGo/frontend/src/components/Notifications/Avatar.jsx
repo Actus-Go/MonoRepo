@@ -1,4 +1,6 @@
-const Avatar = ({ name, imageUrl, isActive }) => {
+import PropTypes from 'prop-types';
+
+export default function Avatar({ name, imageUrl, isActive }) {
   return (
     <div className="w-8 aspect-square rounded-full relative">
       {/* Avatar Image Wrapper */}
@@ -16,6 +18,15 @@ const Avatar = ({ name, imageUrl, isActive }) => {
       )}
     </div>
   );
+}
+
+Avatar.propTypes = {
+  name: PropTypes.string,
+  imageUrl: PropTypes.string.isRequired,
+  isActive: PropTypes.bool
 };
 
-export default Avatar;
+Avatar.defaultProps = {
+  name: '',
+  isActive: false
+};

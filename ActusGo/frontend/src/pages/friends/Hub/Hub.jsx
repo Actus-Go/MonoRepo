@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import HubItem from "./HubItem";
 import Sparkels from "../../../components/createPost/Sparkels";
 import HubCatigory from "./HubCatigory";
+import PropTypes from 'prop-types';
 
 function Hub(props) {
   const location = useLocation();
@@ -74,5 +75,20 @@ function Hub(props) {
     </div>
   );
 }
+
+Hub.propTypes = {
+  category: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired
+};
+
+// Optional: Add default props if needed
+Hub.defaultProps = {
+  category: '',
+  name: '',
+  link: '#',
+  icon: ''
+};
 
 export default Hub;

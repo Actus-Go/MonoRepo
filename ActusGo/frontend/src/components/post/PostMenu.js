@@ -3,6 +3,7 @@ import MenuItem from "./MenuItem";
 import useOnClickOutside from "../../utils/clickOutside";
 import { deletePost, savePost } from "../../functions/post";
 import { saveAs } from "file-saver";
+import PropTypes from 'prop-types';
 
 export default function PostMenu({
   postUserId,
@@ -100,3 +101,22 @@ export default function PostMenu({
     </ul>
   );
 }
+
+PostMenu.propTypes = {
+  postUserId: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  imagesLength: PropTypes.number.isRequired,
+  setShowMenu: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired,
+  checkSaved: PropTypes.bool.isRequired,
+  setCheckSaved: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(PropTypes.shape({
+    url: PropTypes.string.isRequired,
+  })).isRequired,
+  postRef: PropTypes.shape({
+    current: PropTypes.shape({
+      remove: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+};

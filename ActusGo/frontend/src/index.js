@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./styles/icons/icons.css";
 import "./styles/dark.css";
@@ -14,16 +14,16 @@ import { UserProvider } from "./customHooks/UserHook";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
+const root = createRoot(document.getElementById("root"));
 
-ReactDOM.render(
+root.render(
   <Provider store={store}>
-        <Router>
-            <SharedDataProvider>
-                <UserProvider>
-                    <App />
-                </UserProvider>
-            </SharedDataProvider>
-        </Router>
-  </Provider>,
-  document.getElementById("root")
+    <Router>
+      <SharedDataProvider>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </SharedDataProvider>
+    </Router>
+  </Provider>
 );

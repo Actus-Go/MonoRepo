@@ -1,6 +1,7 @@
 import CouponView from "./CouponView";
 import MarketView from "./MarketView";
 import { AiOutlineClose } from "react-icons/ai";
+import PropTypes from 'prop-types';
 
 export default function BrandSideBar({ brand, product, handleExit }) {
   return (
@@ -20,3 +21,9 @@ export default function BrandSideBar({ brand, product, handleExit }) {
     </div>
   );
 }
+
+BrandSideBar.propTypes = {
+  brand: PropTypes.object,
+  product: PropTypes.object,
+  handleExit: PropTypes.func.isRequired
+};

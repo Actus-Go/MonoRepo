@@ -1,6 +1,7 @@
 import formatTimeDifference from "../../utils/formatTimeDifference";
 import { Button, ButtonVariants } from "../Buttons";
 import Avatar from "./Avatar";
+import PropTypes from 'prop-types';
 
 export default function Notification({
   user,
@@ -34,17 +35,17 @@ export default function Notification({
         <div className="flex w-full font-semibold">
           {primaryActionButton && (
             <Button
+              className={`w-full rounded-lg ${primaryActionButton.additionalClasses}`}
               label={primaryActionButton.label}
               handleClick={primaryActionButton.onClick}
-              additionalClasses={primaryActionButton.additionalClasses}
             />
           )}
           {secondaryActionButton && (
             <Button
+              className={`w-full rounded-lg ${secondaryActionButton.additionalClasses}`}
               variant={ButtonVariants.SECONDARY}
               label={secondaryActionButton.label}
               handleClick={secondaryActionButton.onClick}
-              additionalClasses={secondaryActionButton.additionalClasses}
             />
           )}
         </div>
@@ -52,3 +53,23 @@ export default function Notification({
     </div>
   );
 }
+
+Notification.propTypes = {
+  user: PropTypes.shape({
+    avatar: PropTypes.string,
+    name: PropTypes.string,
+    isActive: PropTypes.bool,
+  }).isRequired,
+  actionDescription: PropTypes.string.isRequired,
+  timestamp: PropTypes.string.isRequired,
+  primaryActionButton: PropTypes.shape({
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+    additionalClasses: PropTypes.string,
+  }),
+  secondaryActionButton: PropTypes.shape({
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+    additionalClasses: PropTypes.string,
+  }),
+};

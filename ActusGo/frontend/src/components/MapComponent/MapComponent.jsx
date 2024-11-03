@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import tt from "@tomtom-international/web-sdk-maps";
 import axios from "axios";
 import highlightedCountriesData from "../../data/qa.json";
@@ -99,18 +99,18 @@ const MapComponent = memo(() => {
     // Add Brand markers based on active products
     const addBrandMarkers = (mapInstance, brands) => {
       brands.forEach((brand) => {
-        // Create a container div to render the CustomMarker component
         const customMarkerContainer = document.createElement("div");
+        
+        // Create root and render
+        const root = createRoot(customMarkerContainer);
+        root.render(<CustomMarker />);
 
-        // Render the CustomMarker component into the container
-        ReactDOM.render(<CustomMarker />, customMarkerContainer);
-
-        // Create a marker with the custom element
-        const marker = new tt.Marker({ element: customMarkerContainer })
+        // Store marker reference if needed for cleanup
+        new tt.Marker({ element: customMarkerContainer })
           .setLngLat(brand.location.coordinates)
           .addTo(mapInstance);
 
-        // Add click event to log brand details
+        // Add click event
         customMarkerContainer.addEventListener("click", () => {
           setActiveBrandOrProduct({ brand, product: null });
         });
@@ -176,5 +176,7 @@ const MapComponent = memo(() => {
     </div>
   );
 });
+
+MapComponent.displayName = 'MapComponent';
 
 export default MapComponent;
