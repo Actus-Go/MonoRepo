@@ -6,7 +6,7 @@ import SkeletonTheme from "react-loading-skeleton";
 
 function CustomNav({ user }) {
   return (
-    <div className='bg-black/80 backdrop-blur-md p-2 fixed bottom-0 sm:hidden  w-full h-[60px]'>
+    <div className='bg-black/80 backdrop-blur-md p-2 fixed bottom-0 sm:hidden  w-full h-[60px] z-[999999999]'>
       <div className='w-full h-full flex  px-5 justify-between'>
         <div>
           <Link to='/'>

@@ -21,7 +21,7 @@ export default function LoggedInRoutes() {
   };
 
 
-  return user ? (<>
+  return user ? (<div className="!h-screen overflow-y-auto w-full">
       <div className="flex justify-evenly text-start flex-col md:flex-row items-start">
         <NotificationBar
         isOpen={isNotificationBarOpen}
@@ -35,7 +35,7 @@ export default function LoggedInRoutes() {
         isCollapsedProp={isCollapsed}
         setCollapsedProp={setCollapsed}
         user={user} />
-      <div className="flex pl-5 py-5 bg-[#222] md:bg-transparent items-center justify-between md:justify-end fixed top-0 left-0 h-fit w-full">
+      <div className="flex pl-5 py-2 bg-[#222] md:bg-transparent items-center justify-between md:justify-end fixed top-0 left-0 h-fit w-full">
         <div className=" text-white md:hidden w-fit h-fit aspect-square">
           <button className='text-white w-min aspect-square inline-block' onClick={() => setCollapsed(false)}>
             <FaBars size={25} />
@@ -55,5 +55,5 @@ export default function LoggedInRoutes() {
       </div>
     </div>
     <Outlet />
-  </>) : <Login />;
+  </div>) : <Login />;
 }
