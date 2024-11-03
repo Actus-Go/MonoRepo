@@ -14,7 +14,7 @@ const OfferCard = ({ title, content, buy, details }) => {
       : "grid-cols-2 grid-rows-2";
 
   return (
-    <div className="bg-gray-800 text-white p-4 flex flex-col gap-4 max-w-[500px] text-start rounded-md shadow-lg h-full w-full min-w-[300px]">
+    <div className="bg-gray-800 text-white p-4 flex flex-col gap-4 max-w-[500px] text-start rounded-2xl shadow-lg h-full w-full min-w-[300px]">
       <h3 className="text-lg font-semibold w-full">{title}</h3>
       <div className={`grid ${layoutClass} gap-2 w-full h-full`}>
         {content.map((Component, index) => (

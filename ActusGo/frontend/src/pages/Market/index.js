@@ -128,11 +128,11 @@ export default function index() {
   let offersProps = {
     offers: [
       {
-        title: "test",
+        title: "Best Offers",
         content: [
           <div key={1} className="w-full h-full group transition-all rounded-xl overflow-hidden">
             <img
-              src="/images/insta.png"
+              src="/images/stok_1.png"
               className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
               alt=""
             />
@@ -243,7 +243,7 @@ export default function index() {
   };
 
   return (
-    <div className="w-full md:w-[calc(100%-86px)] md:ml-auto gap-6 mt-10 md:gap-24 flex flex-col p-6 md:p-12 pt-20 bg-black">
+    <div className="w-full md:w-[calc(100%-86px)] md:ml-auto gap-6 mt-10 md:gap-24 flex flex-col p-6 md:p-12 pt-16 bg-black">
       <div className="w-full rounded-2xl overflow-hidden">
         <Slider {...sliderProps} />
       </div>
