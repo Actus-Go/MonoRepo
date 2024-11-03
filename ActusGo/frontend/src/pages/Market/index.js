@@ -152,7 +152,6 @@ export default function index() {
           />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -173,7 +172,6 @@ export default function index() {
                     />
                     </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -187,7 +185,6 @@ export default function index() {
             />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -201,7 +198,6 @@ export default function index() {
             />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -215,7 +211,6 @@ export default function index() {
             />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -229,7 +224,6 @@ export default function index() {
             />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
       {
@@ -243,7 +237,6 @@ export default function index() {
             />
           </div>,
         ],
-        buy: () => console.log("buy"),
         details: () => console.log("details"),
       },
     ],
