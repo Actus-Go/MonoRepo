@@ -130,12 +130,26 @@ export default function index() {
       {
         title: "test",
         content: [
-          <div key={1} className="w-full group transition-all rounded-xl overflow-hidden">
+          <div key={1} className="w-full h-full group transition-all rounded-xl overflow-hidden">
             <img
-              src="https://iso.500px.com/wp-content/uploads/2015/10/lohi_cover.jpeg"
+              src="/images/insta.png"
               className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
               alt=""
             />
+          </div>,
+          <div key={2} className="w-full h-full group transition-all rounded-xl overflow-hidden">
+          <img
+            src="/images/stok_2.png"
+            className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
+            alt=""
+          />
+          </div>,
+          <div key={3} className="w-full h-full group transition-all rounded-xl overflow-hidden">
+          <img
+            src="https://iso.500px.com/wp-content/uploads/2015/10/lohi_cover.jpeg"
+            className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
+            alt=""
+          />
           </div>,
         ],
         buy: () => console.log("buy"),
@@ -150,8 +164,14 @@ export default function index() {
               className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
               alt=""
             />
-            
           </div>,
+                    <div key={4} className="w-full h-full group transition-all rounded-xl overflow-hidden">
+                    <img
+                      src="https://iso.500px.com/wp-content/uploads/2015/10/lohi_cover.jpeg"
+                      className="min-h-full min-w-full object-cover group-hover:scale-105 transition-all"
+                      alt=""
+                    />
+                    </div>,
         ],
         buy: () => console.log("buy"),
         details: () => console.log("details"),
