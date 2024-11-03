@@ -1,5 +1,6 @@
 // OfferCard.js
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button, { ButtonVariants } from '../Buttons/Button';
 
 const OfferCard = ({ title, content, buy, details }) => {
@@ -22,6 +23,12 @@ const OfferCard = ({ title, content, buy, details }) => {
       </div>
     </div>
   );
+};
+OfferCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.arrayOf(PropTypes.element).isRequired,
+  buy: PropTypes.func.isRequired,
+  details: PropTypes.func.isRequired,
 };
 
 export default OfferCard;

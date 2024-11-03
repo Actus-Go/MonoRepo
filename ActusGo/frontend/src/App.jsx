@@ -22,7 +22,6 @@ import ResetPage from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
-import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
 import Market from "./pages/Market";
 

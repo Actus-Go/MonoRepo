@@ -21,7 +21,7 @@ export default function LoggedInRoutes() {
   };
 
 
-  return user ? (<>
+  return user ? (<div className="!h-screen overflow-y-auto w-full">
       <div className="flex justify-evenly text-start flex-col md:flex-row items-start">
         <NotificationBar
         isOpen={isNotificationBarOpen}
@@ -55,5 +55,5 @@ export default function LoggedInRoutes() {
       </div>
     </div>
     <Outlet />
-  </>) : <Login />;
+  </div>) : <Login />;
 }
