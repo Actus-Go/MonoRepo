@@ -1,7 +1,7 @@
 import { AiOutlineShop } from "react-icons/ai";
 import { Button } from "../Buttons";
-// import { GoLocation, GoStarFill } from "react-icons/go";
 import { BiSolidCoupon } from "react-icons/bi";
+import PropTypes from 'prop-types';
 
 export default function MarketView({ name, description, products }) {
   return (
@@ -16,16 +16,6 @@ export default function MarketView({ name, description, products }) {
       <div className="flex flex-col gap-8 px-8 text-start justify-start items-start text-slate-200">
         <h1 className="text-4xl text-white font-bold">{name}</h1>
         <p className="text-sm">{description}</p>
-        {/* <div className="flex w-full font-semibold justify-between text-sm">
-          <div className="flex items-center gap-1">
-            <GoLocation size={20} />
-            <span>Location</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <GoStarFill color="yellow" size={20} />
-            <span>4.1 / 5</span>
-          </div>
-        </div> */}
       </div>
 
       {/* Products Section */}
@@ -57,8 +47,8 @@ export default function MarketView({ name, description, products }) {
 
                 <Button
                   onClick={handleSelectProduct}
-                  variant="secondary" // Assuming "secondary" is a valid variant in the Button component
-                  className="font-semibold py-2 h-auto !rounded-full !text-2xl hover:!bg-blue-600 hover:!border-blue-600"
+                  variant="secondary" 
+                  className="font-semibold py-2 h-auto !rounded-full w-full !text-2xl hover:!bg-blue-600 hover:!border-blue-600"
                   label="Details"
                 />
               </div>
@@ -68,3 +58,16 @@ export default function MarketView({ name, description, products }) {
     </div>
   );
 }
+
+MarketView.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      productCoupon: PropTypes.object,
+      handleSelectProduct: PropTypes.func
+    })
+  )
+};

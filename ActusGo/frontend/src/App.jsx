@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import { postsReducer } from "./functions/reducers";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
-// import HomePage from "./pages/home";
 import HomePage from "./pages/Home.V2";
 import DevelopmentPage from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";

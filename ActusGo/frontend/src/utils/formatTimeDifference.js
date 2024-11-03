@@ -19,4 +19,4 @@ export default function formatTimeDifference(time) {
     if (weeks < 4) return `${weeks}w ago`;
     if (months < 12) return `${months}mo ago`;
     return `${years}y ago`;
-};
+}

@@ -32,6 +32,7 @@ export default function CategoriesSlider({ categories }) {
       </Swiper>
     </div>
   );
+
 }
 
 CategoriesSlider.propTypes = {
