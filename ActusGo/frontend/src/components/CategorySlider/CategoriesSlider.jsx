@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 export default function CategoriesSlider({ categories }) {
   return (
-    <div className="p-8 bg-black text-start w-full">
+    <div className=" bg-black text-start w-full">
       <h2 className="text-2xl font-semibold text-white mb-6">Categories</h2>
       <Swiper
         slidesPerView={"auto"}
@@ -31,7 +31,8 @@ export default function CategoriesSlider({ categories }) {
         ))}
       </Swiper>
     </div>
-  )
+  );
+
 }
 
 CategoriesSlider.propTypes = {
@@ -39,7 +40,7 @@ CategoriesSlider.propTypes = {
     PropTypes.shape({
       url: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      image: PropTypes.node.isRequired
+      image: PropTypes.node.isRequired,
     })
-  ).isRequired
+  ).isRequired,
 };
