@@ -1,6 +1,8 @@
 import Slider from "../../components/Slider";
 import Categories from "../../components/CategorySlider";
 import Offers from "../../components/OffersSlider";
+import RecommendedWrapper from "../../components/Recommended/RecommendedWrapper";
+import BrandSlider from "../../components/Brand/BrandSlider";
 
 export default function index() {
   const sliderProps = {
@@ -93,6 +95,8 @@ export default function index() {
 
       <Categories {...categoriesProps} />
       <Offers {...offersProps} />
+      <RecommendedWrapper />
+      <BrandSlider />
     </div>
   );
 }
