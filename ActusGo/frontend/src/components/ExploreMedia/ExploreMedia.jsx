@@ -53,14 +53,8 @@ const PostsGrid = ({ posts }) => {
           <PostCard key={post.id} post={post} />
         ))}
       </div>
-
-      {/* Render Popup if media is selected */}
-      {selectedMedia && (
-        <MediaPopup
-          content={selectedMedia}
-          onClose={() => setSelectedMedia(null)}
-        />
-      )}
-    </>
-  );
+    </div>
+  )
 }
+
+export default PostsGrid;
