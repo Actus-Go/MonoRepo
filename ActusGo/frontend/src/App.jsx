@@ -21,7 +21,6 @@ import ResetPage from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
-import LocationPopup from "./components/Location/LocationPopup";
 import Market from "./pages/Market";
 
 // Lazy load the Tasks page
@@ -37,7 +36,6 @@ function App() {
   });
 
   const [userLocation, setUserLocation] = useState(null);
-  const [isLocationPopupVisible, setLocationPopupVisible] = useState(true);
 
   // Fetch posts when user is logged in
   useEffect(() => {
@@ -72,7 +70,6 @@ function App() {
   // Handle user allowing location access
   const handleAllowLocation = (location) => {
     setUserLocation(location);
-    setLocationPopupVisible(false);
   };
 
   // Track user's geolocation
@@ -97,12 +94,6 @@ function App() {
   return (
     <>
       <div className={`${darkTheme ? "dark" : ""}`}>
-        {isLocationPopupVisible && (
-          <LocationPopup
-            onAllow={handleAllowLocation}
-            setPopupVisible={setLocationPopupVisible}
-          />
-        )}
         {isPostPopupVisible && (
           <CreatePostPopup
             user={user}
