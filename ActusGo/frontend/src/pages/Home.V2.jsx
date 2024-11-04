@@ -8,12 +8,12 @@ export default function Home({ loading, posts, setVisible }) {
     const user = useUser();
 
     return loading ? (
-        <div className="h-screen w-full flex justify-center">
+        <div className="h-dvh w-full flex justify-center">
             <BeatLoader color="#6e56fc" />
         </div>
     ) : (
         <div className="w-full h-full box-border relative bg-gradient-to-b from-gray-900 to-black">
-            <div className="w-full h-screen overflow-y-auto snap-y snap-mandatory">
+            <div className="w-full h-dvh overflow-y-auto snap-y snap-mandatory">
                 {posts.map((post, index) => (
                     <Post key={index} post={post} user={user} />
                 ))}

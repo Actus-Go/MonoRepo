@@ -15,7 +15,7 @@ export default function Popup({ onClose, content }) {
     };
 
     return (
-        <div className={`fixed inset-0 min-w-screen min-h-screen bg-black/60 transition-opacity flex justify-center items-center ${isVisible ? "opacity-100" : "opacity-30"}`}>
+        <div className={`fixed inset-0 min-w-screen min-h-dvh bg-black/60 transition-opacity flex justify-center items-center ${isVisible ? "opacity-100" : "opacity-30"}`}>
             {/* Close Button */}
             <button
                 onClick={handleClose}

@@ -165,7 +165,7 @@ const MapComponent = memo(() => {
   }, [map, user]);
 
   return (
-    <div className="h-screen w-full bg-black relative">
+    <div className="h-dvh w-full bg-black relative">
       <BrandSideBar
         handleExit={() =>
           setActiveBrandOrProduct({ brand: null, product: null })

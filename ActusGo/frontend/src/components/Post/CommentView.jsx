@@ -91,7 +91,7 @@ export function CommentView({
     };
 
     return (
-        <div className="w-screen h-screen absolute inset-0 gap-0 max-md:flex-col overflow-x-hidden overflow-auto top-0 right-0 flex z-[99999999999]">
+        <div className="w-screen h-dvh absolute inset-0 gap-0 max-md:flex-col overflow-x-hidden overflow-auto top-0 right-0 flex z-[99999999999]">
             <div
                 className={`bg-white/10 h-full w-full backdrop-blur-xl flex justify-center items-center ${
                     isActive ? "opacity-100 w-full md:w-7/12 lg:w-1/2 xl:w-5/12" : "opacity-0"

@@ -25,7 +25,7 @@ export default function ExploreMedia({ media }) {
 
   return (
     <>
-      <div className="min-h-screen w-11/12 max-w-screen-2xl bg-transparent text-black columns-2 my-10 lg:columns-3 xl:columns-4 gap-5">
+      <div className="min-h-dvh w-11/12 max-w-screen-2xl bg-transparent text-black columns-2 my-10 lg:columns-3 xl:columns-4 gap-5">
         {media.map(({ src, alt, type }, index) => (
           <button
             onClick={() => handleMediaSelect(src, alt, type)}
