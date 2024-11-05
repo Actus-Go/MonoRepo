@@ -22,6 +22,7 @@ import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
+import Products from "./pages/products";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -135,6 +136,12 @@ function App() {
               path="/market"
               element={
                 <Market />
+              }
+            />
+            <Route
+              path="/products"
+              element={
+                <Products />
               }
             />
             <Route
