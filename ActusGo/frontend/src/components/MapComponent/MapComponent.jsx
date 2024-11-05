@@ -188,6 +188,7 @@ export default MapComponent;
 const ShareProductPopup = ({ onClose }) => {
   const [acceptedUsers,setAcceptedUsers] = useState(0);
   const requests = useShareRequestUsersStore((state)=>state.requests);
+  const isLoading = useShareRequestUsersStore((state)=>state.isLoading);
   
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999999999999]">
@@ -223,6 +224,7 @@ const ShareProductPopup = ({ onClose }) => {
           ))}
         </div>
       </div>
+      {isLoading && <LoadingOverlay/>}
     </div>
   );
 };
@@ -231,14 +233,19 @@ function UserRequest({ user, requestId, message, onAccept }) {
   const [finished, setFinished] = useState(false);
   const [isAccepted, setIsAccepted] = useState(null);
   const socket = useSocket();
-  const {accepted,isLoading,acceptedId,changeLoading} = useShareRequestUsersStore((state)=>state);
+  const {changeLoading,setAcceptedId} = useShareRequestUsersStore((state)=>state);
 
   const handleAcceptToShare = () => {
     setFinished(true);
     setIsAccepted(true);
     //set the loading directly to true when the first user is accepted
     changeLoading(true);
+    setAcceptedId(requestId);
     socket.emit('accept', {id:requestId});
+    socket.on('accept', ({checkoutUrl}) =>{
+      changeLoading(false);
+      window.location.href = checkoutUrl.url;
+    });
   };
 
   const handleRefuseToShare = () => {
@@ -289,6 +296,13 @@ function UserRequest({ user, requestId, message, onAccept }) {
             Reject
           </button>
         </div>
+    </div>
+  );
+}
+function LoadingOverlay() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-stone-500 bg-opacity-10 z-50">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-100"></div>
     </div>
   );
 }

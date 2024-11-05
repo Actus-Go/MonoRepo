@@ -8,16 +8,19 @@ import { FaBars } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { generateDemoNotifications } from '../components/Notifications/notificationData.js';
 import NotificationBar from '../components/Notifications/NotificationBar.jsx';
+import { useNotificationStore } from "../Store/notificationStore.js";
 
 export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));
   const [isCollapsed, setCollapsed] = useState(false);
   const [isNotificationBarOpen, setNotificationBarOpen] = useState(false);
+  const setHasNotification = useNotificationStore((state)=>state.setHasNotification);
 
   const demoNotifications = generateDemoNotifications(30);
 
   let toggleNotificationBarOpen = () => {
       setNotificationBarOpen(!isNotificationBarOpen);
+      setHasNotification(false);
   };
 
 

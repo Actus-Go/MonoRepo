@@ -6,6 +6,7 @@ import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { useSocket} from '../../socket';
+import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
 
 // Fetch brands from the API and redirect to Stripe payment link if available
 const buyProduct = async (productId, token) => {
@@ -44,6 +45,7 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
   const [quantity, setQuantity] = useState(1);
   const user = useUser();
   const socket = useSocket();
+  const clear = useShareRequestUsersStore((state)=>state.clear);
 
   const handleAdd = () => {
     setQuantity(quantity + 1);
@@ -91,6 +93,10 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
       setOpenClosePopup(false);
     }
   }, [socket]);
+  
+  useEffect(()=>{
+    clear();
+  },[]);
 
   const zeroLeading = (number) => {
     if (number < 10) return "0" + number;
