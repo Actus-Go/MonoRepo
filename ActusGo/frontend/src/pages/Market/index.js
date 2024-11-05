@@ -3,6 +3,8 @@ import Categories from "../../components/CategorySlider";
 import Offers from "../../components/OffersSlider";
 import RecommendedWrapper from "../../components/Recommended/RecommendedWrapper";
 import BrandSlider from "../../components/Brand/BrandSlider";
+import LogoSlider from "../../components/LogoSlider";
+import ProductsSlider from "../../components/ProductsSlider";
 
 export default function index() {
   const sliderProps = {
@@ -95,8 +97,8 @@ export default function index() {
 
       <Categories {...categoriesProps} />
       <Offers {...offersProps} />
-      <RecommendedWrapper />
-      <BrandSlider />
+      <LogoSlider/>
+      <ProductsSlider />
     </div>
   );
 }
