@@ -66,12 +66,12 @@ const LoginPage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full mb-4"
+                    className="bg-[#efff55] text-[#efff55] hover:bg-blue-600 px-4 py-2 rounded w-full mb-4"
                     onClick={handleLogin}
                 >
                     Log In
                 </button>
-                <a href="/forgot-password" className="text-blue-500 hover:text-blue-600 mb-4">
+                <a href="/forgot-password" className="text-[#efff55] hover:text-blue-600 mb-4">
                     Forgot your password?
                 </a>
                 <button
@@ -86,11 +86,11 @@ const LoginPage = () => {
                 <div className="max-w-md px-8">
                     <div className="text-gray-500 mb-4">
                         <FaChevronLeft
-                            className="inline-block cursor-pointer hover:text-gray-800"
+                            className="inline-block text-black cursor-pointer hover:text-gray-800"
                             onClick={handlePreviousTestimonial}
                         />
                         <FaChevronRight
-                            className="inline-block ml-4 cursor-pointer hover:text-gray-800"
+                            className="inline-block ml-4 text-black cursor-pointer hover:text-gray-800"
                             onClick={handleNextTestimonial}
                         />
                     </div>
