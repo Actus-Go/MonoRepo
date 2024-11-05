@@ -11,6 +11,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers";
 import { SharedDataProvider } from "./SharedDataProvider";
 import { UserProvider } from "./customHooks/UserHook";
+import { SocketProvider } from "./socket";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -20,7 +21,9 @@ ReactDOM.render(
         <Router>
             <SharedDataProvider>
                 <UserProvider>
-                    <App />
+                    <SocketProvider>
+                        <App />
+                    </SocketProvider>
                 </UserProvider>
             </SharedDataProvider>
         </Router>

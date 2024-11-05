@@ -35,7 +35,7 @@ export default function Notification({
           {primaryActionButton && (
             <Button
               label={primaryActionButton.label}
-              handleClick={primaryActionButton.onClick}
+              onClick={primaryActionButton.onClick}
               additionalClasses={primaryActionButton.additionalClasses}
             />
           )}
@@ -43,7 +43,7 @@ export default function Notification({
             <Button
               variant={ButtonVariants.SECONDARY}
               label={secondaryActionButton.label}
-              handleClick={secondaryActionButton.onClick}
+              onClick={secondaryActionButton.onClick}
               additionalClasses={secondaryActionButton.additionalClasses}
             />
           )}

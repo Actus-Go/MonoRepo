@@ -25,6 +25,9 @@ import CustomNav from "./components/header/Custom/CustomNav";
 import OnlineIndicator from "./components/Indecators/OnlineIndicator";
 import LocationPopup from "./components/Location/LocationPopup";
 import Market from "./pages/Market";
+import { useSocket } from "./socket";
+import { useNotificationStore } from "./Store/notificationStore";
+import { useShareRequestUsersStore } from "./Store/ShareRequestUsersStore";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -32,6 +35,10 @@ const TasksPage = lazy(() => import("./pages/tasks"));
 function App() {
   const [isPostPopupVisible, setPostPopupVisible] = useState(false);
   const { user, darkTheme } = useSelector((state) => state);
+  let socket = useSocket();
+  const addNotification = useNotificationStore((state) => state.addNotification );
+  const addrequest = useShareRequestUsersStore((state=>state.addrequest));
+
   const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
@@ -40,7 +47,38 @@ function App() {
 
   const [userLocation, setUserLocation] = useState(null);
   const [isLocationPopupVisible, setLocationPopupVisible] = useState(true);
-
+  
+  useEffect(() =>{
+    console.log("sokcet", "connected");
+    if(socket && socket.connected){
+      console.log("sokcet", "connected :)");
+      socket.on('share',(data)=>{
+        addNotification({
+          user:{
+            name:`${data.user.firstName} ${data.user.lastName}`,
+            avatar:data.user.avatar
+          },
+          actionDescription:data.message,
+          timestamp:data.timestamp,
+          primaryActionButton:{
+            label:"Send a request to share",
+            onClick: ()=>{
+              console.log("sokcet", "requestToShare");
+              socket.emit('requestToShare',{id:data.sharedProduct})
+            }
+          }
+        })
+      });
+      socket.on('requestToShare',(data)=>{
+        console.log("on sokcet", "requestToShare",data);
+        addrequest({user:data.user,requestId:data.userRequest,message:data.message});
+      });
+      socket.on('accept',(data)=>{
+        
+      })
+    }
+  },[socket,socket?.connected]);
+ 
   // Fetch posts when user is logged in
   useEffect(() => {
     if (user?.token) {

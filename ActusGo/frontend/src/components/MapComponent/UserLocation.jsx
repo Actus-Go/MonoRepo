@@ -1,7 +1,7 @@
 import { memo, useCallback, useContext, useEffect, useState } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import { SharedDataContext } from "../../SharedDataProvider";
-import useInitializeSocket from '../../socket';
+import {socket} from '../../socket';
 import Notification from "./Notification";
 
 const UserLocation = memo(({ setUserLocation, map, showAllProducts }) => {
@@ -18,9 +18,6 @@ const UserLocation = memo(({ setUserLocation, map, showAllProducts }) => {
   const [isAcceptClicked, setIsAcceptClicked] = useState(false); 
   const [isRejectClicked, setIsRejectClicked] = useState(false);
   const [codeSnippet, setCodeSnippet] = useState(null);
-
-  // Socket initialization
-  const socket = useInitializeSocket();
 
   // Function to request product sharing
   const requestProductSharing = useCallback(() => {

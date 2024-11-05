@@ -8,7 +8,7 @@ import "./style.css";
 import Cover from "./Cover";
 import ProfielPictureInfos from "./ProfielPictureInfos";
 import CreatePost from "../../components/createPost";
-import Post from "../../components/post";
+import Post from "../../components/post-1";
 import Photos from "./Photos";
 import Friends from "./Friends";
 import Intro from "../../components/intro";

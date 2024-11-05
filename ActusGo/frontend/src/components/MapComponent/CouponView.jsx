@@ -5,7 +5,7 @@ import { Button } from "../Buttons";
 import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import useSocket from '../../socket';
+import { useSocket} from '../../socket';
 
 // Fetch brands from the API and redirect to Stripe payment link if available
 const buyProduct = async (productId, token) => {
@@ -40,13 +40,17 @@ const buyProduct = async (productId, token) => {
   }
 };
 
-export default function CouponView({ _id, name, description, productCoupon }) {
+export default function CouponView({ _id, name, description, productCoupon ,setOpenClosePopup}) {
   const [quantity, setQuantity] = useState(1);
   const user = useUser();
   const socket = useSocket();
 
   const handleAdd = () => {
     setQuantity(quantity + 1);
+  };
+  const handleSplit = ()=>{
+    console.log('spliting',socket.connected);
+    socket.emit('split',{id: _id, numOfSplit:quantity});
   };
 
   const handleSubtract = () => {
@@ -56,8 +60,12 @@ export default function CouponView({ _id, name, description, productCoupon }) {
   };
 
   const handleShare = useCallback(() => {
+    setOpenClosePopup(true);
     if (socket) {
       socket.emit('share', { productId: _id });
+      socket.on('share', (data) => {
+        console.log("share", data);
+      });
     } else {
       console.error('Socket is not initialized');
     }
@@ -77,8 +85,10 @@ export default function CouponView({ _id, name, description, productCoupon }) {
       // Cleanup on unmount
       return () => {
         socket.off('share');
-        socket.disconnect();
       };
+    }
+    return () => {
+      setOpenClosePopup(false);
     }
   }, [socket]);
 
@@ -146,6 +156,7 @@ export default function CouponView({ _id, name, description, productCoupon }) {
             <Button
               className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
               label={"Split"}
+              onClick={handleSplit}
             />
             <Button
               className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
@@ -155,6 +166,8 @@ export default function CouponView({ _id, name, description, productCoupon }) {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
+ 

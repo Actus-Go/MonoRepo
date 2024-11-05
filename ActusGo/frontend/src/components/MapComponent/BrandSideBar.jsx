@@ -2,7 +2,7 @@ import CouponView from "./CouponView";
 import MarketView from "./MarketView";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function BrandSideBar({ brand, product, handleExit }) {
+export default function BrandSideBar({ brand, product, handleExit ,setOpenClosePopup}) {
   return (
     <div
       className={`flex flex-col justify-start items-center z-[999999999999] h-screen bg-black max-w-[450px] w-full fixed top-0 right-0 overflow-hidden overflow-y-auto transition-all ${
@@ -16,7 +16,7 @@ export default function BrandSideBar({ brand, product, handleExit }) {
         <AiOutlineClose size={20} color="black" />
       </button>
 
-      {product ? <CouponView {...product} /> : <MarketView {...brand} />}
+      {product ? <CouponView {...product} setOpenClosePopup={setOpenClosePopup} /> : <MarketView {...brand} />}
     </div>
   );
 }
