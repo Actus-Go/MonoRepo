@@ -5,7 +5,8 @@ import { Button } from "../Buttons";
 import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import { useSocket} from '../../socket';
+import useSocket from '../../socket';
+import PropTypes from 'prop-types';
 
 // Fetch brands from the API and redirect to Stripe payment link if available
 const buyProduct = async (productId, token) => {
@@ -117,7 +118,7 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
         <p className="text-slate-200">{description}</p>
 
         <Button
-          className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
+          className={"font-semibold w-full py-2 h-auto !rounded-full !text-2xl"}
           label={"Buy"}
           onClick={async () => {
             if (user && user.token) {
@@ -154,12 +155,12 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
 
           <div className="flex gap-4 w-full">
             <Button
-              className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
+              className={"font-semibold w-full py-2 h-auto !rounded-full !text-2xl"}
               label={"Split"}
               onClick={handleSplit}
             />
             <Button
-              className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
+              className={"font-semibold w-full py-2 h-auto !rounded-full !text-2xl"}
               label={"Share"}
               onClick={handleShare}
             />
@@ -170,4 +171,12 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
     </div>
   );
 }
- 
+
+CouponView.propTypes = {
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired, 
+  description: PropTypes.string.isRequired,
+  productCoupon: PropTypes.shape({
+    discount: PropTypes.number.isRequired
+  }).isRequired
+};
