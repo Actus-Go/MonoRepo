@@ -8,7 +8,7 @@ import "./style.css";
 import Cover from "./Cover";
 import ProfielPictureInfos from "./ProfielPictureInfos";
 import CreatePost from "../../components/createPost";
-import Post from "../../components/post";
+import Post from "../../components/Post";
 import Photos from "./Photos";
 import Friends from "./Friends";
 import Intro from "../../components/intro";
@@ -17,6 +17,7 @@ import CreatePostPopup from "../../components/createPostPopup";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { BeatLoader } from "react-spinners";
+
 
 export default function Profile({ getAllPosts }) {
   const [visible, setVisible] = useState(false);
@@ -211,7 +212,7 @@ export default function Profile({ getAllPosts }) {
             ) : (
               <>
                 {brandAccount && (
-                  <div className="mt-20 overflow-hidden  rounded-3xl px-4">
+                  <div className="mt-5 overflow-hidden  rounded-3xl px-4">
                     <Cover
                       cover={profile.cover}
                       visitor={visitor}

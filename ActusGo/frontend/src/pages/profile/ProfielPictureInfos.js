@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import ProfilePicture from "../../components/profielPicture";
 import Friendship from "./Friendship";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { Camera as CameraIcon } from "lucide-react";
 
 export default function ProfielPictureInfos({
   profile,
@@ -13,37 +14,56 @@ export default function ProfielPictureInfos({
   brandAccount,
 }) {
   const [show, setShow] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   const pRef = useRef(null);
   return (
-    <div className={`profile_img_wrap ${brandAccount ? 'flex justify-center flex-col   p-0 m-0' : 'pt-20'}`}>
-      {show && <ProfilePicture  className="absolute z-50" setShow={setShow} pRef={pRef} photos={photos} />}
-      <div className={`profile_w_left ${brandAccount ? 'justify-center flex  flex-col gap-0 p-0 ' : ''}`}>
-        <div className='profile_w_img relative'>
-          <div
-            className={`profile_w_bg ${brandAccount ? "rounded-3xl " : ""}`}
-            ref={pRef}
-            style={{
-              backgroundSize: "cover",
-              backgroundImage: `url(${profile.picture})`,
-            }}>
+    <div
+      className={`profile_img_wrap ${
+        brandAccount ? "flex justify-center flex-col   p-0 m-0" : "pt-20"
+      }`}>
+      {show && (
+        <ProfilePicture
+          className='absolute z-50'
+          setShow={setShow}
+          pRef={pRef}
+          photos={photos}
+        />
+      )}
+      <div
+        className={`profile_w_left ${
+          brandAccount ? "justify-center flex  flex-col gap-0 p-0 " : ""
+        }`}>
+         <div
+      className="profile_w_img relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className={`profile_w_bg ${brandAccount ? "rounded-3xl " : ""}`}
+        style={{
+          backgroundSize: "cover",
+          backgroundImage: `url(${profile.picture})`,
+        }}
+      ></div>
 
-
-
-            </div>
-            {brandAccount && 
-            <><div className="absolute bottom-0
-             text-center text-white text-2xl font-bold w-full flex justify-center 
-            ">{profile.first_name} {profile.last_name}</div>  <div className='othername'>{othername && `(${othername})`}</div></>
-}
-          {!visitor && (
-            <div
-              className='profile_circle hover1 bg-black/20'
-              onClick={() => setShow(true)}>
-              <i className='camera_filled_icon'></i>
-            </div>
-          )}
-          
+      {brandAccount && (
+        <div
+          className="absolute bottom-0 text-center text-white text-2xl font-bold w-full flex justify-center"
+        >
+          {profile.first_name} {profile.last_name}
         </div>
+      )}
+
+      {!visitor && isHovered && (
+        <div
+          className="profile_circle hover1 bg-white"
+          onClick={() => setShow(true)}
+        >
+          <CameraIcon className="w-5 h-5 text-gray-700" />
+        </div>
+      )}
+    </div>
         <div className='profile_w_col '>
           {!brandAccount && (
             <div className='profile_name select-none'>
@@ -93,9 +113,11 @@ ProfielPictureInfos.propTypes = {
     picture: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
-    friends: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string,
-    })),
+    friends: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+      })
+    ),
     friendship: PropTypes.object,
     _id: PropTypes.string,
   }).isRequired,

@@ -1,6 +1,20 @@
 .profile {
   color: var(--color-primary);
 }
+.edit_icon {
+  display: none; /* Initially hidden */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+.group:hover .edit_icon {
+  display: flex; /* Shows icon on hover */
+}
+@media (min-width: 768px) {
+  .profile_cover {
+    padding-left: 90px;
+  }
+}
+
+
 .profile_top {
   margin-top: 56px;
   box-shadow: 0 1px 2px var(--shadow-1);
