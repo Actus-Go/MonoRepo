@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import ProfilePicture from "../../components/profielPicture";
 import Friendship from "./Friendship";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+
 export default function ProfielPictureInfos({
   profile,
   visitor,
@@ -85,3 +87,21 @@ export default function ProfielPictureInfos({
     </div>
   );
 }
+
+ProfielPictureInfos.propTypes = {
+  profile: PropTypes.shape({
+    picture: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    friends: PropTypes.arrayOf(PropTypes.shape({
+      _id: PropTypes.string,
+    })),
+    friendship: PropTypes.object,
+    _id: PropTypes.string,
+  }).isRequired,
+  visitor: PropTypes.bool.isRequired,
+  photos: PropTypes.array.isRequired,
+  othername: PropTypes.string,
+  user: PropTypes.object,
+  brandAccount: PropTypes.bool.isRequired,
+};

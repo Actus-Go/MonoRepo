@@ -111,7 +111,7 @@ export default function RegisterForm({ setVisible }) {
         <div className="register_header ">
           <i className="exit_icon" onClick={() => setVisible(false)}></i>
           <span className="text-[#efff55]">Sign Up</span>
-          <span>it's quick and easy</span>
+          <span>it&apos;s quick and easy</span>
         </div>
         <Formik
           enableReinitialize

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Bio({
   infos,
   handleChange,
@@ -47,11 +49,8 @@ export default function Bio({
             Cancel
           </button>
           <button
-            className="blue_btn font-bold"
-            onClick={() => {
-              updateDetails();
-              setShow(false);
-            }}
+            className="purple_btn text-white font-bold"
+            onClick={updateDetails}
           >
             Save
           </button>
@@ -60,3 +59,18 @@ export default function Bio({
     </div>
   );
 }
+
+Bio.propTypes = {
+  infos: PropTypes.shape({
+    relationship: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  max: PropTypes.number.isRequired,
+  setShowBio: PropTypes.func.isRequired,
+  updateDetails: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  detail: PropTypes.bool.isRequired,
+  setShow: PropTypes.func.isRequired,
+  rel: PropTypes.bool.isRequired,
+};

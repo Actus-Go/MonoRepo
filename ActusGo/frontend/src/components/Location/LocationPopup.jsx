@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import './style.css';
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import * as tt from "@tomtom-international/web-sdk-maps";
@@ -13,10 +14,8 @@ const initialMapState = {
 };
 
 const LocationPopup = ({ onAllow, setPopupVisible }) => {
-    const [userLocation, setUserLocation] = useState(null);
     const mapContainerRef = useRef(null);
     const mapInstanceRef = useRef(null);
-    const userMarkerRef = useRef(null);
     const watchIdRef = useRef(null);
 
     useEffect(() => {
@@ -47,7 +46,6 @@ const LocationPopup = ({ onAllow, setPopupVisible }) => {
                             lon: position.coords.longitude,
                             lat: position.coords.latitude,
                         };
-                        setUserLocation(userCoords); 
                         mapInstanceRef.current.setCenter([userCoords.lon, userCoords.lat]);
                         mapInstanceRef.current.setZoom(15);
 
@@ -100,6 +98,11 @@ const LocationPopup = ({ onAllow, setPopupVisible }) => {
             </div>
         </div>
     );
+};
+
+LocationPopup.propTypes = {
+    onAllow: PropTypes.func.isRequired,
+    setPopupVisible: PropTypes.func.isRequired
 };
 
 export default LocationPopup;

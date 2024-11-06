@@ -5,6 +5,7 @@ import {
   cancelRequest,
   deleteRequest,
 } from "../../functions/user";
+import PropTypes from 'prop-types';
 
 export default function Card({ userr, type, getData }) {
   const { user } = useSelector((state) => ({ ...state }));
@@ -110,3 +111,15 @@ export default function Card({ userr, type, getData }) {
     </div>
   );
 }
+
+Card.propTypes = {
+  userr: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }).isRequired,
+  type: PropTypes.string.isRequired,
+  getData: PropTypes.func.isRequired,
+};

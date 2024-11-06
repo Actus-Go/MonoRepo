@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginInput from "../../components/inputs/loginInput";
 import * as Yup from "yup";
 import axios from "axios";
+import PropTypes from 'prop-types';
+
 export default function ChangePassword({
   password,
   setPassword,
   conf_password,
   setConf_password,
   error,
-  laoding,
   setLoading,
   userInfos,
   setError,
@@ -87,3 +88,22 @@ export default function ChangePassword({
     </div>
   );
 }
+
+// Add PropTypes validation
+ChangePassword.propTypes = {
+  password: PropTypes.string.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  conf_password: PropTypes.string.isRequired,
+  setConf_password: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  setLoading: PropTypes.func.isRequired,
+  userInfos: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+  setError: PropTypes.func.isRequired
+};
+
+// Add default props
+ChangePassword.defaultProps = {
+  error: null,
+};

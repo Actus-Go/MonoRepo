@@ -1,19 +1,38 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 export const ButtonVariants = {
     PRIMARY: "primary",
     SECONDARY: "secondary",
 };
 
-export default function Button({ label, variant = ButtonVariants.PRIMARY, className, onClick }) {
-    const baseStyles = "box-border h-[33px] px-3 text-xs transition-all w-full";
+export default function Button({ label, variant = "primary", className = "", onClick, disabled = false }) {
+  const baseStyle = "px-4 py-2 transition-all duration-300";
+  
+  const variants = {
+    primary: "bg-blue-500 hover:bg-blue-600 text-white disabled:bg-blue-300",
+    secondary: "bg-transparent hover:bg-blue-600 border text-white border-blue-600 disabled:bg-gray-300",
+    danger: "bg-red-500 hover:bg-red-600 text-white disabled:bg-red-300"
+  };
 
-    const variants = {
-        [ButtonVariants.PRIMARY]: "bg-indigo-600 hover:bg-indigo-800 text-white",
-        [ButtonVariants.SECONDARY]: "border border-purple-300 bg-transparent hover:bg-purple-300 text-white",
-    };
-
-    return (
-        <button onClick={onClick} className={` ${baseStyles} ${variants[variant]} ${className}`}>
-            {label}
-        </button>
-    );
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseStyle} ${variants[variant]} ${className}`}
+    >
+      {label}
+    </button>
+  );
 }
+
+Button.propTypes = {
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
+  variant: PropTypes.oneOf(['primary', 'secondary', 'danger']),
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
+};

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Picker, { EmojiStyle } from "emoji-picker-react";
 import { useMediaQuery } from "react-responsive";
 import { Photo } from "../../icons";
+import PropTypes from 'prop-types';
 
 export default function EmojiPickerBackgrounds({
   text,
@@ -153,3 +154,16 @@ export default function EmojiPickerBackgrounds({
     </div>
   );
 }
+
+EmojiPickerBackgrounds.propTypes = {
+  text: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    first_name: PropTypes.string,
+  }).isRequired,
+  setText: PropTypes.func.isRequired,
+  type2: PropTypes.string,
+  background: PropTypes.string,
+  setBackground: PropTypes.func.isRequired,
+  setShowPrev: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+};
