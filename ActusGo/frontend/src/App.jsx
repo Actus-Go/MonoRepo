@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import { postsReducer } from "./functions/reducers";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
-// import HomePage from "./pages/home";
 import HomePage from "./pages/Home.V2";
 import DevelopmentPage from "./pages/Development";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
@@ -22,8 +21,8 @@ import ResetPage from "./pages/reset";
 import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
-import OnlineIndicator from "./components/Indecators/OnlineIndicator";
-import LocationPopup from "./components/Location/LocationPopup";
+import './components/Location/style.css';
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import Market from "./pages/Market";
 import { useSocket } from "./socket";
 import { useNotificationStore } from "./Store/notificationStore";
@@ -46,8 +45,7 @@ function App() {
   });
 
   const [userLocation, setUserLocation] = useState(null);
-  const [isLocationPopupVisible, setLocationPopupVisible] = useState(true);
-  
+
   useEffect(() =>{
     console.log("sokcet", "connected");
     if(socket && socket.connected){
@@ -109,12 +107,6 @@ function App() {
     }
   };
 
-  // Handle user allowing location access
-  const handleAllowLocation = (location) => {
-    setUserLocation(location);
-    setLocationPopupVisible(false);
-  };
-
   // Track user's geolocation
   const trackUserLocation = useCallback(() => {
     if (navigator.geolocation && !userLocation) {
@@ -137,12 +129,6 @@ function App() {
   return (
     <>
       <div className={`${darkTheme ? "dark" : ""}`}>
-        {isLocationPopupVisible && (
-          <LocationPopup
-            onAllow={handleAllowLocation}
-            setPopupVisible={setLocationPopupVisible}
-          />
-        )}
         {isPostPopupVisible && (
           <CreatePostPopup
             user={user}
@@ -154,7 +140,6 @@ function App() {
 
         <Routes>
           <Route path="/development" element={<DevelopmentPage />} />
-
           <Route element={<LoggedInRoutes />}>
             <Route
               path="/profile"
@@ -196,7 +181,7 @@ function App() {
               path="/tasks"
               element={
                 <Suspense fallback={<div>Loading...</div>}>
-                  <TasksPage setVisible={setPostPopupVisible} getAllPosts={fetchAllPosts} />
+                  <TasksPage />
                 </Suspense>
               }
             />

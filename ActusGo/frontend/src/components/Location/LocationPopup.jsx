@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
-import "@tomtom-international/web-sdk-maps/dist/maps.css";
-import * as tt from "@tomtom-international/web-sdk-maps";
 
 const defaultLocation = {
     lon: 36.6,
