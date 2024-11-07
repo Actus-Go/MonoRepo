@@ -1,16 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Star from "../../icons/Star";
+import EmptyStar from "../../icons/EmptyStar";
+import Cart from "../../icons/Cart";
+import Heart from "../../icons/HeartOutline";
+import Eye from "../../icons/eye";
 
-const getStars = (rating) => {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (i <= rating) {
-      stars.push(<span key={i} className="text-yellow-500">&#9733;</span>);
-    } else {
-      stars.push(<span key={i} className="text-gray-400">&#9733;</span>);
-    }
-  }
-  return stars;
+const renderStars = (rating) => {
+  const percentage = (rating / 10) * 100;
+
+  return (
+    <div className="relative flex items-center w-[90px] h-[18px] mr-2">
+      <div className="absolute top-0 left-0 flex gap-0 w-full h-full overflow-hidden">
+        {Array(5).fill(0).map((_, i) => (
+          <div key={`empty-${i}`} className="aspect-square h-full">
+            <EmptyStar />
+          </div>
+        ))}
+      </div>
+      <div
+        className="absolute top-0 left-0 flex gap-0 h-full overflow-hidden"
+        style={{ width: `${percentage}%` }}
+      >
+        {Array(5).fill(0).map((_, i) => (
+          <div key={`full-${i}`} className="aspect-square h-full">
+            <Star />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 const ProductsWrapper = ({ products }) => {
@@ -18,20 +37,39 @@ const ProductsWrapper = ({ products }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {products.map((product, index) => (
         <Link to={`/${product.title}`} key={index} className="transform transition-transform hover:scale-105">
-          <div className="border rounded-lg overflow-hidden shadow-lg bg-gray-800 text-white">
+          <div className="bg-[#232323] w-full rounded-3xl overflow-hidden relative shadow-lg">
             {product.label && (
-              <span className="absolute top-2 left-2 px-2 py-1 text-xs rounded bg-indigo-500 text-white">
+              <span
+                className="absolute top-3 left-3 px-2 h-5 text-[10px] font-semibold rounded-md"
+                style={{
+                  backgroundColor: product.label.bgcolor || "red",
+                  color: product.label.textcolor || "white",
+                }}
+              >
                 {product.label.text}
               </span>
             )}
-            <img src={product.image} alt={product.title} className="w-full h-48 object-cover" />
+            <div className="relative h-48 w-full">
+              <div className="absolute top-0 left-0 w-full h-full bg-[#0000007e] text-black flex flex-row justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                <button className="fav-icon w-11 aspect-square p-2 bg-white rounded-full flex justify-center items-center hover:bg-opacity-70">
+                  <Heart />
+                </button>
+                <button className="fav-icon w-11 aspect-square p-2 bg-white rounded-full flex justify-center items-center hover:bg-opacity-70">
+                  <Cart />
+                </button>
+                <button className="fav-icon w-11 aspect-square p-2 bg-[#6550E1] text-white rounded-full flex justify-center items-center hover:bg-opacity-70">
+                  <Eye />
+                </button>
+              </div>
+              <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+            </div>
             <div className="p-4">
-              <h3 className="text-lg font-bold mb-2">{product.title}</h3>
+              <h3 className="text-lg font-bold text-white mb-2">{product.title}</h3>
               <div className="flex items-center mb-2">
-                {getStars(product.rating)}
+                {renderStars(product.rating)}
                 <span className="text-sm text-gray-400 ml-2">({product.ratingCount})</span>
               </div>
-              <p className="text-lg font-semibold text-indigo-400">{`$${product.salary}`}</p>
+              <p className="text-lg font-semibold text-[#6550E1]">{`$${product.salary}`}</p>
             </div>
           </div>
         </Link>
