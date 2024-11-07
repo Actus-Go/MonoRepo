@@ -23,6 +23,7 @@ import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
 import Explore from "./pages/Explore";
+import RegisterForm from "./components/login/RegisterForm";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -162,6 +163,7 @@ function App() {
 
           <Route element={<NotLoggedInRoutes />}>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<RegisterForm />} />
           </Route>
           <Route path="/reset" element={<ResetPage />} />
         </Routes>

@@ -8,8 +8,8 @@ export default function Login() {
   return (
     <div className=" bg-[#0c0c0c] text-white  overflow-auto h-screen w-full  ">
       <div className="  bg-[#0c0c0c] text-white ">
-        <LoginForm setVisible={setVisible} />
-        {visible && <RegisterForm setVisible={setVisible} />} 
+        <LoginForm />
+        {visible && <RegisterForm  />} 
 
       </div>
     </div>
