@@ -125,11 +125,9 @@
   cursor: pointer;
 }
 .profile_name {
-  display: flex;
-  align-items: center;
   gap: 10px;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 42px;
 }
 .profile_w_right {
   display: flex;
@@ -252,9 +250,7 @@
 }
 .profile_grid {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 10px;
+
 }
 /*------ppl u may know------*/
 .left_header_grid {
@@ -466,12 +462,8 @@
   .pplumayknow {
     display: none;
   }
-  .profile_grid {
-    grid-template-columns: 1fr;
-  }
-  .profile_grid .createPost {
-    width: 100% !important;
-  }
+
+  
   .bottom_container {
     padding: 5px;
   }
