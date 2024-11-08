@@ -128,7 +128,7 @@ export default function LoginForm() {
               </div>
             </div>
 
-            <h2 className="mt-6 text-2xl font-bold text-center leading-9 tracking-tight text-[#efff55]">
+            <h2 className="mt-6 text-3xl md:text-5xl text-center leading-9 tracking-tight text-[#efff55]">
               Log in
             </h2>
             <p className="mt-2 text-xl text-center leading-9 tracking-tight text-white/80">
@@ -219,7 +219,7 @@ export default function LoginForm() {
           </div>
 
           {/* Foreground Content */}
-          <div className=" flex flex-col gap-3 justify-center items-center bg-[#121111]/35 backdrop-blur-sm h-[430px] rounded-2xl p-3 text-white z-10 w-full max-w-3xl mx-auto">
+          <div className=" flex flex-col gap-3 justify-center items-center h-[430px] rounded-2xl p-3 text-white z-10 w-full max-w-3xl mx-auto">
             <div className="text-center">
               {/* Star Rating */}
               <div className="flex items-center justify-center mb-9">

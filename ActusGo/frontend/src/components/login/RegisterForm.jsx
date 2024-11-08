@@ -143,7 +143,7 @@ export default function RegisterForm({ setVisible }) {
       <div className="bg-black/80 flex-1 p-4 rounded-l-2xl flex flex-col justify-center px-3 py-3 lg:px-8">
         <div className="my-auto mx-auto">
           <div className=" flex flex-col items-start mb-4 ">
-            <span className="text-[#efff55] text-3xl md:text-4xl font-semibold ">Sign Up</span>
+            <span className="text-[#efff55] mb-3 text-3xl md:text-5xl">Sign Up</span>
             <span>it&apos;s quick and easy</span>
           </div>
           <Formik
@@ -273,7 +273,7 @@ export default function RegisterForm({ setVisible }) {
         </div>
 
         {/* Foreground Content */}
-        <div className=" flex flex-col gap-3 justify-center items-center bg-[#121111]/35 backdrop-blur-sm h-[430px] rounded-2xl p-3 text-white z-10 w-full max-w-3xl mx-auto">
+        <div className=" flex flex-col gap-3 justify-center items-center h-[430px] rounded-2xl p-3 text-white z-10 w-full max-w-3xl mx-auto">
           <div className="text-center">
             {/* Star Rating */}
             <div className="flex items-center justify-center mb-9">

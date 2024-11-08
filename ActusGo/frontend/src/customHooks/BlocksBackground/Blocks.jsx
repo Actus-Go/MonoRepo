@@ -8,7 +8,7 @@ function BlockOne() {
       className="h-full overflow-hidden rounded-r-2xl dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-gradient-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-[1]  w-full  relative"
       ref={containerRef}>
       <Blocks
-        activeDivsClass="dark:bg-[#f1ff51]  bg-[#9ba1a131]  "
+        activeDivsClass="dark:bg-[#f1ff51]/60  bg-[#9ba1a131]  "
         divClass="dark:border-[#131212] border-[#9ba1a131] "
         classname="w-full"
         containerRef={containerRef}
