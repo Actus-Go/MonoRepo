@@ -260,6 +260,10 @@ export default function RegisterForm({ setVisible }) {
                   {error && <div className="error_text">{error}</div>}
                   {success && <div className="success_text">{success}</div>}
                 </div>
+
+                <p className="mt-10 text-center text-sm text-gray-500">
+                  Already have an account?{" "}
+                   <a className="font-semibold leading-6 text-[#efff55] hover:text-[#a6b23e]" href="/">Sign in</a></p>
               </Form>
             )}
           </Formik>
