@@ -64,14 +64,14 @@ const ProductDetails = () => {
   const showReviews = () => setActiveContent("reviews");
 
   return (
-    <div className="w-full md:w-[calc(100%-86px)] md:ml-auto p-6 md:p-12 pt-24 bg-black">
-      <div className="flex pt-10">
+    <div className="w-full relative md:w-[calc(100%-86px)] md:ml-auto p-4 md:p-12 pt-16 md:pt-24 bg-black">
+      <div className="flex flex-col md:flex-row pt-10">
         <img
           src={product.image}
           alt={product.title}
-          className="w-[40%] h-80 object-cover"
+          className="w-full md:w-[40%] h-80 object-cover"
         />
-        <div className="p-6 mx-auto">
+        <div className="md:p-6 mx-auto">
           <h1 className="text-3xl font-bold mb-4 text-white">
             {product.title}
           </h1>
@@ -89,7 +89,7 @@ const ProductDetails = () => {
           <p className="mt-4 text-white">
             {product.description || "No description available."}
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-2 md:gap-3 justify-center">
             <div className="flex items-center mt-4 bg-[#222222] rounded-xl">
               <button
                 onClick={() =>
@@ -102,32 +102,32 @@ const ProductDetails = () => {
                     })
                   )
                 }
-                className=" text-white px-4 py-2 rounded-xl hover:bg-[#6550E1]"
+                className="relative text-white px-2 py-2 z-50 rounded-xl"
               >
                 -
               </button>
-              <span className="mx-4 text-lg text-white">
+              <span className="md:mx-4 md:text-lg text-white">
                 {cart.filter((item) => item.id === product.id).length}
               </span>
               <button
                 onClick={() => addToCart(product)}
-                className=" text-white px-4 py-2 rounded-xl hover:bg-[#6550E1]"
+                className=" text-white px-2 md:px-4 py-2 rounded-xl"
               >
                 +
               </button>
             </div>
             <button
               onClick={() => addToCart(product)}
-              className="mt-4 border-2 flex bg-[#6550E1] border-[#6E56FC] text-white px-4 py-2 rounded-xl hover:bg-[#6E56FC] duration-300"
+              className="mt-4 max-sm:text-sm border-2 flex bg-[#6550E1] border-[#6E56FC] text-white px-3 md:px-4 py-2 rounded-xl hover:bg-[#6E56FC] duration-300"
             >
               ADD TO CART{" "}
-              <span className="fav-icon w-6 aspect-square flex justify-center items-center hover:bg-opacity-70">
+              <span className="fav-icon md:w-6 max-sm:hidden aspect-square flex justify-center items-center hover:bg-opacity-70">
                 <Cart />
               </span>
             </button>
             <button
               onClick={() => addToCart(product)}
-              className="mt-4 border-2 border-[#6E56FC] text-white px-4 py-2 rounded-xl hover:bg-[#6E56FC] duration-300"
+              className="mt-4 border-2 border-[#6E56FC] text-white px-2 md:px-4 py-2 rounded-xl hover:bg-[#6E56FC] duration-300"
             >
               Buy Now
             </button>
@@ -157,14 +157,14 @@ const ProductDetails = () => {
       </div>
 
       {activeContent === "description" && (
-        <div className="flex text-white justify-evenly items-start">
-          <div className="">
+        <div className="flex flex-col my-20 md:flex-row text-white justify-evenly items-start">
+          <div className="mb-6 md:mb-0">
             <h3 className="text-2xl">Product Description</h3>
             <p className="mt-4">
               {product.description || "No description available."}
             </p>
           </div>
-          <div className="">
+          <div className="mb-6 md:mb-0">
             <h3 className="text-2xl">Product Features</h3>
             <div className="mt-4 ">
               <ul className="flex flex-col gap-6 items-start">
@@ -176,7 +176,7 @@ const ProductDetails = () => {
               </ul>
             </div>
           </div>
-          <div className="">
+          <div className="mb-6 md:mb-0">
             <h3 className="text-2xl">Shipping Information</h3>
             <div className="mt-4 ">
               <ul className="flex flex-col gap-6 items-start">
@@ -191,7 +191,7 @@ const ProductDetails = () => {
       )}
 
     {activeContent === "reviews" && (
-      <div className="flex flex-col text-white items-center">
+      <div className="flex flex-col text-white items-center my-20">
         <div className="mb-6 w-full max-w-2xl p-4 border border-gray-700 rounded-lg">
           <div className="flex items-center mb-2">
             {renderStars(5)}

@@ -47,7 +47,7 @@ const Products = () => {
 
   return (
     <div className="w-full md:w-[calc(100%-86px)] md:ml-auto gap-6 mt-10 md:gap-24 flex flex-col p-6 md:p-12 pt-16 bg-black">
-      <div className="flex justify-between w-full">
+      <div className="flex flex-col md:flex-row justify-between w-full">
         <h1 className="text-3xl font-bold mb-4 text-white">Products</h1>
 
         <Filters filters={filters} handleFilterChange={handleFilterChange} />

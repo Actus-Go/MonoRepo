@@ -2,7 +2,7 @@ import React from 'react';
 
 const Pagination = ({ currentPage, totalPages, setCurrentPage, loading }) => {
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center mt-4 mb-16 flex-wrap">
       {loading ? (
         <div className="p-2 border rounded-full mx-1 h-10 flex items-center justify-center">
           Loading...
