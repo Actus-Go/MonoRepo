@@ -23,6 +23,7 @@ import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
 import Products from "./pages/products";
+import ProductOver from "./pages/products/ProductOver";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -144,6 +145,9 @@ function App() {
                 <Products />
               }
             />
+
+            <Route path="/products/:productId" element={<ProductOver />} />
+            
             <Route
               path="/"
               element={

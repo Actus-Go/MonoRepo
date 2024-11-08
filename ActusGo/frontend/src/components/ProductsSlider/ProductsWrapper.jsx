@@ -6,7 +6,7 @@ import styles from "./Style/SwiperStyle.module.css";
 export default function ProductsWrapper({ products }) {
   return (
     <div className="w-full h-96 bg-black min-h-fit">
-      <div className="flex justify-start m-5 text-[#f0f0f0] text-2xl font-semibold">
+      <div className="flex justify-start py-8 text-[#f0f0f0] text-2xl font-semibold">
         <h4>Recommended for you</h4>
       </div>
       <Swiper

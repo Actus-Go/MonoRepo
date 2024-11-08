@@ -4,7 +4,7 @@ import { products } from './data';
 
 const ProductDetails = () => {
   const { productId } = useParams();
-  const product = products.find((p) => p.title === productId);
+  const product = products.find((p) => p.id === parseInt(productId));
 
   if (!product) {
     return <h2 className="text-center text-2xl font-semibold text-red-500">Product not found</h2>;

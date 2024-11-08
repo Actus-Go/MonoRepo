@@ -7,7 +7,7 @@ import Heart from "../../icons/HeartOutline";
 import Eye from "../../icons/eye";
 
 const renderStars = (rating) => {
-  const percentage = (rating / 10) * 100;
+  const percentage = (rating / 5) * 100;
 
   return (
     <div className="relative flex items-center w-[90px] h-[18px] mr-2">
@@ -36,7 +36,7 @@ const ProductsWrapper = ({ products }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {products.map((product, index) => (
-        <Link to={`/${product.title}`} key={index} className="transform transition-transform hover:scale-105">
+        <Link to={`/products/${product.id}`} key={index} className="transform transition-transform hover:scale-105">
           <div className="bg-[#232323] w-full rounded-3xl overflow-hidden relative shadow-lg">
             {product.label && (
               <span
