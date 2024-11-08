@@ -75,12 +75,13 @@ export default function LoginForm() {
 
   return (
     <div className="container mx-auto min-h-screen  ">
-      {/* Left Side - Login Form */}
+  
       <div className=" flex flex-col px-7 md:flex-row gap-0 items-stretch justify h-screen center md:py-10">
+          {/* Left Side - Login Form */}
         <div className=" bg-black/80 flex-1 p-4 rounded-l-2xl flex flex-col items-center justify-center px-6 py-7 lg:px-8">
           <div className="w-full max-w-[400px] bg-black/60 ">
             <div className="mb-5">
-              <div className="h-32 max-w-32 w-full text-white">
+              <div className="h-32 max-w-32 w-full  text-white">
                 <svg version="1.1" fill="white" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1662 732" style={{ enableBackground: 'new 0 0 1662 732' }} xmlSpace="preserve">
                   <rect className="st0" />
                   <path className="st1" d="M1247.92,324.84c0-45.37,25.71-84.75,63.36-104.33c-3.69-2.46-7.57-4.58-11.61-6.37
@@ -214,7 +215,7 @@ export default function LoginForm() {
         {/* Right Side - Testimonials */}
         <div className="relative hidden md:flex flex-1 rounded-r-lg flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
           {/* Background Component */}
-          <div className="absolute h-full rounded-r-lg inset-0 z-0">
+          <div className="absolute h-full  rounded-r-lg inset-0 z-0">
             <BlockOne />
           </div>
 
