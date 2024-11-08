@@ -22,6 +22,7 @@ import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
+import Upgrade from "./pages/upgrade/index";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -107,6 +108,12 @@ function App() {
           <Route path="/development" element={<DevelopmentPage />} />
 
           <Route element={<LoggedInRoutes />}>
+          <Route
+              path="/upgrade"
+              element={
+                <Upgrade  />
+              }
+            />
             <Route
               path="/profile"
               element={
