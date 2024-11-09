@@ -11,7 +11,7 @@ import NotificationBar from '../components/Notifications/NotificationBar.jsx';
 
 export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(true);
   const [isNotificationBarOpen, setNotificationBarOpen] = useState(false);
 
   const demoNotifications = generateDemoNotifications(30);

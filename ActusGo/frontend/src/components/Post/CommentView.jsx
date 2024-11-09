@@ -64,7 +64,6 @@ export function CommentView({
         console.log("Comment text:", commentText);
 
         if (!commentText.trim()) return;
-        console.log("Posting comment...");
 
         try {
             setLoading(true);
@@ -114,30 +113,37 @@ export function CommentView({
                     <div className="overflow-x-auto overflow-y-hidden bg-slate-950 z-10 relative flex snap-x snap-mandatory w-full h-full whitespace-nowrap">
                         {
                             // check if the post has media files and check if it image or video and display it
-                            images?.map(({ url }, index) => (
-                                <div
-                                    key={index}
-                                    className="w-full h-full flex-shrink-0 snap-start inline-block"
-                                >
-                                    {
-                                        // check type by extension of the media file
-                                        url?.split(".").pop() === "mp4" ? (
-                                            <video
-                                                className="w-full h-full object-contain"
-                                                src={url}
-                                                controls={false}
-                                                autoPlay
-                                            />
-                                        ) : (
-                                            <img
-                                                className="w-full h-full object-contain"
-                                                src={url}
-                                                alt="post"
-                                            />
-                                        )
-                                    }
-                                </div>
-                            ))
+                            images?.map((image, index) => {
+                                let url =
+                                    (typeof image === "string"
+                                        ? image
+                                        : image.url);
+
+                                return (
+                                    <div
+                                        key={index}
+                                        className="w-full h-full flex-shrink-0 snap-start inline-block"
+                                    >
+                                        {
+                                            // check type by extension of the media file
+                                            url?.split(".").pop() === "mp4" ? (
+                                                <video
+                                                    className="w-full h-full object-contain"
+                                                    src={url}
+                                                    controls={false}
+                                                    autoPlay
+                                                />
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-contain"
+                                                    src={url}
+                                                    alt="post"
+                                                />
+                                            )
+                                        }
+                                    </div>
+                                );
+                            })
                         }
                     </div>
                     <div className="absolute w-full h-full top-0 left-0 z-0 bg-slate-950/30 animate-pulse"></div>
@@ -155,7 +161,7 @@ export function CommentView({
                             className="flex flex-col w-full gap-2 p-2"
                         >
                             <div className="flex gap-2 w-full items-start">
-                                <Link 
+                                <Link
                                     to={`/profile/${comment?.commentBy?.username}`}
                                     className="w-10 h-10 flex-shrink-0 rounded-full overflow-hidden bg-gray-800"
                                 >
@@ -194,13 +200,21 @@ export function CommentView({
                         onChange={(e) => setCommentText(e.target.value)}
                         className="w-4/5 p-2 text-white h-full rounded-full transition-all border bg-transparent border-gray-700 disabled:opacity-50"
                         placeholder="Comment here"
-                        onKeyUp={(e) => !loading && e.key === "Enter" && handleComment()}
+                        onKeyUp={(e) =>
+                            !loading && e.key === "Enter" && handleComment()
+                        }
                         disabled={loading}
                     />
                     <Button
                         onClick={handleComment}
                         className="w-1/5 h-full rounded-full text-base font-semibold"
-                        label={loading ? <BeatLoader size={8} color="#f0f0f0" /> : "Send"}
+                        label={
+                            loading ? (
+                                <BeatLoader size={8} color="#f0f0f0" />
+                            ) : (
+                                "Send"
+                            )
+                        }
                         disabled={loading}
                     />
                 </div>
@@ -219,12 +233,12 @@ CommentView.propTypes = {
     }).isRequired,
     images: PropTypes.arrayOf(
         PropTypes.shape({
-            url: PropTypes.string.isRequired
+            url: PropTypes.string.isRequired,
         })
-    )
+    ),
 };
 
 // Default props in case images is not provided
 CommentView.defaultProps = {
-    images: []
+    images: [],
 };

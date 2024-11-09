@@ -1,175 +1,34 @@
-/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import PostsGrid from "../components/ExploreMedia";
 import { useUser } from "../customHooks/UserHook";
-// import Post from "../components/post";
+import axios from "axios";
 
-const Explore = ({ posts, loading }) => {
+export default function Explore() {
     const user = useUser();
-    const samplePosts = [
- 
-        {
-            id: 1,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'hahgdh',
-                        first_name: 'sfsg',
-                        last_name: 'Dogdgdge',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },{
-                    commentBy: {
-                        username: 'while',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },{
-                    commentBy: {
-                        username: 'for',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },
+    const [posts, setPosts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-        {
-            id: 2,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },
-        {
-            id: 3,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },
-        {
-            id: 4,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },        {
-            id: 5,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },        {
-            id: 6,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },        {
-            id: 7,
-            type: 'image',
-            content: ['/low-poly-grid-haikei.png'],
-            caption: 'A beautiful day at the beach.',
-            likes: 150,
-            comments: [
-                {
-                    commentBy: {
-                        username: 'JohnDoe',
-                        first_name: 'John',
-                        last_name: 'Doe',
-                        picture: '/low-poly-grid-haikei.png'
-                    },
-                    comment: 'This looks amazing!',
-                    commentAt: '2024-10-30T14:30:00Z'
-                },
-            ]
-        },
-    ];
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/users/posts?limit=200', { headers: { Authorization: `Bearer ${user.token}` } });
+                console.log('First fetched post:', response?.data?.posts[0]);
+                setPosts(response?.data?.posts);
+                setIsLoading(false);
+            } catch (err) {
+                console.error('Error fetching posts:', err);
+                setError(err.message);
+                setIsLoading(false);
+            }
+        };
 
+        fetchPosts();
+    }, []);
 
     return (
         <div className="text-white container mx-auto pt-[62px] pl-[65px] ">
-
-            {/* <div className="w-full h-screen grid grid-cols-3 gap-3">
-                {posts.map((post, index) => (
-                    <Post key={index} post={post} user={user} />
-                ))}
-            </div> */}
-            <PostsGrid posts={samplePosts} user={user} />
+            <PostsGrid posts={posts} user={user} />
         </div>
     );
 }
-
-export default Explore;
