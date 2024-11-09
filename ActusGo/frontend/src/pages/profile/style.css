@@ -247,11 +247,7 @@
   font-size: 22px;
   font-weight: 600;
 }
-.flex {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+
 .grid2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr) !important;

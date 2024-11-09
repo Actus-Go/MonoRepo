@@ -6,9 +6,11 @@
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "emoji-picker-react": "^4.5.16",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
+    "framer-motion": "^11.11.11",
     "js-cookie": "^3.0.1",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.439.0",
@@ -32,6 +34,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.5",
     "swiper": "^11.1.12",
+    "tailwind-merge": "^2.5.4",
     "yup": "^0.32.11"
   },
   "scripts": {

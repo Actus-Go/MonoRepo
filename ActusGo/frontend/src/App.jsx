@@ -1,4 +1,4 @@
-import React, {
+  import React, {
   lazy,
   Suspense,
   useCallback,
@@ -24,6 +24,8 @@ import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
+import Explore from "./pages/Explore";
+import RegisterForm from "./components/login/RegisterForm";
 
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
@@ -144,9 +146,14 @@ function App() {
               element={
                 <HomePage posts={posts} loading={loading} setVisible={setPostPopupVisible}/>
               }
+            /> <Route
+              path="/explore"
+              element={
+                <Explore posts={posts} loading={loading} setVisible={setPostPopupVisible}/>
+              }
             />
             <Route
-              path="/tasks"
+              path="/tasks" 
               element={
                 <Suspense fallback={<div>Loading...</div>}>
                   <TasksPage setVisible={setPostPopupVisible} getAllPosts={fetchAllPosts} />
@@ -158,6 +165,7 @@ function App() {
 
           <Route element={<NotLoggedInRoutes />}>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<RegisterForm />} />
           </Route>
           <Route path="/reset" element={<ResetPage />} />
         </Routes>
