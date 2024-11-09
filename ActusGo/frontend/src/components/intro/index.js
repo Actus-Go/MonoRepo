@@ -56,10 +56,7 @@ export default function Intro({ detailss, visitor, setOthername }) {
   };
   return (
     <div className="profile_card border-[1px] border-gray-400/40">
-      <div className="profile_card_header">
-        About 
-      </div>
-      {details?.bio && !showBio && (
+      {/* {details?.bio && !showBio && (
         <div className="info_col">
           <span className="info_text">{details?.bio}</span>
           {!visitor && (
@@ -71,7 +68,7 @@ export default function Intro({ detailss, visitor, setOthername }) {
             </button>
           )}
         </div>
-      )}
+      )} */}
       {!details?.bio && !showBio && !visitor && (
         <button
           className="gray_btn hover1 w100 select-none text-black hover:text-[#ededed] bg-[#ededed] duration-300 hover:bg-black "
