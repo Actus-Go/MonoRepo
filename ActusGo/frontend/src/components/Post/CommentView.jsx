@@ -90,10 +90,10 @@ export function CommentView({
     };
 
     return (
-        <div className="w-screen h-screen absolute inset-0 gap-0 overflow-hidden top-0 right-0 flex z-[99999999999]">
+        <div className="w-screen h-dvh absolute inset-0 gap-0 max-md:flex-col overflow-x-hidden overflow-auto top-0 right-0 flex z-[99999999999]">
             <div
                 className={`bg-white/10 h-full w-full backdrop-blur-xl flex justify-center items-center ${
-                    isActive ? "opacity-100" : "opacity-0"
+                    isActive ? "opacity-100 w-full md:w-7/12 lg:w-1/2 xl:w-5/12" : "opacity-0"
                 } transition-all duration-300`}
             >
                 <button
@@ -104,10 +104,10 @@ export function CommentView({
                     <span className="w-3/4 h-[3px] rounded-full group-hover/exit:-rotate-45 bg-white/80 transition-all absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                 </button>
                 <div
-                    className={`transition-all h-[90%] overflow-hidden max-w-[450px] rounded-3xl w-full duration-300 relative ${
+                    className={`transition-all h-[90%] overflow-hidden aspect-[9/16] rounded-3xl duration-300 relative ${
                         isActive
-                            ? "scale-100 translate-x-0"
-                            : "scale-50 -translate-x-1/3"
+                            ? "scale-100 sm:translate-x-0"
+                            : "scale-50 sm:-translate-x-1/3"
                     }`}
                 >
                     <div className="overflow-x-auto overflow-y-hidden bg-slate-950 z-10 relative flex snap-x snap-mandatory w-full h-full whitespace-nowrap">
@@ -150,8 +150,8 @@ export function CommentView({
                 </div>
             </div>
             <div
-                className={`bg-gray-950 h-full transition-all duration-300 flex flex-col ${
-                    isActive ? "w-1/3" : "w-0"
+                className={`bg-gray-950 transition-all duration-300 flex flex-col ${
+                    isActive ? "w-full md:w-5/12 lg:w-1/2 max-sm:h-96 xl:w-7/12 sm:h-full " : "sm:w-0 max-sm:h-0 sm:h-full"
                 }`}
             >
                 <div className="h-full flex flex-col p-5 gap-5 w-full items-center overflow-x-hidden overflow-y-auto">
@@ -160,10 +160,10 @@ export function CommentView({
                             key={index}
                             className="flex flex-col w-full gap-2 p-2"
                         >
-                            <div className="flex gap-2 w-full items-start">
+                            <div className="flex gap-2 w-full xl:gap-6 items-start">
                                 <Link
                                     to={`/profile/${comment?.commentBy?.username}`}
-                                    className="w-10 h-10 flex-shrink-0 rounded-full overflow-hidden bg-gray-800"
+                                    className="w-10 h-10 xl:w-14 xl:h-14 flex-shrink-0 rounded-full overflow-hidden bg-gray-800"
                                 >
                                     <img
                                         src={comment?.commentBy?.picture}
@@ -174,31 +174,31 @@ export function CommentView({
                                 <div className="flex flex-col gap-1 justify-start items-start">
                                     <Link
                                         to={`/profile/${comment?.commentBy?.username}`}
-                                        className="text-white font-semibold hover:underline"
+                                        className="text-white xl:text-2xl font-semibold hover:underline"
                                     >
                                         {comment?.commentBy?.first_name +
                                             " " +
                                             comment?.commentBy?.last_name}
                                     </Link>
-                                    <span className="text-start font-light text-slate-300">
+                                    <span className="text-start xl:text-xl font-light text-slate-300">
                                         {comment?.comment}
                                     </span>
                                 </div>
                             </div>
                             <div className="justify-start text-start w-full px-4">
-                                <span className="text-slate-500 text-sm font-light">
+                                <span className="text-slate-500 xl:text-base text-sm font-light">
                                     {timeSince(comment?.commentAt || null)}
                                 </span>
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="h-16 flex justify-center items-center gap-2 p-2 py-3 border-t w-full border-gray-700">
+                <div className="xl:h-20 h-16 flex justify-center items-center gap-2 p-2 py-3 border-t w-full border-gray-700">
                     <input
                         type="text"
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
-                        className="w-4/5 p-2 text-white h-full rounded-full transition-all border bg-transparent border-gray-700 disabled:opacity-50"
+                        className="w-4/5 p-2 text-white h-full xl:text-lg rounded-full transition-all border bg-transparent border-gray-700 disabled:opacity-50"
                         placeholder="Comment here"
                         onKeyUp={(e) =>
                             !loading && e.key === "Enter" && handleComment()
@@ -207,7 +207,7 @@ export function CommentView({
                     />
                     <Button
                         onClick={handleComment}
-                        className="w-1/5 h-full rounded-full text-base font-semibold"
+                        className="w-1/5 h-full rounded-full xl:text-lg text-base font-semibold"
                         label={
                             loading ? (
                                 <BeatLoader size={8} color="#f0f0f0" />

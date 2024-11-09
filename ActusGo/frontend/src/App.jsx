@@ -18,6 +18,8 @@ import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import ActivatePage from "./pages/home/activate";
 import ResetPage from "./pages/reset";
+import './components/Location/style.css';
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";

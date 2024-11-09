@@ -36,7 +36,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
     };
 
     return (
-        <div className={`bg-[#222222] relative z-50  text-gray-200 h-screen  ${isCollapsed ? 'w-[86px] md:translate-x-0 -translate-x-full' : 'w-[320px] md:translate-x-0'} transition-all duration-300 ease-in-out flex flex-col `}>
+        <div className={`bg-[#222222] relative z-50  text-gray-200 h-dvh ${isCollapsed ? 'w-[86px] md:translate-x-0 -translate-x-full' : 'w-[320px] md:translate-x-0'} transition-all duration-300 ease-in-out flex flex-col `}>
             {/* Burger Menu Icon for mobile screens */}
             <div className="text-white w-full flex shadow-2xl flex-col justify-between items-center gap-6">
                 {/* Logo - Positioning based on `isCollapsed` */}

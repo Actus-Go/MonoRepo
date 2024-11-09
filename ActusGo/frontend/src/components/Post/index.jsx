@@ -40,9 +40,9 @@ export default function Post({ post, user }) {
   }
 
   return (
-    <div className="w-full h-screen flex items-center pt-[68px] justify-center bg-gradient-to-b from-gray-900 to-black snap-start">
-      <div className="h-[calc(100%-25px)] relative w-full max-w-[450px]">
-        <div className="overflow-hidden relative h-full w-full p-0 bg-black rounded-3xl flex justify-center items-center">
+    <div className="w-full h-full flex items-start justify-center pt-[68px] max-sm:pt-[58px] max-sm:pb-[60px] pb-4 box-border snap-start">
+      <div className="h-full max-sm:aspect-auto max-sm:w-full relative aspect-[9/16]">
+        <div className="overflow-hidden relative h-full w-full max-sm:rounded-none p-0 bg-black/60 rounded-3xl flex justify-center items-center">
           <div className='overflow-x-auto overflow-y-hidden flex snap-x snap-mandatory w-full h-full whitespace-nowrap'>
             {
               // check if the post has media files and check if it image or video and display it
@@ -74,28 +74,28 @@ export default function Post({ post, user }) {
           </div>
         </div>
 
-        <div className="absolute bottom-0 -right-12 translate-x-1/2 py-8 flex flex-col gap-4 w-16">
+        <div className="absolute bottom-0 max-sm:right-1 max-sm:translate-x-0 max-sm:bottom-4 -right-12 translate-x-1/2 py-8 max-sm:py-2 flex flex-col gap-4 w-16">
           <div>
-            <div className="w-12 aspect-square rounded-full bg-gray-800 overflow-hidden">
+            <Link to={`/profile/${post?.user?.username}`} className="w-14 aspect-square inline-block rounded-full bg-gray-800 overflow-hidden">
               <img src={post?.user?.picture} alt="post" />
-            </div>
+            </Link>
           </div>
           <div className='flex flex-col justify-center items-center'>
-            <button onClick={handleLike} className="hover:bg-gray-600 -mb-2 transition-all w-12 aspect-square pt-0.5 rounded-full bg-gray-800 flex justify-center items-center">
+            <button onClick={handleLike} className="hover:bg-gray-600 -mb-2 transition-all w-14 aspect-square pt-0.5 rounded-full bg-gray-800 flex justify-center items-center">
               {check ? <IoMdHeart size={32} color="red" /> : <IoMdHeart size={32} color="#ededed" />}
             </button>
 
-            <span className='text-white font-semibold text-sm'>{total}</span>
+            <span className='text-white font-semibold'>{total}</span>
           </div>
           <div className='flex flex-col justify-center items-center'>
-            <button onClick={handleShowComments} className="hover:bg-gray-600 -mb-2 transition-all w-12 aspect-square pt-0.5 rounded-full bg-gray-800 flex justify-center items-center">
+            <button onClick={handleShowComments} className="hover:bg-gray-600 -mb-2 transition-all w-14 aspect-square pt-0.5 rounded-full bg-gray-800 flex justify-center items-center">
               <BsFillChatDotsFill size={24} color="#ededed" />
             </button>
 
-            <span className='text-white font-semibold text-sm'>{comments.length}</span>
+            <span className='text-white font-semibold'>{comments.length}</span>
           </div>
           <div>
-            <button className="hover:bg-gray-600 w-12 aspect-square rounded-full flex justify-center items-center bg-gray-800">
+            <button className="hover:bg-gray-600 w-14 aspect-square rounded-full flex justify-center items-center bg-gray-800">
               <MdOutlinePushPin size={24} color="#ededed" />
             </button>
           </div>

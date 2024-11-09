@@ -52,7 +52,7 @@ export default function Reset() {
                 )}
             </div>
 
-            <div className=" h-screen w-screen  relative no-scrollbar   ">
+            <div className="h-dvh w-screen  relative no-scrollbar   ">
                 <div className="reset_wrap  z-20 top-0 left-0 right-0 bottom-0 grid place-items-center absolute">
                     {visible === 0 && (
                         <SearchAccount
