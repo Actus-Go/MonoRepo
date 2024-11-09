@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
-import { CommentView } from "../Post/CommentView";
 import axios from "axios";
 
 /* eslint-disable react/prop-types */
@@ -8,7 +7,9 @@ const PostCard = ({ post, handleShowComments }) => {
     // Determine the first image to display
     const firstImage =
         Array.isArray(post.images) && post.images?.length > 0
-            ? post.images[0]
+            ? typeof post.images[0] === "string"
+                ? post.images[0]
+                : post.images[0].url
             : post.text;
 
     return (
@@ -41,10 +42,7 @@ const PostCard = ({ post, handleShowComments }) => {
     );
 };
 
-export default function PostsGrid({ posts, user }) {
-    // State to manage which post's comments are shown
-    const [activePost, setActivePost] = useState(null);
-
+export default function PostsGrid({ posts, user, setActivePost }) {
     const handleShowComments = async (postId) => {
         try {
             const response = await axios.get(
@@ -59,10 +57,6 @@ export default function PostsGrid({ posts, user }) {
         }
     };
 
-    const handleClose = () => {
-        setActivePost(null);
-    };
-
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:ml-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -74,16 +68,6 @@ export default function PostsGrid({ posts, user }) {
                         }
                     />
                 ))}
-
-                {activePost && (
-                    <CommentView
-                        close={() => handleClose()}
-                        comments={activePost?.comments}
-                        postId={activePost._id}
-                        user={user}
-                        images={activePost?.images}
-                    />
-                )}
             </div>
         </div>
     );

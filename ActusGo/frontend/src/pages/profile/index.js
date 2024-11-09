@@ -6,14 +6,14 @@ import { profileReducer } from "../../functions/reducers";
 import "./style.css";
 import Cover from "./Cover";
 import ProfielPictureInfos from "./ProfielPictureInfos";
-import Post from "../../components/Post";
 import { useMediaQuery } from "react-responsive";
 import CreatePostPopup from "../../components/createPostPopup";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { BeatLoader } from "react-spinners";
+import PostsGrid from "../../components/ExploreMedia";
 
-export default function Profile({ getAllPosts }) {
+export default function Profile({ setActivePost }) {
   const [visible, setVisible] = useState(false);
   const { username } = useParams();
   const navigate = useNavigate();
@@ -248,32 +248,13 @@ export default function Profile({ getAllPosts }) {
                       <BeatLoader color={LoaderColor} />
                     </div>
                   ) : (
-                    <div className="posts grid grid-cols-2 sm:grid-cols-3      gap-2 p-2">
+                    <div className="p-2">
                     {profile.posts && profile.posts.length ? (
-                      profile.posts.map((post) => (
-                        <div
-                          key={post._id}
-                          className="relative w-full aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:opacity-90"
-                          >
-                          <Post post={post} user={user} profile />
-                          <div className="absolute bottom-2 left-2 text-white text-sm flex items-center space-x-1">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 16 16"
-                              className="w-4 h-4"
-                            >
-                              <path d="M8 3.293l5.293 5.293-1.414 1.414L8 6.121 4.121 10.293 2.707 8.879 8 3.293z" />
-                            </svg>
-                            <span>{post.views || 0}</span>
-                          </div>
-                        </div>
-                      ))
+                      <PostsGrid posts={profile.posts} setActivePost={setActivePost} user={user} />
                     ) : (
                       <div className="col-span-full text-center text-gray-500">No posts available</div>
                     )}
                   </div>
-                  
                   )}
                 </div>
               </div>

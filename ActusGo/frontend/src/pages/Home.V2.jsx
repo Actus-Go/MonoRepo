@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useUser } from "../customHooks/UserHook";
 import { BeatLoader } from "react-spinners";
 import Post from "../components/Post";
 
-export default function Home({ loading, posts, setVisible }) {
+export default function Home({ loading, posts, setVisible, setActivePost }) {
     const user = useUser();
 
     return loading ? (
@@ -15,7 +13,7 @@ export default function Home({ loading, posts, setVisible }) {
         <div className="w-full h-full box-border relative bg-gradient-to-b from-gray-900 to-black">
             <div className="w-full h-dvh overflow-y-auto snap-y snap-mandatory">
                 {posts.map((post, index) => (
-                    <Post key={index} post={post} user={user} />
+                    <Post key={index} post={post} showComments={() => setActivePost(post)} user={user} />
                 ))}
             </div>
 
@@ -29,15 +27,3 @@ export default function Home({ loading, posts, setVisible }) {
         </div>
     );
 }
-
-Home.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    posts: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            text: PropTypes.string.isRequired,
-            user: PropTypes.object.isRequired,
-            comments: PropTypes.array,
-        })
-    ).isRequired,
-};

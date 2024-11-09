@@ -3,7 +3,7 @@ import PostsGrid from "../components/ExploreMedia";
 import { useUser } from "../customHooks/UserHook";
 import axios from "axios";
 
-export default function Explore() {
+export default function Explore({ setActivePost }) {
     const user = useUser();
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +28,7 @@ export default function Explore() {
 
     return (
         <div className="text-white container mx-auto pt-[62px] md:pl-[65px] ">
-            <PostsGrid posts={posts} user={user} />
+            <PostsGrid setActivePost={setActivePost} posts={posts} user={user} />
         </div>
     );
 }
