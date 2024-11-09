@@ -27,7 +27,7 @@ export default function Explore() {
     }, []);
 
     return (
-        <div className="text-white container mx-auto pt-[62px] pl-[65px] ">
+        <div className="text-white container mx-auto pt-[62px] md:pl-[65px] ">
             <PostsGrid posts={posts} user={user} />
         </div>
     );
