@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Play, Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { CommentView } from "../Post/CommentView";
 import axios from "axios";
 
