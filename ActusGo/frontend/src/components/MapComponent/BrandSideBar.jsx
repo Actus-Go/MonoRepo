@@ -3,12 +3,11 @@ import MarketView from "./MarketView";
 import { AiOutlineClose } from "react-icons/ai";
 import PropTypes from 'prop-types';
 
-export default function BrandSideBar({ brand, product, handleExit }) {
+export default function BrandSideBar({price, brand, product, handleExit }) {
   return (
     <div
-      className={`flex flex-col justify-start items-center z-[999999999999] h-dvh bg-black max-w-[450px] w-full fixed top-0 right-0 overflow-hidden overflow-y-auto transition-all ${
-        product || brand ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`flex flex-col justify-start items-center z-[999999999999] h-dvh bg-black max-w-[450px] w-full fixed top-0 right-0 overflow-hidden overflow-y-auto transition-all ${product || brand ? "translate-x-0" : "translate-x-full"
+        }`}
     >
       <button
         onClick={handleExit}
@@ -17,7 +16,7 @@ export default function BrandSideBar({ brand, product, handleExit }) {
         <AiOutlineClose size={20} color="black" />
       </button>
 
-      {product ? <CouponView {...product} /> : <MarketView {...brand} />}
+      {product ? <CouponView {...product} /> : <MarketView price={price} {...brand} />}
     </div>
   );
 }

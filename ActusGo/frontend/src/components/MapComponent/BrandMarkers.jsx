@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { memo, useEffect, useState } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import axios from "axios";
