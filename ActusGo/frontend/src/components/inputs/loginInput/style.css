@@ -1,6 +1,5 @@
 .input_wrap {
   position: relative;
-  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,7 +13,6 @@
   font-size: 17px;
   border-radius: 10px;
   padding-left: 10px;
-  margin-bottom: 10px;
   color: var(--color-primary);
 }
 .input_wrap input:focus {
@@ -55,9 +53,9 @@
 }
 .input_error_desktop {
   position: absolute;
-  width: 300px;
-  left: -19.5rem;
-  top: -3px;
+  left: -80.5rem;
+  bottom: -px;
+  z-index: 40;
 }
 .error_arrow_left {
   border-left: 10px solid #b94a48;

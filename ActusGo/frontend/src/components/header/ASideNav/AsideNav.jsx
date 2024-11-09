@@ -157,7 +157,7 @@ const Sidebar = ({ isCollapsedProp, setCollapsedProp, user, page, getAllPosts })
                         <NavLink
                             to="/settings"
                             className={({ isActive }) =>
-                                `flex items-center pointer-events-none rounded-[34px] py-3 px-4 py-2 ${isActive ? 'bg-[#5d5b5b]' : ' '}`
+                                `flex items-center pointer-events-none rounded-[34px] py-3 px-4  ${isActive ? 'bg-[#5d5b5b]' : ' '}`
                             }
                             onClick={(e) => e.preventDefault()} // Prevent link from being clickable
                         >
