@@ -3,22 +3,17 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { profileReducer } from "../../functions/reducers";
-import Header from "../../components/header";
 import "./style.css";
 import Cover from "./Cover";
 import ProfielPictureInfos from "./ProfielPictureInfos";
-import CreatePost from "../../components/createPost";
-import Post from "../../components/post";
-import Photos from "./Photos";
-import Friends from "./Friends";
-import Intro from "../../components/intro";
 import { useMediaQuery } from "react-responsive";
 import CreatePostPopup from "../../components/createPostPopup";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { BeatLoader } from "react-spinners";
+import PostsGrid from "../../components/ExploreMedia";
 
-export default function Profile({ getAllPosts }) {
+export default function Profile({ setActivePost }) {
   const [visible, setVisible] = useState(false);
   const { username } = useParams();
   const navigate = useNavigate();
@@ -88,13 +83,12 @@ export default function Profile({ getAllPosts }) {
     }
   };
   const profileTop = useRef(null);
-  const leftSide = useRef(null);
+
   const [height, setHeight] = useState();
   const [leftHeight, setLeftHeight] = useState();
   const [scrollHeight, setScrollHeight] = useState();
   useEffect(() => {
     setHeight(profileTop.current.clientHeight + 300);
-    setLeftHeight(leftSide.current.clientHeight);
     window.addEventListener("scroll", getScroll, { passive: true });
     return () => {
       window.addEventListener("scroll", getScroll, { passive: true });
@@ -211,7 +205,7 @@ export default function Profile({ getAllPosts }) {
             ) : (
               <>
                 {brandAccount && (
-                  <div className="mt-20 overflow-hidden  rounded-3xl px-4">
+                  <div className="mt-5 overflow-hidden  rounded-3xl px-4">
                     <Cover
                       cover={profile.cover}
                       visitor={visitor}
@@ -247,85 +241,20 @@ export default function Profile({ getAllPosts }) {
                       "scrollFixed showMore"
                 }`}
               >
-                <div className="profile_left" ref={leftSide}>
+                
+                <div className="profile_right"> 
                   {loading ? (
-                    <>
-                      <div className="profile_card border-2 border-gray">
-                        <div className="profile_card_header">Intro</div>
-                        <div className="sekelton_loader">
-                          <BeatLoader color={LoaderColor} />
-                        </div>
-                      </div>
-                      <div className="profile_card border-2 border-gray">
-                        <div className="profile_card_header">
-                          Photos
-                          <div className="profile_header_link">
-                            See all photos
-                          </div>
-                        </div>
-                        <div className="sekelton_loader">
-                          <BeatLoader color={LoaderColor} />
-                        </div>
-                      </div>
-                      <div className="profile_card border-2 border-gray">
-                        <div className="profile_card_header">
-                          Friends
-                          <div className="profile_header_link">
-                            See all friends
-                          </div>
-                        </div>
-                        <div className="sekelton_loader">
-                          <BeatLoader color={LoaderColor} />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <Intro
-                        detailss={profile.details}
-                        visitor={visitor}
-                        setOthername={setOthername}
-                        brandAccount={brandAccount}
-                      />
-                      <Photos
-                        username={userName}
-                        token={user.token}
-                        photos={photos}
-                        brandAccount={brandAccount}
-                      />
-                      {!brandAccount && <Friends friends={profile.friends} />}
-                    </>
-                  )}
-                </div>
-                <div className="profile_right">
-                  {!visitor && (
-                    <CreatePost
-                      user={user}
-                      profile
-                      setVisible={setVisible}
-                      brandAccount={brandAccount}
-                    />
-                  )}
-
-                  {loading ? (
-                    <div className="sekelton_loader">
+                    <div className="sekelton_loader rotate-90">
                       <BeatLoader color={LoaderColor} />
                     </div>
                   ) : (
-                    <div className="posts">
-                      {profile.posts && profile.posts.length ? (
-                        profile.posts.map((post) => (
-                          <Post
-                            post={post}
-                            user={user}
-                            key={post._id}
-                            profile
-                          />
-                        ))
-                      ) : (
-                        <div className="no_posts">No posts available</div>
-                      )}
-                    </div>
+                    <div className="p-2">
+                    {profile.posts && profile.posts.length ? (
+                      <PostsGrid posts={profile.posts} setActivePost={setActivePost} user={user} />
+                    ) : (
+                      <div className="col-span-full text-center text-gray-500">No posts available</div>
+                    )}
+                  </div>
                   )}
                 </div>
               </div>

@@ -19,13 +19,7 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
       <input
         className={meta.touched && meta.error ? "input_error_border" : ""}
         style={{
-          width: `${
-            view1 && (field.name === "first_name" || field.name === "last_name")
-              ? "100%"
-              : view1 && (field.name === "email" || field.name === "password")
-              ? "370px"
-              : "300px"
-          }`,
+
         }}
         type={field.type}
         name={field.name}
@@ -48,8 +42,8 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
                 view3 && field.name !== "last_name"
                   ? "error_arrow_left"
                   : view3 && field.name === "last_name"
-                  ? "error_arrow_right"
-                  : !view3 && "error_arrow_bottom"
+                    ? "error_arrow_right"
+                    : !view3 && "error_arrow_bottom"
               }
             ></div>
           )}

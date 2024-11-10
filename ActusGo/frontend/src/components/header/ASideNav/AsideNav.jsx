@@ -51,7 +51,7 @@ const Sidebar = ({
 
   return (
     <div
-      className={`bg-[#222222] relative z-50  text-gray-200 h-screen  ${
+      className={`bg-[#222222] relative z-50  text-gray-200 h-dvh ${
         isCollapsed
           ? "w-[86px] md:translate-x-0 -translate-x-full"
           : "w-[320px] md:translate-x-0"

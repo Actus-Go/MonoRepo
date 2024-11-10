@@ -250,12 +250,12 @@ function FullScreenStory({ story, onClose, onPrevious, onNext, isPreviousAvailab
         )}
 
         {story.type === "video" ? (
-          <video src={story.url} className="w-full h-auto max-h-screen rounded-lg" controls autoPlay />
+          <video src={story.url} className="w-full h-auto max-h-dvh rounded-lg" controls autoPlay />
         ) : (
           <img
             src={story.url}
             alt={`Story ${story.id}`}
-            className="w-full h-auto max-h-screen rounded-lg"
+            className="w-full h-auto max-h-dvh rounded-lg"
           />
         )}
 

@@ -127,7 +127,7 @@ export default function Friends() {
             <div className='friends_right_wrap'>
               <div className='friends_left_header'>
                 <div className='flex relative'>
-                  <h1 className='  select-none text-left  text-2xl font-bold text-gray-200 ml-4'>
+                  <h1 className='  select-none text-left py-4  text-2xl font-bold text-gray-200 ml-4'>
                     Friend{" "}
                   </h1>
                 </div>
@@ -194,21 +194,6 @@ export default function Friends() {
             </div>
           )}
         </div>
-      </div>
-      <div className='w-full flex justify-center pt-12'>
-        <div className='flex full max-w-[800px]   relative'>
-          <h1 className=' uppercase text-center animate-pulse hover:animate-none select-none   text-2xl font-bold text-gray-200 '>
-            Hub Mini Apps
-          </h1>
-          <div className='absolute left-48 -top-3'>
-            <Sparkels />
-          </div>
-        </div>
-      </div>
-
-      <div className='w-full flex justify-center pt-6  '>
-        {" "}
-        <Hub name={"sdsd"} category={"Try it"} link={"props.link"} />
       </div>
     </div>
   );

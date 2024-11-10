@@ -40,7 +40,7 @@ export default function ProfilePicture({ username, setShow, pRef, photos }) {
         onChange={handleImage}
         accept="image/jpeg,image/png,image/webp,image/gif"
       />
-      <div className="postBox pictureBox" ref={popup}>
+      <div className="postBox pictureBox z-50" ref={popup}>
         <div className="box_header">
           <div className="small_circle" onClick={() => setShow(false)}>
             <i className="exit_icon"></i>
