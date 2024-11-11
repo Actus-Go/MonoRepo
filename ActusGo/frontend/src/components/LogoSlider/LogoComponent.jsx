@@ -24,21 +24,21 @@ export default function LogoComponent() {
       alt: "Levi's"
     },
     {
-      src: "./assets/peugeot-logo.jpg",
+      src: "./assets/peugeot-logo.png",
       alt: "Peugeot"
     }
   ];
 
   // Convert logo objects to React elements
   const logoElements = logos.map((logo, index) => (
-    <div className="w-24 h-auto md:w-20" key={index}>
-      <img src={logo.src} alt={logo.alt} className="h-full w-full object-contain" />
+    <div className="w-24 md:w-32 flex justify-center items-center aspect-square bg-white rounded-full p-2 opacity-95" key={index}>
+      <img src={logo.src} alt={logo.alt} className="w-4/5" />
     </div>
   ));
 
   return (
     <div className="slider !relative flex flex-col items-start">
-      <h1 className="text-white pl-2 text-xl md:text-3xl mb-6">Brands</h1>
+      <h1 className="text-2xl font-bold text-white mb-6">Brands</h1>
       <LogoSlider logos={logoElements} />
     </div>
   );

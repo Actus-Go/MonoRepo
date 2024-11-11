@@ -6,9 +6,8 @@ import styles from "./Style/SwiperStyle.module.css";
 export default function ProductsWrapper({ products }) {
   return (
     <div className="w-full h-96 bg-black min-h-fit">
-      <div className="flex justify-start py-8 text-[#f0f0f0] text-2xl font-semibold">
-        <h4>Recommended for you</h4>
-      </div>
+      <h1 className="text-2xl font-bold text-white mb-6">Recommended for you</h1>
+
       <Swiper
         slidesPerView={"auto"}
         spaceBetween={20} // Adjusted for better responsiveness on smaller screens

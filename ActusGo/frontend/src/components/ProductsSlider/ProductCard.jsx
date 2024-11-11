@@ -50,9 +50,9 @@ export default function ProductCard({
 }) {
   return (
     <div className="bg-[#232323] w-full h-full rounded-3xl max-md:mb-14 min-h-fit relative overflow-hidden">
-      <div className="w-full m-auto h-[60%] relative mt-5">
+      <div className="w-full m-auto h-[60%] relative ">
         {/* Overlay for buttons */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[#0000007e] text-black flex flex-row justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+        <div className="absolute top-0 left-0 w-full h-full from-[#000000ab] to-transparent bg-gradient-to-b text-black flex flex-row justify-center gap-4 items-center opacity-0 transition-opacity duration-300 hover:opacity-100">
           <button
             id="love"
             className="fav-icon font-semibold rounded-full w-11 transition-all aspect-square flex justify-center items-center bg-white hover:bg-opacity-70 hover:backdrop-blur-sm"
@@ -99,7 +99,7 @@ export default function ProductCard({
       </div>
       {label && (
         <div
-          className="z-1 absolute flex justify-center items-center top-3 left-3 text-[10px] px-2 h-5 font-semibold rounded-md"
+          className="z-1 absolute flex justify-center items-center top-4 left-4 text-[10px] px-2 h-5 font-semibold rounded-full"
           style={{
             backgroundColor: label.bgcolor || "red",
             color: label.textcolor || "white",
