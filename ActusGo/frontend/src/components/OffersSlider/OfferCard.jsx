@@ -14,13 +14,13 @@ const OfferCard = ({ title, content, buy, details }) => {
       : "grid-cols-2 grid-rows-2";
 
   return (
-    <div className="bg-gray-800 text-white p-4 flex flex-col gap-4 max-w-[500px] text-start rounded-2xl shadow-lg h-full w-full min-w-[300px]">
+    <div className="bg-[#222222] text-white p-4 flex flex-col gap-4 max-w-[500px] text-start rounded-3xl shadow-lg h-full w-full min-w-[300px]">
       <h3 className="text-lg font-semibold w-full">{title}</h3>
-      <div className={`grid ${layoutClass} gap-2 w-full h-full`}>
+      <div className={`grid ${layoutClass} gap-2 w-full min-h-[296px] h-full`}>
         {content.map((Component, index) => (
           <div
             key={index}
-            className={`transition-transform transform rounded-lg overflow-hidden ${
+            className={`transition-transform transform rounded-xl overflow-hidden ${
               content.length === 3 && index === 2 ? "col-span-2" : "col-span-1"
             }`}
           >
@@ -33,7 +33,7 @@ const OfferCard = ({ title, content, buy, details }) => {
           <button
             label={"Details"}
             onClick={details}
-            className="relative animate-shimmer bg-[linear-gradient(110deg,#7B1FA2,45%,#CE93D8,55%,#7B1FA2)] bg-[length:200%_100%] bg-purple-700 group/buttonComponent cursor-pointer shadow-2xl rounded-full p-px text-white font-bold leading-6 inline-block w-full h-full undefined"
+            className="relative animate-shimmer bg-[linear-gradient(110deg,#7B1FA2,45%,#CE93D8,55%,#7B1FA2)] bg-[length:200%_100%] bg-purple-700 group/buttonComponent cursor-pointer shadow-2xl rounded-full p-px text-white font-bold leading-6 inline-block w-full h-full"
           >
             <span className="absolute inset-0 overflow-hidden rounded-full">
               <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover/buttonComponent:opacity-100 rotate-180"></span>

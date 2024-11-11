@@ -8,8 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 export default function OffersWrapper({ offers }) {
   return (
-    <div className="bg-black min-h-dvh w-full">
-      <h2 className="text-2xl font-bold text-white mb-6">Offers</h2>
+    <div className="w-full">
+      <h1 className="text-2xl font-bold text-white mb-6">Offers</h1>
       <Swiper
         slidesPerView={"auto"}
         spaceBetween={55}

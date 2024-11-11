@@ -24,6 +24,8 @@ import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
+import Products from "./pages/products";
+import ProductOver from "./pages/products/ProductOver";
 import Upgrade from "./pages/upgrade/index";
 import Explore from "./pages/Explore";
 import RegisterForm from "./components/login/RegisterForm";
