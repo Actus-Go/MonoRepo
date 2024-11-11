@@ -1,6 +1,7 @@
 // Util function to calculate and format the time difference
 
 export default function formatTimeDifference(time) {
+    time = new Date(time);
     const now = new Date();
     const diff = now.getTime() - time.getTime();
 

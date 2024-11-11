@@ -24,6 +24,9 @@ import CreatePostPopup from "./components/createPostPopup";
 import FriendsPage from "./pages/friends";
 import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
+import { useSocket } from "./socket";
+import { useNotificationStore } from "./Store/notificationStore";
+import { useShareRequestUsersStore } from "./Store/ShareRequestUsersStore";
 import Products from "./pages/products";
 import ProductOver from "./pages/products/ProductOver";
 import Upgrade from "./pages/upgrade/index";
@@ -33,10 +36,16 @@ import RegisterForm from "./components/login/RegisterForm";
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
 import { CommentView } from "./components/Post/CommentView";
+import { useSplitRequestUsersStore } from "./Store/SplitRequestUsersStore";
 
 function App() {
     const [isPostPopupVisible, setPostPopupVisible] = useState(false);
     const { user, darkTheme } = useSelector((state) => state);
+    let socket = useSocket();
+    const addNotification = useNotificationStore((state) => state.addNotification );
+    const addrequest = useShareRequestUsersStore((state=>state.addrequest));
+    const addrequestSplit = useSplitRequestUsersStore((state=>state.addrequest));
+
     const [activePost, setActivePost] = useState(null);
     const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
         loading: false,
@@ -45,7 +54,68 @@ function App() {
     });
 
     const [userLocation, setUserLocation] = useState(null);
-
+  
+  useEffect(() =>{
+    console.log("sokcet", "connected");
+    if(socket && socket.connected){
+      console.log("sokcet", "connected :)");
+      socket.on('share',(data)=>{
+        addNotification({
+          user:{
+            name:`${data.user.firstName} ${data.user.lastName}`,
+            avatar:data.user.avatar
+          },
+          actionDescription:data.message,
+          timestamp:data.timestamp,
+          primaryActionButton:{
+            label:"Send a request to share",
+            onClick: ()=>{
+              console.log("sokcet", "requestToShare");
+              socket.emit('requestToShare',{id:data.sharedProduct})
+            }
+          }
+        })
+      });
+      socket.on('split',(data)=>{
+        addNotification({
+          user:{
+            name:`${data.user.firstName} ${data.user.lastName}`,
+            avatar:data.user.avatar
+          },
+          actionDescription:data.message,
+          timestamp:data.timestamp,
+          primaryActionButton:{
+            label:"Send a request to share",
+            onClick: ()=>{
+              console.log("sokcet", "requestToShare");
+              socket.emit('requestToShare',{id:data.sharedProduct})
+            }
+          }
+        })
+      });
+      socket.on('requestToShare',(data)=>{
+        console.log("on sokcet", "requestToShare",data);
+        addrequest({user:data.user,requestId:data.userRequest,message:data.message});
+      });
+      socket.on('accept',(data)=>{
+        console.log("sokcet", "accept");
+      });
+      socket.on('acceptToSplit',(data)=>{
+        console.log("sokcet", "acceptToSplit");
+      });
+      socket.on('reject',(data)=>{
+        console.log("sokcet", "reject");
+      })
+      socket.on('error',(data)=>{
+        console.error("sokcet", "error",data);
+      });
+      socket.on('payForSplitedOrder',({checkoutUrl})=>{
+        // redirect to this url 
+        window.location.href = checkoutUrl.url
+      })
+    }
+  },[socket,socket?.connected]);
+ 
     // Fetch posts when user is logged in
     useEffect(() => {
         if (user?.token) {

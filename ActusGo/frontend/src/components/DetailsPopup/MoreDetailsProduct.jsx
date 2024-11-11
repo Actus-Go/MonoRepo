@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, memo } from 'react';
 import photo from "./2.jpg";
 import axios from "axios";
 
-import useInitializeSocket from '../../socket';
+import {socket} from '../../socket';
 import { SharedDataContext } from "../../SharedDataProvider";
 
 const MoreDetailsProduct = memo (({ data, closePopup }) => {
@@ -10,13 +10,9 @@ const MoreDetailsProduct = memo (({ data, closePopup }) => {
   const [splitNum, setSplitNum] = useState(1);
   const { setSharedProduct } = useContext(SharedDataContext);
 
-  // Socket initialization
-  const socket = useInitializeSocket();
-
-
 const shareData = (sharedData) => {
     if (sharedData && sharedData.message) {
-        // console.log('sharedData:', sharedData);
+        console.log('sharedData:', sharedData);
         setSharedProduct(sharedData);
       } else {
         console.error('Shared data does not contain message:', sharedData);

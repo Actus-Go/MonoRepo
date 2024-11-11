@@ -6,6 +6,9 @@ import highlightedCountriesData from "../../data/qa.json";
 import { useUser } from "../../customHooks/UserHook";
 import MarketIcon from "../../icons/ColoredMarket";
 import BrandSideBar from "./BrandSideBar";
+import { useSocket } from "../../socket";
+import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
+import { useSplitRequestUsersStore } from "../../Store/SplitRequestUsersStore";
 
 const CustomMarker = () => {
   return (
@@ -78,6 +81,9 @@ const highlightCountries = (mapInstance, countriesData) => {
 const MapComponent = memo(() => {
   const mapElement = useRef(null); // Reference for the map container
   const [map, setMap] = useState(null);
+  const ShareOpenpopup = useShareRequestUsersStore((state)=>state.openpopup);
+  const SplitOpenpopup = useSplitRequestUsersStore((state)=>state.openpopup);
+
   const [activeBrandOrProduct, setActiveBrandOrProduct] = useState({
     brand: null,
     product: null,
@@ -134,6 +140,14 @@ const MapComponent = memo(() => {
     setMap(mapInstance);
   };
 
+  useEffect(() => {
+    console.log("popup is open? ", ShareOpenpopup);
+  }, [ShareOpenpopup]);
+  
+  useEffect(() => {
+    console.log("popup is open? ", ShareOpenpopup);
+  }, []);
+
   // Fetch products and initialize map on component mount
   useEffect(() => {
     const fetchAndInitialize = async () => {
@@ -173,6 +187,8 @@ const MapComponent = memo(() => {
         {...activeBrandOrProduct}
       />
       <div ref={mapElement} className="h-full w-full relative" />
+      {ShareOpenpopup && <ShareProductPopup />}
+      {SplitOpenpopup && <SplitProductPopup />}
     </div>
   );
 });
@@ -180,3 +196,237 @@ const MapComponent = memo(() => {
 MapComponent.displayName = 'MapComponent';
 
 export default MapComponent;
+
+
+const ShareProductPopup = () => {
+  const [acceptedUsers,setAcceptedUsers] = useState(0);
+  const requests = useShareRequestUsersStore((state)=>state.requests);
+  const isLoading = useShareRequestUsersStore((state)=>state.isLoading);
+  const setOpenClosePopup = useShareRequestUsersStore((state)=>state.setOpenClosePopup);
+
+  useEffect(()=>{
+    console.log("requests: ", requests);
+  },[requests]);
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999999999999]">
+      <div className="bg-white w-[90%] h-[90%] p-6 rounded-lg shadow-lg relative">
+        {/* Close Button */}
+        <button 
+          onClick={()=>{setOpenClosePopup(false)}} 
+          className="absolute top-4 right-4 px-3 py-1 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700 focus:outline-none"
+        >
+          Close
+        </button>
+
+        {/* Header */}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-gray-800">Sharing your product</h2>
+          <p className="text-sm text-gray-600 mt-1">Grilled Meat</p>
+        </div>
+        <div>
+          <p>Accepted users To share With {acceptedUsers} / total</p>
+        </div>
+
+        {/* Skeleton loading list */}
+        <div className="space-y-4 mt-4 overflow-y-auto h-[75%]">
+          {requests.length > 0 ? requests.map((user)=>{
+            return <UserRequest user={user.user} message={user.message} requestId={user.requestId} key={user._id} onAccept={()=>{setAcceptedUsers((prev)=>prev++)}}/>
+          }) : Array(3).fill(0).map((_, index) => (
+            <div key={index} className="flex items-center space-x-3">
+              {/* Circle skeleton for user avatar */}
+              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+              {/* Rectangle skeleton for user name */}
+              <div className="flex-1 h-4 bg-gray-300 rounded animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {isLoading && <LoadingOverlay/>}
+    </div>
+  );
+};
+
+function UserRequest({ user, requestId, message, onAccept }) {
+  const [finished, setFinished] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(null);
+  const socket = useSocket();
+  const {changeLoading,setAcceptedId} = useShareRequestUsersStore((state)=>state);
+
+  const handleAcceptToShare = () => {
+    setFinished(true);
+    setIsAccepted(true);
+    //set the loading directly to true when the first user is accepted
+    changeLoading(true);
+    setAcceptedId(requestId);
+    socket.emit('accept', {id:requestId});
+    socket.on('accept', ({checkoutUrl}) =>{
+      changeLoading(false);
+      window.location.href = checkoutUrl.url;
+    });
+  };
+
+  const handleRefuseToShare = () => {
+    setFinished(true);
+    setIsAccepted(false);
+    socket.emit('reject', {id:requestId});
+  };
+
+  return (
+    <div
+      className={`flex items-start space-x-4 p-4 rounded-lg shadow-md w-full
+        ${isAccepted === true ? 'border-2 border-green-500' : ''}
+        ${isAccepted === false ? 'border-2 border-red-500' : ''}
+      `}
+    >
+      {/* Avatar Section */}
+      <div className="flex flex-col items-center justify-center">
+        <img
+          src={user?.avatar}
+          alt={`${user?.firstName} ${user?.lastName}`}
+          className="w-16 h-16 rounded-full object-cover border border-gray-200"
+        />
+        <span className="mt-2 text-sm font-semibold text-gray-800">{`${user?.firstName} ${user?.lastName}`}</span>
+      </div>
+
+      {/* Message Section */}
+      <div className="flex-1">
+        <p className="text-gray-600">{message}</p>
+      </div>
+      {/* Buttons Section */}
+      <div className="flex space-x-2 mt-4">
+          <button
+            onClick={handleAcceptToShare}
+            disabled={finished}
+            className={`px-4 py-2 rounded-lg text-white 
+              ${finished ? 'cursor-not-allowed opacity-50' : 'bg-green-500 hover:bg-green-600'}
+            `}
+          >
+            Accept
+          </button>
+          <button
+            onClick={handleRefuseToShare}
+            disabled={finished}
+            className={`px-4 py-2 rounded-lg text-white 
+              ${finished ? 'cursor-not-allowed opacity-50' : 'bg-red-500 hover:bg-red-600'}
+            `}
+          >
+            Reject
+          </button>
+        </div>
+    </div>
+  );
+}
+
+
+
+function SplitUserRequest({ user, requestId, message }) {
+  const [finished, setFinished] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(null);
+  const socket = useSocket();
+  const {changeLoading,setAcceptedId} = useSplitRequestUsersStore((state)=>state);
+
+  const handleAcceptToShare = () => {
+    setFinished(true);
+    setIsAccepted(true);
+    //set the loading directly to true when the first user is accepted
+    changeLoading(true);
+    setAcceptedId(requestId);
+    socket.emit('acceptToSplit', {id:requestId});
+    socket.on('acceptToSplit', ({checkoutUrl}) =>{
+      changeLoading(false);
+      window.location.href = checkoutUrl.url;
+    });
+  };
+
+  return (
+    <div
+      className={`flex items-start space-x-4 p-4 rounded-lg shadow-md w-full
+        ${isAccepted === true ? 'border-2 border-green-500' : ''}
+        ${isAccepted === false ? 'border-2 border-red-500' : ''}
+      `}
+    >
+      {/* Avatar Section */}
+      <div className="flex flex-col items-center justify-center">
+        <img
+          src={user?.avatar}
+          alt={`${user?.firstName} ${user?.lastName}`}
+          className="w-16 h-16 rounded-full object-cover border border-gray-200"
+        />
+        <span className="mt-2 text-sm font-semibold text-gray-800">{`${user?.firstName} ${user?.lastName}`}</span>
+      </div>
+
+      {/* Message Section */}
+      <div className="flex-1">
+        <p className="text-gray-600">{message}</p>
+      </div>
+      {/* Buttons Section */}
+      <div className="flex space-x-2 mt-4">
+          <button
+            onClick={handleAcceptToShare}
+            disabled={finished}
+            className={`px-4 py-2 rounded-lg text-white 
+              ${finished ? 'cursor-not-allowed opacity-50' : 'bg-green-500 hover:bg-green-600'}
+            `}
+          >
+            Accept
+          </button>
+        </div>
+    </div>
+  );
+}
+
+const SplitProductPopup = () => {
+  const [acceptedUsers,setAcceptedUsers] = useState(0);
+  const requests = useSplitRequestUsersStore((state)=>state.requests);
+  const isLoading = useSplitRequestUsersStore((state)=>state.isLoading);
+  const setOpenClosePopup = useSplitRequestUsersStore((state)=>state.setOpenClosePopup);
+
+  useEffect(()=>{
+    console.log("requests: ", requests);
+  },[requests]);
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999999999999]">
+      <div className="bg-white w-[90%] h-[90%] p-6 rounded-lg shadow-lg relative">
+        {/* Close Button */}
+        <button 
+          onClick={()=>{setOpenClosePopup(false)}} 
+          className="absolute top-4 right-4 px-3 py-1 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700 focus:outline-none"
+        >
+          Close
+        </button>
+
+        {/* Header */}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-gray-800">Split your product</h2>
+          <p className="text-sm text-gray-600 mt-1">Grilled Meat</p>
+        </div>
+        <div>
+          <p>Accepted users To Split With {acceptedUsers} / total</p>
+        </div>
+
+        {/* Skeleton loading list */}
+        <div className="space-y-4 mt-4 overflow-y-auto h-[75%]">
+          {requests.length > 0 ? requests.map((user)=>{
+            return <SplitUserRequest user={user.user} message={user.message} requestId={user.requestId} key={user._id} onAccept={()=>{setAcceptedUsers((prev)=>prev++)}}/>
+          }) : Array(3).fill(0).map((_, index) => (
+            <div key={index} className="flex items-center space-x-3">
+              {/* Circle skeleton for user avatar */}
+              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+              {/* Rectangle skeleton for user name */}
+              <div className="flex-1 h-4 bg-gray-300 rounded animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {isLoading && <LoadingOverlay/>}
+    </div>
+  );
+};
+
+function LoadingOverlay() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-stone-500 bg-opacity-10 z-50">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-100"></div>
+    </div>
+  );
+}

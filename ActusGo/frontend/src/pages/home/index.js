@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
-import Post from "../../components/post";
+import Post from "../../components/post-1";
 import "./style.css";
 const MobileOnlyComponent = React.lazy(() => import("./MobileOnlyComponent"));
 

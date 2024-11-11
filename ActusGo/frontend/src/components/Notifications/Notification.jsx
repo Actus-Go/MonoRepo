@@ -37,7 +37,8 @@ export default function Notification({
             <Button
               className={`w-full rounded-lg ${primaryActionButton.additionalClasses}`}
               label={primaryActionButton.label}
-              handleClick={primaryActionButton.onClick}
+              onClick={primaryActionButton.onClick}
+              additionalClasses={primaryActionButton.additionalClasses}
             />
           )}
           {secondaryActionButton && (
@@ -45,7 +46,8 @@ export default function Notification({
               className={`w-full rounded-lg ${secondaryActionButton.additionalClasses}`}
               variant={ButtonVariants.SECONDARY}
               label={secondaryActionButton.label}
-              handleClick={secondaryActionButton.onClick}
+              onClick={secondaryActionButton.onClick}
+              additionalClasses={secondaryActionButton.additionalClasses}
             />
           )}
         </div>

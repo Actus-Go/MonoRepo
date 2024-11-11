@@ -11,6 +11,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers";
 import { SharedDataProvider } from "./SharedDataProvider";
 import { UserProvider } from "./customHooks/UserHook";
+import { SocketProvider } from "./socket";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -18,12 +19,15 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <Router>
-      <SharedDataProvider>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </SharedDataProvider>
-    </Router>
-  </Provider>
+        <Router>
+            <SharedDataProvider>
+                <UserProvider>
+                    <SocketProvider>
+                        <App />
+                    </SocketProvider>
+                </UserProvider>
+            </SharedDataProvider>
+        </Router>
+  </Provider>,
+  document.getElementById("root")
 );

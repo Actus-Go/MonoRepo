@@ -8,8 +8,10 @@ import {
     Friends,
 } from "../../../icons";
 import SearchMenu from "../SearchMenu";
+import { useNotificationStore } from "../../../Store/notificationStore";
 
 export default function SearchAndIcon({ color, showSearchMenu, setShowSearchMenu, token, toggleNotificationBarOpen }) {
+    const hasNewNotifications = useNotificationStore((state)=>state.hasNewNotifications);
 
     useEffect(() => {
         console.log("Props: ", { color, showSearchMenu, token });
@@ -42,8 +44,9 @@ export default function SearchAndIcon({ color, showSearchMenu, setShowSearchMenu
 
             <div className="rightIcons flex gap-10">
                 <div className="cursor-pointer">
-                    <button onClick={toggleNotificationBarOpen}>
+                    <button className="relative" onClick={toggleNotificationBarOpen}>
                         <IoNotifications size={25} color={color} />
+                        {hasNewNotifications && <div className="absolute top-0 right-0 w-2 h-2 bg-orange-700 rounded-lg"></div>}
                     </button>
                 </div>
                 <div className="cursor-pointer">
