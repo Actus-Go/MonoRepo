@@ -33,5 +33,5 @@ const cardsData = [
 function ListOfCardsParent() {
     return <ListOfCards cardsData={cardsData} />
 }
- 
+
 export default ListOfCardsParent;

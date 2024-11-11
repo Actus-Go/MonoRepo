@@ -1,2 +1,2 @@
-export { default } from './ProductsWrapper';
+export { default } from './PassData';
 export { default as ProductCard } from './ProductCard';

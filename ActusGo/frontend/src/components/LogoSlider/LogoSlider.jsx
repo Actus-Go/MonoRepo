@@ -15,7 +15,7 @@ const LogoSlider = ({ logos }) => {
     slidesToShow: 6, 
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 500, // Duration between slides
+    autoplaySpeed: 900, // Duration between slides
     pauseOnHover: true,
     responsive: [
       {

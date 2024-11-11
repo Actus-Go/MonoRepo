@@ -7,7 +7,7 @@ const products = [
   {
     rating: 5,
     ratingCount: 500,
-    title: "Product1 agmal product momken tshroh 7aga keda to7faa",
+    title: "Product 1",
     salary: "$150",
     label: { text: "Best Seller", bgcolor: "#ffd700", textcolor: "#000" },
     image: Image1,

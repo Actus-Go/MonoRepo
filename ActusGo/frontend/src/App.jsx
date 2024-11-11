@@ -27,6 +27,8 @@ import Market from "./pages/Market";
 import { useSocket } from "./socket";
 import { useNotificationStore } from "./Store/notificationStore";
 import { useShareRequestUsersStore } from "./Store/ShareRequestUsersStore";
+import Products from "./pages/products";
+import ProductOver from "./pages/products/ProductOver";
 import Upgrade from "./pages/upgrade/index";
 import Explore from "./pages/Explore";
 import RegisterForm from "./components/login/RegisterForm";
