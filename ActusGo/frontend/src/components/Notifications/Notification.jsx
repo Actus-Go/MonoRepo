@@ -37,12 +37,8 @@ export default function Notification({
             <Button
               className={`w-full rounded-lg ${primaryActionButton.additionalClasses}`}
               label={primaryActionButton.label}
-<<<<<<< HEAD
               onClick={primaryActionButton.onClick}
               additionalClasses={primaryActionButton.additionalClasses}
-=======
-              handleClick={primaryActionButton.onClick}
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
             />
           )}
           {secondaryActionButton && (
@@ -50,12 +46,8 @@ export default function Notification({
               className={`w-full rounded-lg ${secondaryActionButton.additionalClasses}`}
               variant={ButtonVariants.SECONDARY}
               label={secondaryActionButton.label}
-<<<<<<< HEAD
               onClick={secondaryActionButton.onClick}
               additionalClasses={secondaryActionButton.additionalClasses}
-=======
-              handleClick={secondaryActionButton.onClick}
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
             />
           )}
         </div>

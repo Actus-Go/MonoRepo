@@ -34,6 +34,7 @@ import RegisterForm from "./components/login/RegisterForm";
 // Lazy load the Tasks page
 const TasksPage = lazy(() => import("./pages/tasks"));
 import { CommentView } from "./components/Post/CommentView";
+import { useSplitRequestUsersStore } from "./Store/SplitRequestUsersStore";
 
 function App() {
     const [isPostPopupVisible, setPostPopupVisible] = useState(false);
@@ -41,6 +42,7 @@ function App() {
     let socket = useSocket();
     const addNotification = useNotificationStore((state) => state.addNotification );
     const addrequest = useShareRequestUsersStore((state=>state.addrequest));
+    const addrequestSplit = useSplitRequestUsersStore((state=>state.addrequest));
 
     const [activePost, setActivePost] = useState(null);
     const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
@@ -72,12 +74,42 @@ function App() {
           }
         })
       });
+      socket.on('split',(data)=>{
+        addNotification({
+          user:{
+            name:`${data.user.firstName} ${data.user.lastName}`,
+            avatar:data.user.avatar
+          },
+          actionDescription:data.message,
+          timestamp:data.timestamp,
+          primaryActionButton:{
+            label:"Send a request to share",
+            onClick: ()=>{
+              console.log("sokcet", "requestToShare");
+              socket.emit('requestToShare',{id:data.sharedProduct})
+            }
+          }
+        })
+      });
       socket.on('requestToShare',(data)=>{
         console.log("on sokcet", "requestToShare",data);
         addrequest({user:data.user,requestId:data.userRequest,message:data.message});
       });
       socket.on('accept',(data)=>{
-        
+        console.log("sokcet", "accept");
+      });
+      socket.on('acceptToSplit',(data)=>{
+        console.log("sokcet", "acceptToSplit");
+      });
+      socket.on('reject',(data)=>{
+        console.log("sokcet", "reject");
+      })
+      socket.on('error',(data)=>{
+        console.error("sokcet", "error",data);
+      });
+      socket.on('payForSplitedOrder',({checkoutUrl})=>{
+        // redirect to this url 
+        window.location.href = checkoutUrl.url
       })
     }
   },[socket,socket?.connected]);

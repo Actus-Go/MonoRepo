@@ -6,14 +6,11 @@ import { profileReducer } from "../../functions/reducers";
 import "./style.css";
 import Cover from "./Cover";
 import ProfielPictureInfos from "./ProfielPictureInfos";
-<<<<<<< HEAD
 import CreatePost from "../../components/createPost";
 import Post from "../../components/post-1";
 import Photos from "./Photos";
 import Friends from "./Friends";
 import Intro from "../../components/intro";
-=======
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 import { useMediaQuery } from "react-responsive";
 import CreatePostPopup from "../../components/createPostPopup";
 import Skeleton from "react-loading-skeleton";

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useShareRequestUsersStore = create((set) => ({
+export const useSplitRequestUsersStore = create((set) => ({
   requests: [],
   accepted: false,
   isLoading: false,

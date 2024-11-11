@@ -5,13 +5,10 @@ import { Button } from "../Buttons";
 import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-<<<<<<< HEAD
 import { useSocket} from '../../socket';
 import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
-=======
-import useSocket from '../../socket';
 import PropTypes from 'prop-types';
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
+import { useSplitRequestUsersStore } from "../../Store/SplitRequestUsersStore";
 
 // Fetch brands from the API and redirect to Stripe payment link if available
 const buyProduct = async (productId, token) => {
@@ -47,24 +44,22 @@ const buyProduct = async (productId, token) => {
   }
 };
 
-<<<<<<< HEAD
-export default function CouponView({ _id, name, description, productCoupon ,setOpenClosePopup}) {
-  const [quantity, setQuantity] = useState(1);
-  const user = useUser();
-  const socket = useSocket();
-  const clear = useShareRequestUsersStore((state)=>state.clear);
-=======
-export default function CouponView({ _id, name, description, productCoupon, price, priceAfterCoupon }) {
+export default function CouponView({ _id, name, description, productCoupon,price, priceAfterCoupon }) {
   const [quantity, setQuantity] = useState(1);
   const user = useUser();
   const socket = useSocket();
   const [loading, setLoading] = useState(false);
+  const clear = useShareRequestUsersStore((state)=>state.clear);
+  const setOpenClosePopup = useShareRequestUsersStore((state) => state.setOpenClosePopup);
+
+  const clearSplit = useSplitRequestUsersStore((state)=>state.clear);
+  const setOpenClosePopupSplit = useSplitRequestUsersStore((state) => state.setOpenClosePopup);
+  
   const handleBuyClick = async () => {
     if (!user || !user.token) {
       console.error("User is not authenticated");
       return;
     }
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 
     setLoading(true); // Show loader
     try {
@@ -79,6 +74,15 @@ export default function CouponView({ _id, name, description, productCoupon, pric
     setQuantity(quantity + 1);
   };
   const handleSplit = ()=>{
+    setOpenClosePopupSplit(true);
+    if(socket){
+      socket.emit('split',{id: _id, numOfSplit:quantity});
+      socket.on('split', (data) => {
+        console.log("split", data);
+      });
+    }else{
+      console.error('Socket is not initialized');
+    }
     console.log('spliting',socket.connected);
     socket.emit('split',{id: _id, numOfSplit:quantity});
   };
@@ -89,7 +93,7 @@ export default function CouponView({ _id, name, description, productCoupon, pric
     }
   };
 
-  const handleShare = useCallback(() => {
+  const handleShare = () => {
     setOpenClosePopup(true);
     if (socket) {
       socket.emit('share', { productId: _id });
@@ -99,31 +103,23 @@ export default function CouponView({ _id, name, description, productCoupon, pric
     } else {
       console.error('Socket is not initialized');
     }
-  }, [socket, _id]);
+  };
 
   useEffect(() => {
     if (socket) {
       if (!socket.connected) {
         socket.connect(); // Manually connect the socket
       }
-
-      socket.on('share', (data) => {
-        console.log('Share event received:', data);
-        // Handle the share event data as needed
-      });
-
-      // Cleanup on unmount
-      return () => {
-        socket.off('share');
-      };
     }
     return () => {
       setOpenClosePopup(false);
+      setOpenClosePopupSplit(false);
     }
   }, [socket]);
   
   useEffect(()=>{
     clear();
+    clearSplit();
   },[]);
 
   const zeroLeading = (number) => {
@@ -204,9 +200,6 @@ export default function CouponView({ _id, name, description, productCoupon, pric
     </div>
   );
 }
-<<<<<<< HEAD
- 
-=======
 
 CouponView.propTypes = {
   _id: PropTypes.string.isRequired,
@@ -216,4 +209,3 @@ CouponView.propTypes = {
     discount: PropTypes.number.isRequired
   }).isRequired
 };
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd

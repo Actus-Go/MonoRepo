@@ -213,7 +213,7 @@ export default function Post({ post, user, profile }) {
     <video
       src={image.url}
       className={`${`img-${i} `} ${"w-full h-full object-cover"}`}
-      onLoad={() => setImageLoaded(true)}
+      //onLoad={() => setImageLoaded(true)} //! Fix This [it says 'Invalid property 'onLoad' found on tag 'video', but it is only allowed on: script, img, link, picture, iframe, object, source']
       style={{ display: imageLoaded ? "block" : "none" }}
       controls
     />
