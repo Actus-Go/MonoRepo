@@ -19,7 +19,6 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-<<<<<<< HEAD
         <Router>
             <SharedDataProvider>
                 <UserProvider>
@@ -31,14 +30,4 @@ root.render(
         </Router>
   </Provider>,
   document.getElementById("root")
-=======
-    <Router>
-      <SharedDataProvider>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </SharedDataProvider>
-    </Router>
-  </Provider>
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 );

@@ -5,18 +5,6 @@ import AsideNav from "../components/header/ASideNav/AsideNav.jsx";
 import Header from "../components/header";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-import { generateDemoNotifications } from '../components/Notifications/notificationData.js';
-import NotificationBar from '../components/Notifications/NotificationBar.jsx';
-import { useNotificationStore } from "../Store/notificationStore.js";
-
-export default function LoggedInRoutes() {
-  const { user } = useSelector((state) => ({ ...state }));
-  const [isCollapsed, setCollapsed] = useState(false);
-  const [isNotificationBarOpen, setNotificationBarOpen] = useState(false);
-  const setHasNotification = useNotificationStore((state)=>state.setHasNotification);
-=======
 import { Link } from "react-router-dom";
 import { generateDemoNotifications } from "../components/Notifications/notificationData.js";
 import NotificationBar from "../components/Notifications/NotificationBar.jsx";
@@ -25,20 +13,12 @@ export default function LoggedInRoutes() {
     const { user } = useSelector((state) => ({ ...state }));
     const [isCollapsed, setCollapsed] = useState(true);
     const [isNotificationBarOpen, setNotificationBarOpen] = useState(false);
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 
     const demoNotifications = generateDemoNotifications(30);
 
-<<<<<<< HEAD
-  let toggleNotificationBarOpen = () => {
-      setNotificationBarOpen(!isNotificationBarOpen);
-      setHasNotification(false);
-  };
-=======
     let toggleNotificationBarOpen = () => {
         setNotificationBarOpen(!isNotificationBarOpen);
     };
->>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 
     return user ? (
         <div className="!h-dvh overflow-y-auto w-full">
