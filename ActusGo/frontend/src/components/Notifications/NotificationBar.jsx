@@ -12,7 +12,7 @@ export default function NotificationBar({
   const ignoreNotifications = notifications.filter((notification) => notification?.isIgnored);
   
   return (
-    <div className={`h-screen fixed top-0 right-0 overflow-x-hidden overflow-y-auto transition-all z-[99999999] bg-black text-white w-full max-w-sm mx-auto rounded-lg shadow-lg ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+    <div className={`h-dvh fixed top-0 right-0 overflow-x-hidden overflow-y-auto transition-all z-[99999999] bg-black text-white w-full max-w-sm mx-auto rounded-lg shadow-lg ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
       <div className="flex justify-between items-center p-3 px-4 top-0 bg-black sticky z-40">
         <h2 className="text-xl font-bold">{title || "Notifications"}</h2>
 

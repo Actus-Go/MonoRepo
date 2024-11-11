@@ -1,70 +1,74 @@
-import { ClapperboardIcon, Image } from "lucide-react";
-import { useState } from "react";
-import MediaPopup from "../Popup";
+import React, { useState } from "react";
+import { Heart, MessageCircle, Share2 } from "lucide-react";
+import axios from "axios";
 
-export default function ExploreMedia({ media }) {
-  const [selectedMedia, setSelectedMedia] = useState(null);
+/* eslint-disable react/prop-types */
+const PostCard = ({ post, handleShowComments }) => {
+    // Determine the first image to display
+    const firstImage =
+        Array.isArray(post.images) && post.images?.length > 0
+            ? typeof post.images[0] === "string"
+                ? post.images[0]
+                : post.images[0].url
+            : post.text;
 
-  const handleMediaSelect = (src, alt, type) => {
-    setSelectedMedia(
-      type === "img" ? (
-        <img
-          src={src}
-          alt={alt}
-          className="max-w-full max-h-full object-contain rounded-lg"
-        />
-      ) : type === "video" ? (
-        <video
-          src={src}
-          controls
-          className="max-w-full max-h-full object-contain w-full rounded-lg"
-        />
-      ) : null
-    );
-  };
-
-  return (
-    <>
-      <div className="min-h-screen w-11/12 max-w-screen-2xl bg-transparent text-black columns-2 my-10 lg:columns-3 xl:columns-4 gap-5">
-        {media.map(({ src, alt, type }, index) => (
-          <button
-            onClick={() => handleMediaSelect(src, alt, type)}
-            key={index}
-            className="relative break-inside-avoid w-full transition-all mb-5 hover:opacity-80 cursor-pointer"
-          >
-            {type === "img" ? (
-              <>
+    return (
+        <button
+            className="relative block group cursor-pointer overflow-hidden rounded-lg aspect-[3/4] w-full"
+            onClick={handleShowComments}
+        >
+            <div className="w-full h-full overflow-hidden bg-gray-100">
                 <img
-                  src={src}
-                  alt={alt}
-                  className="w-full rounded-lg shadow-lg"
+                    src={firstImage}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <span className="p-2 bg-white/80 rounded-md absolute top-5 right-5">
-                  <Image size={24} />
-                </span>
-              </>
-            ) : type === "video" ? (
-              <>
-                <video
-                  src={src}
-                  className="w-full rounded-lg shadow-lg"
-                />
-                <span className="p-2 bg-white/80 rounded-md absolute top-5 right-5">
-                  <ClapperboardIcon size={24} />
-                </span>
-              </>
-            ) : null}
-          </button>
-        ))}
-      </div>
+            </div>
 
-      {/* Render Popup if media is selected */}
-      {selectedMedia && (
-        <MediaPopup
-          content={selectedMedia}
-          onClose={() => setSelectedMedia(null)}
-        />
-      )}
-    </>
-  );
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                <p className="text-white mb-2 line-clamp-2">{post.text}</p>
+                <div className="flex items-center gap-4 text-white">
+                    <div className="flex items-center gap-1">
+                        <Heart className="w-5 h-5" />
+                        <span>{post.reacts}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <MessageCircle className="w-5 h-5" />
+                        <span>{post.comments}</span>
+                    </div>
+                    <Share2 className="w-5 h-5 ml-auto" />
+                </div>
+            </div>
+        </button>
+    );
+};
+
+export default function PostsGrid({ posts, user, setActivePost }) {
+    const handleShowComments = async (postId) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8000/post/${postId}`,
+                {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                }
+            );
+            setActivePost(response.data);
+        } catch (error) {
+            console.error("Error fetching post:", error);
+        }
+    };
+
+    return (
+        <div className="container mx-auto px-4 py-8">
+            <div className="grid grid-cols-1 md:ml-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {posts.map((post) => (
+                    <PostCard
+                        post={post}
+                        handleShowComments={async () =>
+                            await handleShowComments(post._id)
+                        }
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }

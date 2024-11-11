@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import Bio from "./Bio";
 
 export default function Detail({
@@ -44,3 +45,15 @@ export default function Detail({
     </div>
   );
 }
+
+Detail.propTypes = {
+  img: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  placeholder: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  updateDetails: PropTypes.func.isRequired,
+  infos: PropTypes.object.isRequired,
+  text: PropTypes.string.isRequired,
+  rel: PropTypes.string.isRequired
+};

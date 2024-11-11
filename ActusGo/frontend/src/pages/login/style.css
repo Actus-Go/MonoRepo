@@ -50,7 +50,7 @@
 }
 .open_signup {
   background: var(--green-color);
-  width: 70% !important;
+  width: 100% !important;
   font-weight: 600 !important;
   font-size: 17px !important;
   margin-top: 1rem;
@@ -110,17 +110,11 @@
   align-items: center;
   
 }
-.reg_line {
-  padding: 7px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+
 .reg_col {
   position: relative;
   align-self: flex-start;
   margin-bottom: 10px;
-  padding: 0 10px;
 }
 .reg_line_header {
   display: flex;
@@ -136,12 +130,12 @@
   margin-top: 5px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 5px;
   height: 35px;
   width: 100%;
 }
 .reg_grid select {
-  width: 90px;
+  width: 100%;
   font-size: 16px;
   color:white;
   background: var(--bg-primary);
@@ -243,6 +237,7 @@
 }
 .success_text {
   color: var(--green-color);
+  text-align: center;
 }
 /*----error and success styles -------*/
 
@@ -254,12 +249,12 @@
   .register {
     width: 400px;
   }
-  .reg_line {
+  /* .reg_line {
     flex-direction: row;
-  }
+  } */
   .reg_grid select,
   .reg_grid label {
-    width: 110px;
+    width: 100%;
   }
   .reg_grid .input_error {
     width: 350px;
@@ -294,7 +289,7 @@
     width: 400px;
   }
   .input_wrap {
-    width: 360px !important;
+    width: 100% !important;
   }
   .login_footer_wrap {
     max-width: 900px;

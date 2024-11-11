@@ -11,7 +11,7 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
   });
 
   return (
-    <div className="input_wrap">
+    <div className="">
       {meta.touched && meta.error && !bottom && (
         <div
           className={

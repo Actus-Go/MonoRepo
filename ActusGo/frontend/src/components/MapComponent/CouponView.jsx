@@ -5,8 +5,13 @@ import { Button } from "../Buttons";
 import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
+<<<<<<< HEAD
 import { useSocket} from '../../socket';
 import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
+=======
+import useSocket from '../../socket';
+import PropTypes from 'prop-types';
+>>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 
 // Fetch brands from the API and redirect to Stripe payment link if available
 const buyProduct = async (productId, token) => {
@@ -18,6 +23,7 @@ const buyProduct = async (productId, token) => {
       {
         id: productId,
         quantity: 1,
+        back_url: `${window.location.href}`,
       },
       {
         headers: {
@@ -41,12 +47,34 @@ const buyProduct = async (productId, token) => {
   }
 };
 
+<<<<<<< HEAD
 export default function CouponView({ _id, name, description, productCoupon ,setOpenClosePopup}) {
   const [quantity, setQuantity] = useState(1);
   const user = useUser();
   const socket = useSocket();
   const clear = useShareRequestUsersStore((state)=>state.clear);
+=======
+export default function CouponView({ _id, name, description, productCoupon, price, priceAfterCoupon }) {
+  const [quantity, setQuantity] = useState(1);
+  const user = useUser();
+  const socket = useSocket();
+  const [loading, setLoading] = useState(false);
+  const handleBuyClick = async () => {
+    if (!user || !user.token) {
+      console.error("User is not authenticated");
+      return;
+    }
+>>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd
 
+    setLoading(true); // Show loader
+    try {
+      await buyProduct(_id, user.token);
+    } catch (error) {
+      console.error("Error buying product:", error);
+    } finally {
+      setLoading(false); // Hide loader after operation
+    }
+  };
   const handleAdd = () => {
     setQuantity(quantity + 1);
   };
@@ -105,7 +133,7 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
 
   return (
     <div className="w-full flex flex-col">
-      <div className="w-full bg-gradient-to-tr from-blue-500 to-yellow-500 relative h-80 flex justify-center items-center">
+      <div className="w-full bg-gradient-to-tr from-purple-900 to-yellow-600 relative h-80 flex justify-center items-center">
         <span className="inline-block">
           <BiSolidCoupon size={164} color="white" />
         </span>
@@ -114,24 +142,24 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
 
       <div className="w-full px-8 gap-8 flex flex-col">
         <div className="flex w-full justify-between items-center">
-          <h1 className="text-4xl text-white font-bold">{name}</h1>
-          <span className="text-red-400 text-2xl font-semibold">
-            {productCoupon.discount}% Off
-          </span>
+          <div className="flex flex-col">
+            <h1 className="text-2xl text-white font-bold">{name}</h1>
+            <span className="text-red-400 text-lg font-semibold">
+              {productCoupon.discount}% Off
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <p className="text-3xl text-white font-semibold">${priceAfterCoupon}</p>
+            <del className="text-xl text-white/60 text-right font-bold">${price}</del>
+          </div>
         </div>
-
         <p className="text-slate-200">{description}</p>
 
         <Button
-          className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
-          label={"Buy"}
-          onClick={async () => {
-            if (user && user.token) {
-              await buyProduct(_id, user.token);
-            } else {
-              console.error("User is not authenticated");
-            }
-          }}
+          className="font-semibold w-full py-2 h-auto !rounded-full !text-2xl"
+          label={loading ? "Loading..." : "Buy"}
+          onClick={handleBuyClick}
+          disabled={loading} // Optionally disable the button while loading
         />
 
         <div className="bg-gray-800 w-full rounded-3xl p-4 gap-4 flex flex-col justify-start items-start">
@@ -160,12 +188,12 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
 
           <div className="flex gap-4 w-full">
             <Button
-              className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
+              className={"font-semibold w-full py-2 h-auto !rounded-full !text-2xl"}
               label={"Split"}
               onClick={handleSplit}
             />
             <Button
-              className={"font-semibold py-2 h-auto !rounded-full !text-2xl"}
+              className={"font-semibold w-full py-2 h-auto !rounded-full !text-2xl"}
               label={"Share"}
               onClick={handleShare}
             />
@@ -176,4 +204,16 @@ export default function CouponView({ _id, name, description, productCoupon ,setO
     </div>
   );
 }
+<<<<<<< HEAD
  
+=======
+
+CouponView.propTypes = {
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  productCoupon: PropTypes.shape({
+    discount: PropTypes.number.isRequired
+  }).isRequired
+};
+>>>>>>> 9b2ce3a2d46ccced7100afc2aa2695bf325f19fd

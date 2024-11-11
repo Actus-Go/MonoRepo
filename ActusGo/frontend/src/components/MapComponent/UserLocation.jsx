@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { memo, useCallback, useContext, useEffect, useState } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import { SharedDataContext } from "../../SharedDataProvider";

@@ -6,14 +6,9 @@ import React, {
     useCallback,
 } from "react";
 import { useSelector } from "react-redux";
-import { BeatLoader } from "react-spinners";
-import CreatePost from "../../components/createPost";
-import SendVerification from "../../components/home/sendVerification";
-import Post from "../../components/post-1";
-import "./style.css";
-const MobileOnlyComponent = React.lazy(() => import("./MobileOnlyComponent"));
 
-export default function Home({ setVisible, posts, loading, getAllPosts }) {
+
+export default function upgrade({ setVisible, posts, loading, getAllPosts }) {
     const { user } = useSelector((state) => ({ ...state }));
     const middle = useRef(null);
     const [height, setHeight] = useState();
@@ -96,35 +91,9 @@ export default function Home({ setVisible, posts, loading, getAllPosts }) {
                 ref={middle}
             >
                 <div className="absolute top-12 w-full  lg:mx-auto sm:px-0 h-full">
-                    {loading ? (
-                        <>
-                            <div className="sekelton_loader">
-                                <BeatLoader color="#6e56fc" />
+                <div className="posts w-full px-1 sm:px-0 lg:w-1/2 flex flex-col justify-center lg:mx-auto">
+                                Soon 
                             </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="max-w-5xl w-full flex flex-col  items-center justify-center relative   m-auto">
-                                {user.verified === false && (
-                                    <SendVerification user={user} />
-                                )}
-                                <CreatePost
-                                    user={user}
-                                    setVisible={setVisible}
-                                />
-                            </div>
-                            <div className="posts w-full px-1 sm:px-0 lg:w-1/2 flex flex-col justify-center lg:mx-auto">
-                                {posts.map((post, i) => (
-                                    <Post
-                                        key={i}
-                                        id={i}
-                                        post={post}
-                                        user={user}
-                                    />
-                                ))}
-                            </div>
-                        </>
-                    )}
                 </div>
             </div>
 
@@ -135,17 +104,7 @@ export default function Home({ setVisible, posts, loading, getAllPosts }) {
                 }}
                 className="lg:hidden"
             >
-                {/* Content only visible on mobile view */}
-                <Suspense fallback={<div>Loading...</div>}>
-                    {isMobileView && showComponent && (
-                        <MobileOnlyComponent
-                            user={user}
-                            posts={posts}
-                            loading={loading}
-                            setVisible={setVisible}
-                        />
-                    )}
-                </Suspense>
+                
             </div>
         </div>
     );
