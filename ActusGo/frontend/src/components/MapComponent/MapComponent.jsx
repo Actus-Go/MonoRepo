@@ -7,7 +7,7 @@ import { useUser } from "../../customHooks/UserHook";
 import MarketIcon from "../../icons/ColoredMarket";
 import BrandSideBar from "./BrandSideBar";
 import { useSocket } from "../../socket";
-import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
+import { useShareRequestStore } from "../../Store/ShareRequestUsersStore";
 import { useSplitRequestUsersStore } from "../../Store/SplitRequestUsersStore";
 
 const CustomMarker = () => {
@@ -81,7 +81,7 @@ const highlightCountries = (mapInstance, countriesData) => {
 const MapComponent = memo(() => {
   const mapElement = useRef(null); // Reference for the map container
   const [map, setMap] = useState(null);
-  const ShareOpenpopup = useShareRequestUsersStore((state)=>state.openpopup);
+  const ShareOpenpopup = useShareRequestStore((state)=>state.openpopup);
   const SplitOpenpopup = useSplitRequestUsersStore((state)=>state.openpopup);
 
   const [activeBrandOrProduct, setActiveBrandOrProduct] = useState({
@@ -139,15 +139,6 @@ const MapComponent = memo(() => {
 
     setMap(mapInstance);
   };
-
-  useEffect(() => {
-    console.log("popup is open? ", ShareOpenpopup);
-  }, [ShareOpenpopup]);
-  
-  useEffect(() => {
-    console.log("popup is open? ", ShareOpenpopup);
-  }, []);
-
   // Fetch products and initialize map on component mount
   useEffect(() => {
     const fetchAndInitialize = async () => {
@@ -200,9 +191,9 @@ export default MapComponent;
 
 const ShareProductPopup = () => {
   const [acceptedUsers,setAcceptedUsers] = useState(0);
-  const requests = useShareRequestUsersStore((state)=>state.requests);
-  const isLoading = useShareRequestUsersStore((state)=>state.isLoading);
-  const setOpenClosePopup = useShareRequestUsersStore((state)=>state.setOpenClosePopup);
+  const requests = useShareRequestStore((state)=>state.requests);
+  const isLoading = useShareRequestStore((state)=>state.isLoading);
+  const setOpenClosePopup = useShareRequestStore((state)=>state.setOpenClosePopup);
 
   useEffect(()=>{
     console.log("requests: ", requests);
@@ -250,7 +241,7 @@ function UserRequest({ user, requestId, message, onAccept }) {
   const [finished, setFinished] = useState(false);
   const [isAccepted, setIsAccepted] = useState(null);
   const socket = useSocket();
-  const {changeLoading,setAcceptedId} = useShareRequestUsersStore((state)=>state);
+  const {changeLoading,setAcceptedId} = useShareRequestStore((state)=>state);
 
   const handleAcceptToShare = () => {
     setFinished(true);
@@ -259,10 +250,7 @@ function UserRequest({ user, requestId, message, onAccept }) {
     changeLoading(true);
     setAcceptedId(requestId);
     socket.emit('accept', {id:requestId});
-    socket.on('accept', ({checkoutUrl}) =>{
-      changeLoading(false);
-      window.location.href = checkoutUrl.url;
-    });
+    
   };
 
   const handleRefuseToShare = () => {
@@ -382,7 +370,7 @@ const SplitProductPopup = () => {
   const setOpenClosePopup = useSplitRequestUsersStore((state)=>state.setOpenClosePopup);
 
   useEffect(()=>{
-    console.log("requests: ", requests);
+    console.log("Split requests: ", requests);
   },[requests]);
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999999999999]">

@@ -6,7 +6,7 @@ import { useUser } from "../../customHooks/UserHook";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { useSocket} from '../../socket';
-import { useShareRequestUsersStore } from "../../Store/ShareRequestUsersStore";
+import { useShareRequestStore } from "../../Store/ShareRequestUsersStore";
 import PropTypes from 'prop-types';
 import { useSplitRequestUsersStore } from "../../Store/SplitRequestUsersStore";
 
@@ -49,8 +49,8 @@ export default function CouponView({ _id, name, description, productCoupon,price
   const user = useUser();
   const socket = useSocket();
   const [loading, setLoading] = useState(false);
-  const clear = useShareRequestUsersStore((state)=>state.clear);
-  const setOpenClosePopup = useShareRequestUsersStore((state) => state.setOpenClosePopup);
+  const clear = useShareRequestStore((state)=>state.clear);
+  const setOpenClosePopup = useShareRequestStore((state) => state.setOpenClosePopup);
 
   const clearSplit = useSplitRequestUsersStore((state)=>state.clear);
   const setOpenClosePopupSplit = useSplitRequestUsersStore((state) => state.setOpenClosePopup);

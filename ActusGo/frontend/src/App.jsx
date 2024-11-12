@@ -26,7 +26,7 @@ import CustomNav from "./components/header/Custom/CustomNav";
 import Market from "./pages/Market";
 import { useSocket } from "./socket";
 import { useNotificationStore } from "./Store/notificationStore";
-import { useShareRequestUsersStore } from "./Store/ShareRequestUsersStore";
+import { useShareRequestStore } from "./Store/ShareRequestUsersStore";
 import Upgrade from "./pages/upgrade/index";
 import Explore from "./pages/Explore";
 import RegisterForm from "./components/login/RegisterForm";
@@ -41,7 +41,7 @@ function App() {
     const { user, darkTheme } = useSelector((state) => state);
     let socket = useSocket();
     const addNotification = useNotificationStore((state) => state.addNotification );
-    const addrequest = useShareRequestUsersStore((state=>state.addrequest));
+    const addrequest = useShareRequestStore((state=>state.addrequest));
     const addrequestSplit = useSplitRequestUsersStore((state=>state.addrequest));
 
     const [activePost, setActivePost] = useState(null);
@@ -83,10 +83,10 @@ function App() {
           actionDescription:data.message,
           timestamp:data.timestamp,
           primaryActionButton:{
-            label:"Send a request to share",
+            label:"Accept to split",
             onClick: ()=>{
               console.log("sokcet", "requestToShare");
-              socket.emit('requestToShare',{id:data.sharedProduct})
+              socket.emit('requestToSplit',{id:data.sharedProduct})
             }
           }
         })
@@ -94,6 +94,10 @@ function App() {
       socket.on('requestToShare',(data)=>{
         console.log("on sokcet", "requestToShare",data);
         addrequest({user:data.user,requestId:data.userRequest,message:data.message});
+      });
+      socket.on('requestToSplit',(data)=>{
+        console.log("on sokcet", "requestToSplit",data);
+        addrequestSplit({user:data.user,requestId:data.userRequest,message:data.message});
       });
       socket.on('accept',(data)=>{
         console.log("sokcet", "accept");
@@ -107,10 +111,12 @@ function App() {
       socket.on('error',(data)=>{
         console.error("sokcet", "error",data);
       });
-      socket.on('payForSplitedOrder',({checkoutUrl})=>{
-        // redirect to this url 
-        window.location.href = checkoutUrl.url
-      })
+      socket.on('payForSplitedOrder',(data)=>{
+        // redirect to this url
+        console.log("sokcet", "payForSplitedOrder",data);
+        
+        // window.location.href = checkoutUrl.url
+      }) 
     }
   },[socket,socket?.connected]);
  

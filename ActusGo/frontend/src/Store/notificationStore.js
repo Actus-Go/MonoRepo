@@ -4,7 +4,7 @@ export const useNotificationStore = create((set) => ({
   notifications: [],
   hasNewNotifications:false,
   addNotification: (notification) => set((state)=>({
-    notifications:[...state.notifications,notification],
+    notifications:[notification,...state.notifications],
     hasNewNotifications:true,
   })),
   updateNotification: (notification) => set((state)=>{
