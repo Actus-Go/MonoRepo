@@ -12,7 +12,7 @@ export default function Explore({ setActivePost }) {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/users/posts?limit=200', { headers: { Authorization: `Bearer ${user.token}` } });
+                const response = await axios.get(`${process.env.REACT_APP_MARKET_BACKEND_URL}/users/posts?limit=200`, { headers: { Authorization: `Bearer ${user.token}` } });
                 console.log('First fetched post:', response?.data?.posts[0]);
                 setPosts(response?.data?.posts);
                 setIsLoading(false);
